@@ -45,6 +45,9 @@ public class K3GUI extends JFrame {
                 JButton button1 = new JButton(String.valueOf(ind));
                 JButton button2 = new JButton(String.valueOf(ind));
                 ind++;
+                button1.setBackground(Color.RED);
+                button2.setBackground(Color.BLUE);
+
                 rowPanel1.add(button1);
                 rowPanel2.add(button2);
 
@@ -141,6 +144,8 @@ public class K3GUI extends JFrame {
         System.out.println("Current button text: " + currentButton.getText());
         selectedButton.setVisible(false);
         currentButton.setText(selectedButton.getText());
+        currentButton.setBackground(selectedButton.getBackground());
+
     }
 
     public static void main(String[] args) {
