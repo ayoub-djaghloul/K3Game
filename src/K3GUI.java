@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-
+import java.util.Random;
 public class K3GUI extends JFrame {
 
     private JButton[][] player1Board;
@@ -29,6 +29,10 @@ public class K3GUI extends JFrame {
         player1Board = new JButton[5][5];
         player2Board = new JButton[5][5];
         int ind=0;
+        int nb_beige_buttons_P1 = 0;
+        int nb_beige_buttons_P2 = 0;
+        Color beige = new Color(245, 245, 220);
+        Color randomColor;
         for (int i = 1; i <= 5; i++) {
             JPanel rowPanel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             JPanel rowPanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -45,11 +49,35 @@ public class K3GUI extends JFrame {
                 JButton button1 = new JButton(String.valueOf(ind));
                 JButton button2 = new JButton(String.valueOf(ind));
                 ind++;
-                button1.setBackground(Color.RED);
-                button2.setBackground(Color.BLUE);
-
                 rowPanel1.add(button1);
                 rowPanel2.add(button2);
+                // if we have more than 2 beige buttons, we generate a another color that is not beige
+                if (nb_beige_buttons_P1 >= 2) {
+                    randomColor = generateRandomColor();
+                    while (randomColor == beige) {
+                        randomColor = generateRandomColor();
+                    }
+                    button1.setBackground(randomColor);
+                    button1.setOpaque(true);
+                } else {
+                    button1.setBackground(beige);
+                    button1.setOpaque(true);
+                    nb_beige_buttons_P1++;
+                }
+
+                if (nb_beige_buttons_P2 >= 2) {
+                    randomColor = generateRandomColor();
+                    while (randomColor == beige) {
+                        randomColor = generateRandomColor();
+                    }
+                    button2.setBackground(randomColor);
+                    button2.setOpaque(true);
+                } else {
+                    button2.setBackground(beige);
+                    button2.setOpaque(true);
+                    nb_beige_buttons_P2++;
+                }
+
 
                 // add action listener to each button of player 1 board
                 button1.addActionListener(new ActionListener() {
@@ -90,6 +118,14 @@ public class K3GUI extends JFrame {
                 JButton button = new JButton(String.valueOf(ind));
                 ind++;
                 rowPanel.add(button);
+
+                // Set background color only for buttons in the bottom row.
+                if (i == 8) {
+                    button.setBackground(generateRandomColor());
+                    button.setOpaque(true);
+                }
+
+                rowPanel.add(button);
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (selectedButton != null) {
@@ -100,7 +136,6 @@ public class K3GUI extends JFrame {
                 });
 
             }
-
             // decrease the gap between buttons
             rowPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -145,9 +180,64 @@ public class K3GUI extends JFrame {
         selectedButton.setVisible(false);
         currentButton.setText(selectedButton.getText());
         currentButton.setBackground(selectedButton.getBackground());
-
     }
 
+    private Color generateRandomColor() {
+        Random random = new Random();
+        int r, g, b;
+
+        // Generate random values for r, g, and b within a smaller range to make the colors softer.
+        int minColorValue = 100;
+        int maxColorValue = 200;
+
+        // Select a random color from the fixed set of colors.
+        String[] allowedColors = {"red", "green", "blue", "yellow", "black", "white","beige"};
+        int colorIndex = random.nextInt(allowedColors.length);
+        String selectedColor = allowedColors[colorIndex];
+
+        // Generate softer shades of the selected color.
+        switch (selectedColor) {
+            case "red":
+                r = 244;
+                g = 84;
+                b = 63;
+                break;
+            case "green":
+                r = 119;
+                g = 250;
+                b = 89;
+                break;
+            case "blue":
+                r = 56;
+                g = 174;
+                b = 234;
+                break;
+            case "yellow":
+                r = 224;
+                g = 213;
+                b = 59;
+                break;
+            case "black":
+                r = 59;
+                g = 59;
+                b = 59;
+                break;
+            case "white":
+                r = 255;
+                g = 255;
+                b = 255;
+                break;
+            case "beige":
+                r = 245;
+                g = 245;
+                b = 220;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected color: " + selectedColor);
+        }
+
+        return new Color(r, g, b);
+    }
     public static void main(String[] args) {
         K3GUI game = new K3GUI();
     }
