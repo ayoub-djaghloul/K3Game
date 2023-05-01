@@ -91,33 +91,33 @@ public class K3GUI extends JFrame {
         }
 
 
-// create the center board
-        board = new JButton[8];
+        board = new JButton[36];
         ind=0;
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 0; i < 8; i++) {
             JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
             // add empty labels to center the buttons
-            for (int j = 1; j <= 8 - i; j++) {
+            for (int j = 0; j < 8 - i; j++) {
                 rowPanel.add(new JLabel(" "));
             }
 
             // add the buttons in a triangular shape
-            for (int j = 1; j <= i; j++) {
+            for (int j = 0; j < i+1; j++) {
                 JButton button = new JButton(String.valueOf(ind));
+                board[ind] = button; // add button to board array
                 ind++;
                 rowPanel.add(button);
 
                 // Set background color only for buttons in the bottom row.
-                if (i == 8) {
+                if (i == 7) {
                     button.setBackground(generateRandomColor());
                     button.setOpaque(true);
                 }
 
-                rowPanel.add(button);
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (selectedButton != null) {tour++;
+                        if (selectedButton != null) {
+                            tour++;
                             handleBoardMove(selectedButton, button);
                             selectedButton = null;
                         }
