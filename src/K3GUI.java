@@ -167,9 +167,11 @@ public class K3GUI extends JFrame {
         if (currentButton.getBackground().getRed() == 238 && currentButton.getBackground().getGreen() == 238 && currentButton.getBackground().getBlue() == 238) {
             System.out.println("Selected button text: " + selectedButton.getText());
             System.out.println("Current button text: " + currentButton.getText());
+            System.out.println("old: " + board[Integer.parseInt(currentButton.getText())].getBackground().getBlue());
             selectedButton.setEnabled(false);
-            currentButton.setText(selectedButton.getText());
             currentButton.setBackground(selectedButton.getBackground());
+            //board[Integer.parseInt(currentButton.getText())]=currentButton;
+            System.out.println("new: " + board[Integer.parseInt(currentButton.getText())].getBackground().getBlue());
         }else {
             System.out.println("You can't move to this button");
             return;
