@@ -29,10 +29,6 @@ public class K3GUI extends JFrame {
         player1Board = new JButton[5][5];
         player2Board = new JButton[5][5];
         int ind=0;
-        int nb_beige_buttons_P1 = 0;
-        int nb_beige_buttons_P2 = 0;
-        Color beige = new Color(245, 245, 220);
-        Color randomColor;
         for (int i = 1; i <= 5; i++) {
             JPanel rowPanel1 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             JPanel rowPanel2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -46,37 +42,17 @@ public class K3GUI extends JFrame {
 
             // add the buttons in a triangular shape
             for (int j = 1; j <= i; j++) {
+
                 JButton button1 = new JButton(String.valueOf(ind));
                 JButton button2 = new JButton(String.valueOf(ind));
                 ind++;
                 rowPanel1.add(button1);
                 rowPanel2.add(button2);
-                // if we have more than 2 beige buttons, we generate a another color that is not beige
-                if (nb_beige_buttons_P1 >= 2) {
-                    randomColor = generateRandomColor();
-                    while (randomColor == beige) {
-                        randomColor = generateRandomColor();
-                    }
-                    button1.setBackground(randomColor);
-                    button1.setOpaque(true);
-                } else {
-                    button1.setBackground(beige);
-                    button1.setOpaque(true);
-                    nb_beige_buttons_P1++;
-                }
 
-                if (nb_beige_buttons_P2 >= 2) {
-                    randomColor = generateRandomColor();
-                    while (randomColor == beige) {
-                        randomColor = generateRandomColor();
-                    }
-                    button2.setBackground(randomColor);
-                    button2.setOpaque(true);
-                } else {
-                    button2.setBackground(beige);
-                    button2.setOpaque(true);
-                    nb_beige_buttons_P2++;
-                }
+                button1.setBackground(generateRandomColor());
+                button1.setOpaque(true);
+                button2.setBackground(generateRandomColor());
+                button2.setOpaque(true);
 
 
                 // add action listener to each button of player 1 board
@@ -94,6 +70,7 @@ public class K3GUI extends JFrame {
                 });
             }
 
+
             // decrease the gap between buttons
             rowPanel1.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             rowPanel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -101,6 +78,7 @@ public class K3GUI extends JFrame {
             leftPanel.add(rowPanel1);
             rightPanel.add(rowPanel2);
         }
+
 
 // create the center board
         board = new JButton[8];
@@ -175,11 +153,16 @@ public class K3GUI extends JFrame {
     }
     private void handleBoardMove(JButton selectedButton, JButton currentButton) {
         // print the selected button text and the current button text to the console
-        System.out.println("Selected button text: " + selectedButton.getText());
-        System.out.println("Current button text: " + currentButton.getText());
-        selectedButton.setVisible(false);
-        currentButton.setText(selectedButton.getText());
-        currentButton.setBackground(selectedButton.getBackground());
+        if (currentButton.getBackground().getRed() == 238 && currentButton.getBackground().getGreen() == 238 && currentButton.getBackground().getBlue() == 238) {
+            System.out.println("Selected button text: " + selectedButton.getText());
+            System.out.println("Current button text: " + currentButton.getText());
+            selectedButton.setVisible(false);
+            currentButton.setText(selectedButton.getText());
+            currentButton.setBackground(selectedButton.getBackground());
+        }else {
+            System.out.println("You can't move to this button");
+            return;
+        }
     }
 
     private Color generateRandomColor() {
@@ -191,7 +174,7 @@ public class K3GUI extends JFrame {
         int maxColorValue = 200;
 
         // Select a random color from the fixed set of colors.
-        String[] allowedColors = {"red", "green", "blue", "yellow", "black", "white","beige"};
+        String[] allowedColors = {"red", "green", "blue", "yellow", "black"};
         int colorIndex = random.nextInt(allowedColors.length);
         String selectedColor = allowedColors[colorIndex];
 
@@ -221,16 +204,6 @@ public class K3GUI extends JFrame {
                 r = 59;
                 g = 59;
                 b = 59;
-                break;
-            case "white":
-                r = 255;
-                g = 255;
-                b = 255;
-                break;
-            case "beige":
-                r = 245;
-                g = 245;
-                b = 220;
                 break;
             default:
                 throw new IllegalStateException("Unexpected color: " + selectedColor);
