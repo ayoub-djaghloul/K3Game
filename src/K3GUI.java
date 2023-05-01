@@ -10,6 +10,8 @@ public class K3GUI extends JFrame {
     private JButton[] board;
     private JButton selectedButton;
 
+    int tour=0;
+
     public K3GUI() {
         // set up the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,14 +60,23 @@ public class K3GUI extends JFrame {
                 // add action listener to each button of player 1 board
                 button1.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        selectedButton = button1;
+                        System.out.println("tour ==="+tour);
+                        if(tour%2==0)
+                            selectedButton = button1;
+                        else
+                            selectedButton=null;
+
                     }
                 });
 
                 // add action listener to each button of player 2 board
                 button2.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        System.out.println("tour ==="+tour);
+                        if(tour%2==1)
                         selectedButton = button2;
+                        else
+                            selectedButton=null;
                     }
                 });
             }
@@ -106,7 +117,7 @@ public class K3GUI extends JFrame {
                 rowPanel.add(button);
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (selectedButton != null) {
+                        if (selectedButton != null) {tour++;
                             handleBoardMove(selectedButton, button);
                             selectedButton = null;
                         }
@@ -156,7 +167,7 @@ public class K3GUI extends JFrame {
         if (currentButton.getBackground().getRed() == 238 && currentButton.getBackground().getGreen() == 238 && currentButton.getBackground().getBlue() == 238) {
             System.out.println("Selected button text: " + selectedButton.getText());
             System.out.println("Current button text: " + currentButton.getText());
-            selectedButton.setVisible(false);
+            selectedButton.setEnabled(false);
             currentButton.setText(selectedButton.getText());
             currentButton.setBackground(selectedButton.getBackground());
         }else {
