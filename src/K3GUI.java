@@ -74,7 +74,7 @@ public class K3GUI extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         System.out.println("tour ==="+tour);
                         if(tour%2==1)
-                        selectedButton = button2;
+                            selectedButton = button2;
                         else
                             selectedButton=null;
                     }
@@ -108,6 +108,8 @@ public class K3GUI extends JFrame {
                 ind++;
                 rowPanel.add(button);
 
+               // button.setEnabled(false);
+
                 // Set background color only for buttons in the bottom row.
                 if (i == 7) {
                     button.setBackground(generateRandomColor());
@@ -118,13 +120,21 @@ public class K3GUI extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         if (selectedButton != null) {
                             tour++;
+                            getLine(button);
                             handleBoardMove(selectedButton, button);
                             selectedButton = null;
                         }
                     }
                 });
+//                for(int c = 0; c < 36; c++) {
+//                    JButton b0 = board[c];
+//                   if(checkButton(b0, board)) {
+//                          b0.setEnabled(true);
+//                   }
+//                }
 
             }
+
             // decrease the gap between buttons
             rowPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -224,6 +234,36 @@ public class K3GUI extends JFrame {
 
         return new Color(r, g, b);
     }
+
+
+    //method give it the button it return the line of the button
+    private int getLine(JButton button) {
+        int line = 0;
+        int number = Integer.parseInt(button.getText()); // Get the number from the button text
+        double root = Math.sqrt(8 * number + 1); // Calculate the square root of (8 * number + 1)
+        line = (int) Math.ceil((root-1) / 2); // Use the formula to calculate the line number and round up to the nearest integer
+        System.out.println("line = " + line);
+        return line;
+    }
+
+    //method to check if the button has two colored buttons
+//    private boolean checkButton(JButton button, JButton[] board) {
+//        int line;
+//        int i;
+//        //get the index where the button is located
+//        i = Integer.parseInt(button.getText());
+//        //check if the button has two colored buttons
+//        line = getLine(button);
+//        if(line==8) {
+//            return false;
+//        }else if (board[i + line].getBackground().getRGB()!=238 && board[i + line + 1].getBackground().getRGB()!=238) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+
+
     public static void main(String[] args) {
         K3GUI game = new K3GUI();
     }
