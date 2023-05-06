@@ -1,10 +1,15 @@
 package Model;
 
+import javax.swing.*;
+
 public class Pion {
     private CouleurPion couleur;
     private TypePion type;
+
     private int x;
     private int y;
+
+    ImageIcon imageIcon;
 
     private boolean Accessible;
 
@@ -13,6 +18,9 @@ public class Pion {
         this.type = type;
         this.x = x;
         this.y = y;
+        imageIcon = null;
+        this.Accessible = true;
+
     }
 
     public CouleurPion getCouleur() {
@@ -33,6 +41,10 @@ public class Pion {
 
 
 
+    public void setImageIcon(ImageIcon imageIcon){
+        this.imageIcon = imageIcon;
+    }
+
     public void deplacer(int x, int y) {
         this.x = x;
         this.y = y;
@@ -48,6 +60,7 @@ public class Pion {
     public enum TypePion {
         NATUREL,
         COLORE,
-        BLANC
+        BLANC,
+        VIDE
     }
 }
