@@ -13,14 +13,13 @@ public class Pion {
 
     private boolean Accessible;
 
-    public Pion(CouleurPion couleur, TypePion type, int x, int y) {
+    public Pion(CouleurPion couleur, TypePion type, ImageIcon imageIcon, int x, int y) {
         this.couleur = couleur;
         this.type = type;
         this.x = x;
         this.y = y;
-        imageIcon = null;
+        this.imageIcon = imageIcon;
         this.Accessible = true;
-
     }
 
     public CouleurPion getCouleur() {
@@ -37,12 +36,6 @@ public class Pion {
 
     public int getY() {
         return this.y;
-    }
-
-
-
-    public void setImageIcon(ImageIcon imageIcon){
-        this.imageIcon = imageIcon;
     }
 
     public void deplacer(int x, int y) {
