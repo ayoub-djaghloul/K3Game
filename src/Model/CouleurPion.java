@@ -4,5 +4,9 @@ public enum CouleurPion {
     ROUGE,
     BLEU,
     VERT,
-    JAUNE
+    JAUNE,
+    NOIR,
+    BLANC,
+    BEiGE,
+    VIDE
 }
