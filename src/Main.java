@@ -14,8 +14,9 @@ public class Main {
         Table2DBuilder builder = new Table2DBuilder();
         builder.RandomPions();
         Table2D table2D = builder.getTable2D();
-
         Table2DDisplay display = new Table2DDisplay(table2D);
         display.display();
+
+
     }
 }
