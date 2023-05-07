@@ -17,10 +17,12 @@ public class Table2DDisplay {
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
+        int y = 0;
 
         JPanel panel = new JPanel(new GridLayout(table2D.getHeight(), table2D.getWidth()));
         for (int i = 0; i < table2D.getHeight(); i++) {
             for (int j = 0; j < table2D.getWidth(); j++) {
+                y++;
                 Pion pion = table2D.getCases()[i][j];
                 JLabel label = new JLabel(pion.getImageIcon());
 
@@ -33,9 +35,13 @@ public class Table2DDisplay {
         int x = 0;
         JPanel pyramidPanel = new JPanel(new GridLayout(5, 5,0,0));
         for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4 - i; j++) {
+                JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                pyramidPanel.add(label);
+            }
             for (int j = 0; j < i+1; j++) {
                 x++;
-                JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/ROUGE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
                 System.out.println(x);
                 pyramidPanel.add(label);
             }
