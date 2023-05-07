@@ -37,11 +37,22 @@ public class Table2DDisplay {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4 - i; j++) {
                 JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                label.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        System.out.println("clicked vide");
+                    }
+                });
                 pyramidPanel.add(label);
             }
             for (int j = 0; j < i+1; j++) {
                 x++;
                 JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/ROUGE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                //onclick label listener
+                label.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        System.out.println("clicked rouge");
+                    }
+                });
                 System.out.println(x);
                 pyramidPanel.add(label);
             }
