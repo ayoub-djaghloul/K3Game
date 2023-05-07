@@ -20,13 +20,23 @@ public class Table2D {
         int y = pion.getY();
         this.cases[x][y] = pion;
     }
-
     public void retirerPion(Pion pion) {
         int x = pion.getX();
         int y = pion.getY();
         this.cases[x][y] = null;
     }
 
+    public int getHeight() {
+        return this.cases.length;
+    }
+
+    public int getWidth() {
+        return this.cases[0].length;
+    }
+
+    public Pion[][] getCases() {
+        return this.cases;
+    }
     public void setCases(Pion pion, int x, int y) {
         this.cases[x][y] = pion;
     }

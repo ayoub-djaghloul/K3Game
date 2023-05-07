@@ -13,17 +13,23 @@ public class Table2DBuilder {
     private Table2D table2D;
 
 
-    ImageIcon BEIGE = new ImageIcon("source\\Images\\beige.png");
-    ImageIcon BLANC = new ImageIcon("source\\Images\\blanc.png");
-    ImageIcon BLEU = new ImageIcon("source\\Images\\bleu.png");
-    ImageIcon JAUNE = new ImageIcon("source\\Images\\jaune.png");
-    ImageIcon NOIR = new ImageIcon("source\\Images\\noir.png");
-    ImageIcon ROUGE = new ImageIcon("source\\Images\\rouge.png");
-    ImageIcon VERT = new ImageIcon("source\\Images\\vert.png");
+    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
 
     public Table2DBuilder() {
         this.table2D = new Table2D(this.hight, this.width);
     }
+
+
+    public Table2D getTable2D() {
+        return this.table2D;
+    }
+
 
     public void RandomPions() {
         Random random = new Random();

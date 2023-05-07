@@ -3,7 +3,7 @@ package Model;
 import javax.swing.*;
 
 public class Pion {
-    private CouleurPion couleur;
+    CouleurPion couleur;
     private TypePion type;
 
     private int x;
@@ -41,6 +41,14 @@ public class Pion {
     public void deplacer(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public ImageIcon getImageIcon() {
+        return this.imageIcon;
+    }
+
+    public void setImageIcon(ImageIcon imageIcon) {
+        this.imageIcon = imageIcon;
     }
 
     public void setAccessible(boolean Accessible) {
