@@ -32,9 +32,10 @@ public class DisplayPyramidC {
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
-
         JPanel tablePanel = new JPanel(new GridLayout(table2D.getHeight(), table2D.getWidth()));
         int k = 0;
+        final int[] pionCount = {0};
+
         for (int i = 0; i < table2D.getHeight(); i++) {
             for (int j = 0; j < table2D.getWidth(); j++) {
                 k++;
@@ -59,7 +60,8 @@ public class DisplayPyramidC {
         }
 
         JPanel pyramidPanel = new JPanel(new GridLayout(pyramidePlayer.getHight(), pyramidePlayer.getWidth()));
-        JButton printPyramid = null;
+        JButton printPyramid = new JButton("print pyramid");
+        printPyramid.setEnabled(false);
         JButton undo = null;
         for (int i = 0; i < pyramidePlayer.getHight(); i++) {
             JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -79,6 +81,13 @@ public class DisplayPyramidC {
                                 pionDestination.replacePion(pionSource[0]);
                                 pionDestination.setAccessible(false);
                                 historyPyramid.push(pionDestination);
+                                pionCount[0]++;
+                                System.out.println(pionCount[0]);
+                                if (pionCount[0] == 15) {
+                                    printPyramid.setEnabled(true);
+                                }else {
+                                    printPyramid.setEnabled(false);
+                                }
                             }
                         }
                     }
@@ -87,50 +96,50 @@ public class DisplayPyramidC {
             }
 
             pyramidPanel.add(pionPanel);
-
-
-            //undo button
-            undo = new JButton("undo");
-            undo.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    int tableX = history2Dtable.peek().getX();
-                    int tableY = history2Dtable.peek().getY();
-                    int pyramidX = historyPyramid.peek().getX();
-                    int pyramidY = historyPyramid.peek().getY();
-                    if (!history2Dtable.empty() && !historyPyramid.empty()) {
-                        Pion pion2D = history2Dtable.pop();
-                        Pion pionPyramid = historyPyramid.pop();
-                        pionPyramid.resetPion();
-                        table2D.getCases()[tableX][tableY].replacePion(pion2D);
-                        pion2D.setAccessible(true);
-                        // update the table's label with the pion's image icon
-                        JLabel tableLabel = (JLabel) tablePanel.getComponent(tableX * table2D.getWidth() + tableY);
-                        tableLabel.setIcon(pion2D.getImageIcon());
-                        // update the pyramid's label with the pion's image icon
-                        JPanel pionPanel = (JPanel) pyramidPanel.getComponent(pyramidX);
-                        JLabel pyramidLabel = (JLabel) pionPanel.getComponent(pyramidY);
-                        pyramidLabel.setIcon(pionPyramid.getImageIcon());
-                    }
-                }
-            });
-
-            //button that print the pyramid on the console
-            printPyramid = new JButton("print pyramid");
-            printPyramid.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    //print the pyramid on the console
-                    for (int i = 0; i < pyramidePlayer.getHight(); i++) {
-                        for (int j = 0; j <= i; j++) {
-                            Pion pion = pyramidePlayer.getPion(i, j);
-                            System.out.print(pion.getCouleur().toString() + " ");
-                        }
-                        System.out.println();
-                    }
-                }
-            });
-
-
         }
+
+
+        //undo button
+        undo = new JButton("undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int tableX = history2Dtable.peek().getX();
+                int tableY = history2Dtable.peek().getY();
+                int pyramidX = historyPyramid.peek().getX();
+                int pyramidY = historyPyramid.peek().getY();
+                if (!history2Dtable.empty() && !historyPyramid.empty()) {
+                    Pion pion2D = history2Dtable.pop();
+                    Pion pionPyramid = historyPyramid.pop();
+                    pionPyramid.resetPion();
+                    table2D.getCases()[tableX][tableY].replacePion(pion2D);
+                    pion2D.setAccessible(true);
+                    // update the table's label with the pion's image icon
+                    JLabel tableLabel = (JLabel) tablePanel.getComponent(tableX * table2D.getWidth() + tableY);
+                    tableLabel.setIcon(pion2D.getImageIcon());
+                    // update the pyramid's label with the pion's image icon
+                    JPanel pionPanel = (JPanel) pyramidPanel.getComponent(pyramidX);
+                    JLabel pyramidLabel = (JLabel) pionPanel.getComponent(pyramidY);
+                    pyramidLabel.setIcon(pionPyramid.getImageIcon());
+                    pionCount[0]--;
+                }
+            }
+        });
+
+        //button that print the pyramid on the console
+        printPyramid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //print the pyramid on the console
+                for (int i = 0; i < pyramidePlayer.getHight(); i++) {
+                    for (int j = 0; j <= i; j++) {
+                        Pion pion = pyramidePlayer.getPion(i, j);
+                        System.out.print(pion.getCouleur().toString() + " ");
+                    }
+                    System.out.println();
+                }
+            }
+        });
+
+
         JPanel undoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         undoPanel.add(undo);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
