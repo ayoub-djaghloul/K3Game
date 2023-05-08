@@ -7,6 +7,9 @@ import Model.*;
 public class Table2DDisplay {
     private Table2D table2D;
 
+    //label pour le ramplacement des pions
+    private JLabel labelr;
+
     public Table2DDisplay(Table2D table2D) {
         this.table2D = table2D;
     }
@@ -25,7 +28,19 @@ public class Table2DDisplay {
                 y++;
                 Pion pion = table2D.getCases()[i][j];
                 JLabel label = new JLabel(pion.getImageIcon());
+                label.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if(label.getIcon()==new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)))
+                        {System.out.println("videed"+pion.getImageIcon().toString());
+                        System.out.println("videed"+label.getIcon().toString());}
+                        else
+                        {System.out.println("not videed"+pion.getImageIcon().toString());
+                        System.out.println("not videed"+label.getIcon().toString());}
 
+                        labelr = label;
+                        System.out.println("clicked pion piochable");
+                    }
+                });
                 //print the image in the console
                 System.out.print(pion.getImageIcon().toString());
 
@@ -39,8 +54,11 @@ public class Table2DDisplay {
                 JLabel label = new JLabel(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
                 label.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        System.out.println("clicked vide");
-                    }
+                        if(labelr!=null)
+                        {label.setIcon(labelr.getIcon());
+                        System.out.println("déplacement possible vers vide");
+                        labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                        labelr=null;}}
                 });
                 pyramidPanel.add(label);
             }
@@ -50,14 +68,22 @@ public class Table2DDisplay {
                 //onclick label listener
                 label.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        System.out.println("clicked rouge");
-                    }
+                        if(labelr!=null){
+                            label.setIcon(labelr.getIcon());
+                        System.out.println("déplacement non possible vers non vide");
+                        labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                        labelr=null;
+                    }}
                 });
                 System.out.println(x);
                 pyramidPanel.add(label);
             }
         }
-
+        try {
+            frame.add(new JLabel(new ImageIcon(new ImageIcon("sources/Images/Background.png").getImage())));
+        } catch (Exception e) {
+            System.out.println("Background image not found");
+        }
         frame.add(panel, BorderLayout.CENTER);
         frame.add(pyramidPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
