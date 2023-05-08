@@ -17,7 +17,7 @@ public class PyramidBuilder {
 
     public void generatePyramid() {
         for (int i = 0; i < this.pyramidePlayer.getHight(); i++) {
-            for (int j = 0; j < this.pyramidePlayer.getWidth(); j++) {
+            for (int j = 0; j <= i; j++) {
                 pion = new Pion(null, Pion.TypePion.VIDE, VIDE, i, j);
                 this.pyramidePlayer.ajouterPion(pion);
             }

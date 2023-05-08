@@ -43,6 +43,13 @@ public class Pion {
         this.y = y;
     }
 
+    public void replacePion(Pion pionSource, Pion pionDestination) {
+        pionDestination.couleur = pionSource.couleur;
+        pionDestination.type = pionSource.type;
+        pionDestination.imageIcon = pionSource.imageIcon;
+        pionDestination.setAccessible(false);
+    }
+
     public ImageIcon getImageIcon() {
         return this.imageIcon;
     }
