@@ -37,6 +37,10 @@ public class Table2D {
     public Pion[][] getCases() {
         return this.cases;
     }
+
+    public Pion getCases(int x, int y) {
+        return this.cases[x][y];
+    }
     public void setCases(Pion pion, int x, int y) {
         this.cases[x][y] = pion;
     }
