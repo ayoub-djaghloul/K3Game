@@ -18,9 +18,5 @@ public class Main {
         Table2D table2D = table2DBuilder.getTable2D();
         Pyramide pyramide = pyramidBuilder.getPyramidePlayer();
         DisplayPyramidC displayPyramidC = new DisplayPyramidC(table2D, pyramide);
-        displayPyramidC.displayTableAndPyramid();
-
-
-
     }
 }
