@@ -50,6 +50,13 @@ public class Pion {
         this.setAccessible(false);
     }
 
+    public void resetPion() {
+        this.couleur = null;
+        this.type = TypePion.VIDE;
+        this.imageIcon = new ImageIcon("../sources/Images/VIDE.png");
+        this.setAccessible(true);
+    }
+
     public ImageIcon getImageIcon() {
         return this.imageIcon;
     }
