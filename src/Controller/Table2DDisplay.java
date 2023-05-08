@@ -2,6 +2,10 @@ package Controller;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import GameBuilder.MaDeuxiemeInterface;
 import Model.*;
 
 public class Table2DDisplay {
@@ -79,13 +83,32 @@ public class Table2DDisplay {
                 pyramidPanel.add(label);
             }
         }
+        // Création d'un bouton "Suivant"
+        JButton button = new JButton("Suivant");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Code exécuté lorsque le bouton est cliqué
+                // ferme cette fenêtre
+                frame.dispose();
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface();
+                maDeuxiemeInterface.display();
+                // Ici, on affiche simplement un message dans la console
+                System.out.println("Bouton Suivant cliqué !");
+                // Vous pouvez ici ajouter le code pour passer à l'autre interface
+            }
+        });
         try {
             frame.add(new JLabel(new ImageIcon(new ImageIcon("sources/Images/Background.png").getImage())));
         } catch (Exception e) {
             System.out.println("Background image not found");
         }
-        frame.add(panel, BorderLayout.CENTER);
-        frame.add(pyramidPanel, BorderLayout.SOUTH);
+        // Ajout du bouton en bas de la fenêtre
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(button);
+        frame.add(panel, BorderLayout.NORTH);
+        frame.add(pyramidPanel, BorderLayout.CENTER);
+        frame.add(buttonPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
 
