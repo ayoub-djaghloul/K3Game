@@ -91,8 +91,8 @@ public class Table2DDisplay {
                 // Code exécuté lorsque le bouton est cliqué
                 // ferme cette fenêtre
                 frame.dispose();
-                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface();
-                maDeuxiemeInterface.display();
+//                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramidePlayer);
+//                maDeuxiemeInterface.display();
                 // Ici, on affiche simplement un message dans la console
                 System.out.println("Bouton Suivant cliqué !");
                 // Vous pouvez ici ajouter le code pour passer à l'autre interface

@@ -130,8 +130,8 @@ public class DisplayPyramidC {
         printPyramid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //print the pyramid on the console
-                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface();
-                maDeuxiemeInterface.setVisible(true);
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramidePlayer);
+                maDeuxiemeInterface.displayPyramids();
                 frame.dispose();
                 for (int i = 0; i < pyramidePlayer.getHight(); i++) {
                     for (int j = 0; j <= i; j++) {

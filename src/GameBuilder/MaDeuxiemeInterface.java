@@ -1,7 +1,7 @@
 package GameBuilder;
 
 import Controller.DisplayPyramidC;
-import Controller.Table2DDisplay;
+import Model.Pion;
 import Model.Pyramide;
 import Model.Table2D;
 
@@ -12,11 +12,12 @@ import java.awt.event.ActionListener;
 
 public class MaDeuxiemeInterface extends JFrame {
 
-    public MaDeuxiemeInterface() {
+    public MaDeuxiemeInterface(Pyramide pyramidePlayer) {
         super("Deuxième Interface");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         // Ajouter un bouton "Retour" qui ferme cette fenêtre et affiche la fenêtre précédente
         JButton retourButton = new JButton("Retour");
@@ -35,9 +36,50 @@ public class MaDeuxiemeInterface extends JFrame {
             }
         });
         add(retourButton, BorderLayout.SOUTH);
+
+        // Ajouter un bouton "Afficher" qui affiche la pyramide du joueur
+        JButton afficherButton = new JButton("pyramid 1 ");
+        afficherButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < pyramidePlayer.getHight(); i++) {
+                    for (int j = 0; j <= i; j++) {
+                        Pion pion = pyramidePlayer.getPion(i, j);
+                        System.out.print(pion.getCouleur().toString() + " ");
+                    }
+                    System.out.println();
+                }
+            }
+        });
+        add(afficherButton, BorderLayout.NORTH);
+
+        // Ajouter un panel pour afficher la pyramide
+        JPanel pyramidePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int x = 50; // position horizontale du premier pion
+                int y = 50; // position verticale du premier pion
+                int size = 50; // taille d'un pion
+                for (int i = 0; i < pyramidePlayer.getHight(); i++) {
+                    for (int j = 0; j <= i; j++) {
+                        Pion pion = pyramidePlayer.getPion(i, j);
+                        g.setColor(pion.getCouleur());
+                        g.fillOval(x + j * size, y + i * size, size, size);
+                    }
+                }
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(600, 600);
+            }
+        };
+        add(pyramidePanel, BorderLayout.CENTER);
+
     }
 
-    public void display() {
+    public void displayPyramids() {
+    //afficher la pyramide du joueur et la pyramide de l'adversaire et un pyramide vide de base 9
+
 
         setVisible(true);
     }

@@ -1,6 +1,7 @@
 package Model;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Pion {
     CouleurPion couleur;
@@ -22,8 +23,8 @@ public class Pion {
         this.Accessible = true;
     }
 
-    public CouleurPion getCouleur() {
-        return this.couleur;
+    public Color getCouleur() {
+        return this.couleur.getColor();
     }
 
     public TypePion getType() {
