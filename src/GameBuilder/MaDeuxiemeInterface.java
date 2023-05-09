@@ -31,6 +31,7 @@ public class MaDeuxiemeInterface extends JFrame {
                 DisplayPyramidC displayPyramidC = new DisplayPyramidC(table2D, pyramide);
                 displayPyramidC.displayTableAndPyramid();
                 dispose();
+
             }
         });
         add(retourButton, BorderLayout.SOUTH);
