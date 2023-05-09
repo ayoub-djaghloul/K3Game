@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Stack;
 
+import GameBuilder.MaDeuxiemeInterface;
 import Model.*;
 
 import static javax.swing.SwingConstants.SOUTH;
@@ -85,7 +86,7 @@ public class DisplayPyramidC {
                                 System.out.println(pionCount[0]);
                                 if (pionCount[0] == 15) {
                                     printPyramid.setEnabled(true);
-                                }else {
+                                }  else {
                                     printPyramid.setEnabled(false);
                                 }
                             }
@@ -129,6 +130,9 @@ public class DisplayPyramidC {
         printPyramid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //print the pyramid on the console
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface();
+                maDeuxiemeInterface.setVisible(true);
+                frame.dispose();
                 for (int i = 0; i < pyramidePlayer.getHight(); i++) {
                     for (int j = 0; j <= i; j++) {
                         Pion pion = pyramidePlayer.getPion(i, j);

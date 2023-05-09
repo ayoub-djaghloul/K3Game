@@ -1,6 +1,8 @@
 package GameBuilder;
 
+import Controller.DisplayPyramidC;
 import Controller.Table2DDisplay;
+import Model.Pyramide;
 import Model.Table2D;
 
 import javax.swing.*;
@@ -20,18 +22,22 @@ public class MaDeuxiemeInterface extends JFrame {
         JButton retourButton = new JButton("Retour");
         retourButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                dispose(); // ferme cette fenêtre
-                Table2DBuilder builder = new Table2DBuilder();
-                builder.RandomPions();
-                Table2D table2D = builder.getTable2D();
-                Table2DDisplay maPremiereInterface = new Table2DDisplay(table2D);
-                maPremiereInterface.display();
+                Table2DBuilder table2DBuilder = new Table2DBuilder();
+                PyramidBuilder pyramidBuilder = new PyramidBuilder(5, 5);
+                table2DBuilder.RandomPions();
+                pyramidBuilder.generatePyramid();
+                Table2D table2D = table2DBuilder.getTable2D();
+                Pyramide pyramide = pyramidBuilder.getPyramidePlayer();
+                DisplayPyramidC displayPyramidC = new DisplayPyramidC(table2D, pyramide);
+                displayPyramidC.displayTableAndPyramid();
+                dispose();
             }
         });
         add(retourButton, BorderLayout.SOUTH);
     }
 
     public void display() {
+
         setVisible(true);
     }
 }
