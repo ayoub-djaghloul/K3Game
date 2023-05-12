@@ -5,9 +5,8 @@ import java.awt.*;
 import java.util.Stack;
 
 import GameBuilder.MaDeuxiemeInterface;
+import Model.PyramideIA;
 import Model.*;
-
-import static javax.swing.SwingConstants.SOUTH;
 
 
 public class DisplayPyramidC {
@@ -62,8 +61,10 @@ public class DisplayPyramidC {
 
         JPanel pyramidPanel = new JPanel(new GridLayout(pyramidePlayer.getHight(), pyramidePlayer.getWidth()));
         JButton printPyramid = new JButton("print pyramid");
+
         printPyramid.setEnabled(false);
-        JButton undo = null;
+        JButton undo = new JButton("undo");
+        undo.setEnabled(false);
         for (int i = 0; i < pyramidePlayer.getHight(); i++) {
             JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j <= i; j++) {
@@ -77,12 +78,19 @@ public class DisplayPyramidC {
                             Pion pionDestination = pyramidePlayer.getPion(finalI, finalJ);
                             if (pionDestination.estAccessible()) {
                                 pyramideLabel.setIcon(labelr.getIcon());
-                                labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                                //labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                                labelr.setVisible(false);
                                 labelr = null;
                                 pionDestination.replacePion(pionSource[0]);
                                 pionDestination.setAccessible(false);
                                 historyPyramid.push(pionDestination);
                                 pionCount[0]++;
+                                if(pionCount[0]>=1){
+                                    undo.setEnabled(true);
+                                }
+                                else {
+                                    undo.setEnabled(false);
+                                }
                                 System.out.println(pionCount[0]);
                                 if (pionCount[0] == 15) {
                                     printPyramid.setEnabled(true);
@@ -101,7 +109,6 @@ public class DisplayPyramidC {
 
 
         //undo button
-        undo = new JButton("undo");
         undo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 int tableX = history2Dtable.peek().getX();
@@ -117,11 +124,18 @@ public class DisplayPyramidC {
                     // update the table's label with the pion's image icon
                     JLabel tableLabel = (JLabel) tablePanel.getComponent(tableX * table2D.getWidth() + tableY);
                     tableLabel.setIcon(pion2D.getImageIcon());
+                    tableLabel.setVisible(true);
                     // update the pyramid's label with the pion's image icon
                     JPanel pionPanel = (JPanel) pyramidPanel.getComponent(pyramidX);
                     JLabel pyramidLabel = (JLabel) pionPanel.getComponent(pyramidY);
                     pyramidLabel.setIcon(pionPyramid.getImageIcon());
                     pionCount[0]--;
+                    if(pionCount[0]>=1){
+                        undo.setEnabled(true);
+                    }
+                    else {
+                        undo.setEnabled(false);
+                    }
                 }
             }
         });
@@ -130,7 +144,10 @@ public class DisplayPyramidC {
         printPyramid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //print the pyramid on the console
-                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramidePlayer);
+                PyramideIA pyramideia = new PyramideIA(5,5);
+                pyramideia.generatePyramidIA();
+
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramidePlayer,pyramideia);
                 maDeuxiemeInterface.displayPyramids();
                 frame.dispose();
                 for (int i = 0; i < pyramidePlayer.getHight(); i++) {

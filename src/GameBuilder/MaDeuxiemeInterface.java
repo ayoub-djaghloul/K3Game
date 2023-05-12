@@ -3,6 +3,7 @@ package GameBuilder;
 import Controller.DisplayPyramidC;
 import Model.Pion;
 import Model.Pyramide;
+import Model.PyramideIA;
 import Model.Table2D;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 
 public class MaDeuxiemeInterface extends JFrame {
 
-    public MaDeuxiemeInterface(Pyramide pyramidePlayer) {
+    public MaDeuxiemeInterface(Pyramide pyramidePlayer, PyramideIA pyramideIA) {
         super("Deuxième Interface");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800);
@@ -73,7 +74,28 @@ public class MaDeuxiemeInterface extends JFrame {
                 return new Dimension(600, 600);
             }
         };
-        add(pyramidePanel, BorderLayout.CENTER);
+        JPanel pyramideIAPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                int x = 50; // position horizontale du premier pion
+                int y = 50; // position verticale du premier pion
+                int size = 50; // taille d'un pion
+                for (int i = 0; i < pyramideIA.getHight(); i++) {
+                    for (int j = 0; j <= i; j++) {
+                        Pion pion = pyramideIA.getPion(i, j);
+                        g.setColor(pion.getCouleur());
+                        g.fillOval(x + j * size, y + i * size, size, size);
+                    }
+                }
+            }
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(600, 600);
+            }
+        };
+        add(pyramidePanel, BorderLayout.WEST);
+        add(pyramideIAPanel, BorderLayout.EAST);
 
     }
 
