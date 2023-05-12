@@ -144,7 +144,7 @@ public class DisplayPyramidC {
         printPyramid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //print the pyramid on the console
-                PyramideIA pyramideia = new PyramideIA(5,5);
+                PyramideIA pyramideia = new PyramideIA(6,6);
                 pyramideia.generatePyramidIA();
 
                 MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramidePlayer,pyramideia);

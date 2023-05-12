@@ -10,8 +10,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Stack;
 
 public class MaDeuxiemeInterface extends JFrame {
+    private JLabel labelr;
+    private Pyramide pyramidePlayer;
+    private PyramideIA pyramideIA;
+    private Table2D table2D;
+    private Stack<Pion> history2Dtable = new Stack<Pion>();
+    private Stack<Pion> historyPyramid = new Stack<Pion>();
+
 
     public MaDeuxiemeInterface(Pyramide pyramidePlayer, PyramideIA pyramideIA) {
         super("Deuxième Interface");
@@ -19,6 +27,10 @@ public class MaDeuxiemeInterface extends JFrame {
         setSize(1200, 800);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        final int[] pionCount = {0};
+        final Pion[] pionSource = new Pion[1];
+
+
 
         // Ajouter un bouton "Retour" qui ferme cette fenêtre et affiche la fenêtre précédente
         JButton retourButton = new JButton("Retour");
@@ -52,50 +64,71 @@ public class MaDeuxiemeInterface extends JFrame {
             }
         });
         add(afficherButton, BorderLayout.NORTH);
-
+        JPanel pyramidPanel = new JPanel(new GridLayout(pyramidePlayer.getHight(), pyramidePlayer.getWidth()));
         // Ajouter un panel pour afficher la pyramide
-        JPanel pyramidePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                int x = 50; // position horizontale du premier pion
-                int y = 50; // position verticale du premier pion
-                int size = 50; // taille d'un pion
-                for (int i = 0; i < pyramidePlayer.getHight(); i++) {
-                    for (int j = 0; j <= i; j++) {
-                        Pion pion = pyramidePlayer.getPion(i, j);
-                        g.setColor(pion.getCouleur());
-                        g.fillOval(x + j * size, y + i * size, size, size);
+        for (int i = 0; i < pyramidePlayer.getHight(); i++) {
+            JPanel pyramideiPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            for (int j = 0; j <= i; j++) {
+                Pion pion = pyramidePlayer.getPion(i, j);
+                JLabel pionLabel = new JLabel(pion.getImageIcon());
+                int finalI = i;
+                int finalJ = j;
+                pionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if (labelr != null) {
+                            Pion pionDestination = pyramidePlayer.getPion(finalI, finalJ);
+                            if (pionDestination.estAccessible()) {
+                                pionLabel.setIcon(labelr.getIcon());
+                                //labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                                labelr.setVisible(false);
+                                labelr = null;
+                                pionDestination.replacePion(pionSource[0]);
+                                pionDestination.setAccessible(false);
+                                historyPyramid.push(pionDestination);
+                                pionCount[0]++;
+                                System.out.println(pionCount[0]);
+                            }
+                        }
                     }
-                }
+                });
+                pyramideiPanel.add(pionLabel);
             }
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(600, 600);
-            }
-        };
-        JPanel pyramideIAPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                int x = 50; // position horizontale du premier pion
-                int y = 50; // position verticale du premier pion
-                int size = 50; // taille d'un pion
-                for (int i = 0; i < pyramideIA.getHight(); i++) {
-                    for (int j = 0; j <= i; j++) {
-                        Pion pion = pyramideIA.getPion(i, j);
-                        g.setColor(pion.getCouleur());
-                        g.fillOval(x + j * size, y + i * size, size, size);
+            pyramidPanel.add(pyramideiPanel);
+        }
+        JPanel pyramidiaPanel = new JPanel(new GridLayout(pyramideIA.getHight(), pyramideIA.getWidth()));
+        // Ajouter un panel pour afficher la pyramide
+        for (int i = 0; i < pyramideIA.getHight(); i++) {
+            JPanel pyramideiPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            for (int j = 0; j <= i; j++) {
+                Pion pion = pyramideIA.getPion(i, j);
+                JLabel pionLabel = new JLabel(pion.getImageIcon());
+                int finalI = i;
+                int finalJ = j;
+                pionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if (labelr != null) {
+                            Pion pionDestination = pyramideIA.getPion(finalI, finalJ);
+                            if (pionDestination.estAccessible()) {
+                                pionLabel.setIcon(labelr.getIcon());
+                                //labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                                labelr.setVisible(false);
+                                labelr = null;
+                                pionDestination.replacePion(pionSource[0]);
+                                pionDestination.setAccessible(false);
+                                historyPyramid.push(pionDestination);
+                                pionCount[0]++;
+                                System.out.println(pionCount[0]);
+                            }
+                        }
                     }
-                }
+                });
+                pyramideiPanel.add(pionLabel);
             }
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(600, 600);
-            }
-        };
-        add(pyramidePanel, BorderLayout.WEST);
-        add(pyramideIAPanel, BorderLayout.EAST);
+            pyramidiaPanel.add(pyramideiPanel);
+        }
+
+        add(pyramidPanel, BorderLayout.WEST);
+        add(pyramidiaPanel, BorderLayout.EAST);
 
     }
 
