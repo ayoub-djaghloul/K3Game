@@ -20,6 +20,7 @@ public class MaDeuxiemeInterface extends JFrame {
     private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
 
+    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
 
     public MaDeuxiemeInterface(Pyramide pyramidePlayer, PyramideIA pyramideIA) {
         super("Deuxième Interface");
@@ -126,7 +127,42 @@ public class MaDeuxiemeInterface extends JFrame {
             }
             pyramidiaPanel.add(pyramideiPanel);
         }
-
+        //pyramide vide au centre de base 9 pions
+        PyramidBuilder pyramidBuilder = new PyramidBuilder(9, 9);
+        pyramidBuilder.generatePyramid();
+        Pyramide pyramidevidePlayer=pyramidBuilder.getPyramidePlayer();
+        JPanel pyramidvidePanel = new JPanel(new GridLayout(pyramidevidePlayer.getHight(), pyramidevidePlayer.getWidth()));
+        // Ajouter un panel pour afficher la pyramide
+        for (int i = 0; i < 9; i++) {
+    JPanel pyramideiPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    for (int j = 0; j <= i; j++) {
+                Pion pion = pyramidevidePlayer.getPion(i, j);
+                JLabel pionLabel = new JLabel(pion.getImageIcon());
+                int finalI = i;
+                int finalJ = j;
+                pionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if (labelr != null) {
+                            Pion pionDestination = pyramidePlayer.getPion(finalI, finalJ);
+                            if (pionDestination.estAccessible()) {
+                                pionLabel.setIcon(labelr.getIcon());
+                                //labelr.setIcon(new ImageIcon(new ImageIcon("sources/Images/VIDE.png").getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+                                labelr.setVisible(false);
+                                labelr = null;
+                                pionDestination.replacePion(pionSource[0]);
+                                pionDestination.setAccessible(false);
+                                historyPyramid.push(pionDestination);
+                                pionCount[0]++;
+                                System.out.println(pionCount[0]);
+                            }
+                        }
+                    }
+                });
+                pyramideiPanel.add(pionLabel);
+            }
+            pyramidvidePanel.add(pyramideiPanel);
+        }
+        add(pyramidvidePanel, BorderLayout.CENTER);
         add(pyramidPanel, BorderLayout.WEST);
         add(pyramidiaPanel, BorderLayout.EAST);
 
@@ -134,8 +170,6 @@ public class MaDeuxiemeInterface extends JFrame {
 
     public void displayPyramids() {
     //afficher la pyramide du joueur et la pyramide de l'adversaire et un pyramide vide de base 9
-
-
         setVisible(true);
     }
 }
