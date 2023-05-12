@@ -29,7 +29,7 @@ public class DisplayPyramidC {
         final Pion[] pionSource = new Pion[1];
         JFrame frame = new JFrame("Table2D");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
+        frame.setSize(1200, 800);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
         JPanel tablePanel = new JPanel(new GridLayout(table2D.getHeight(), table2D.getWidth()));
@@ -41,7 +41,7 @@ public class DisplayPyramidC {
                 k++;
                 Pion pion = table2D.getCases()[i][j];
                 JLabel table2DLabel = new JLabel(pion.getImageIcon());
-                if (k == 16) {
+                if (k == 22) {
                     table2DLabel.setVisible(false);
                 } else {
                     tablePanel.add(table2DLabel);

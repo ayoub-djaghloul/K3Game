@@ -1,5 +1,6 @@
 package Model;
-
+import javax.swing.*;
+import java.awt.*;
 
 public class Pyramide {
 
@@ -11,10 +12,10 @@ public class Pyramide {
     private Pion[][] cases; // tableau de pions
 
     public Pyramide(int hight, int width) {
+        this.nbPions = 0;
+        this.nbPionsMax = (hight * (hight + 1)) / 2;
         this.hight = hight;
         this.width = width;
-        this.nbPions = 0;
-        this.nbPionsMax = (hight*width/2);
         this.cases = new Pion[hight][width];
     }
 
@@ -61,5 +62,21 @@ public class Pyramide {
         pion.deplacer(x, y);
         this.ajouterPion(pion);
     }
+
+
+    public Pyramide initPyramide(int hight, int width) {
+        ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
+
+        for (int i = 0; i < hight; i++) {
+            for (int j = 0; j <= i; j++) {
+                Pion pion = new Pion(null, Pion.TypePion.VIDE, VIDE, i, j);
+                this.ajouterPion(pion);
+            }
+        }
+        return this;
+    }
+
+
+
 
 }

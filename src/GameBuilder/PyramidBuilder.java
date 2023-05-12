@@ -7,7 +7,7 @@ public class PyramidBuilder {
 
     private Pyramide pyramidePlayer;
     private Pion pion;
-    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+    ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
     public PyramidBuilder(int hight, int width) {
         this.pyramidePlayer = new Pyramide(hight, width);
     }

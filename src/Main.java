@@ -11,12 +11,10 @@ import AI.*;
 
 public class Main {
     public static void main(String[] args) {
-        Table2DBuilder table2DBuilder = new Table2DBuilder();
-        PyramidBuilder pyramidBuilder = new PyramidBuilder(5, 5);
-        table2DBuilder.RandomPions();
-        pyramidBuilder.generatePyramid();
-        Table2D table2D = table2DBuilder.getTable2D();
-        Pyramide pyramide = pyramidBuilder.getPyramidePlayer();
+        int bag[] = {9, 9, 9, 9, 9};
+        Table2D table2D = new Table2D(2, 11, bag);
+        Pyramide pyramide = new Pyramide(5, 5);
+        pyramide.initPyramide(5,5   );
         DisplayPyramidC displayPyramidC = new DisplayPyramidC(table2D, pyramide);
         displayPyramidC.displayTableAndPyramid();
     }
