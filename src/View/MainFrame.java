@@ -1,7 +1,6 @@
 package View;
-import Model.Pion;
-import Model.Pyramide;
-import Model.Table2D;
+import GameBuilder.MaDeuxiemeInterface;
+import Model.*;
 import Model.Pion;
 
 import javax.swing.*;
@@ -43,7 +42,21 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             }
         };
 
+        Icon icon = new ImageIcon("sources/Images/READY.png");
+        JButton addButton1 = new JButton(icon);
+        addButton1.setPreferredSize(new Dimension(122, 45));
+        addButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //print the pyramid on the console
+                PyramideIA pyramideia = new PyramideIA(6,6);
+                pyramideia.generatePyramidIA();
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramide,pyramideia);
+                maDeuxiemeInterface.displayPyramids();
+                dispose();
 
+            }
+        });
         JButton addButton = new JButton("Add Panel");
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -52,7 +65,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JPanel pyramidPanel = pyramidePanel(pyramide);
                 JPanel baseK3Panel = baseK3(baseK3);
                 addPanel(Phase1(table2DPanel, pyramidPanel,baseK3Panel), "phase1");
-
+                addButton.setVisible(false);
+                mainFrame.add(addButton1, BorderLayout.SOUTH);
             }
         });
 
@@ -70,7 +84,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
         // Add the button to the main frame
         mainFrame.add(addButton, BorderLayout.SOUTH);
-
     }
 
     public JPanel tabel2DPanel(Table2D table2D) {
