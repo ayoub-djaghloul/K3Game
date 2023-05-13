@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Table2D {
     private Pion[][] cases;
-    private Pion[] casesK3;
     // bag containes the number of colors of each pion
 
     // colors of pions
@@ -18,10 +17,11 @@ public class Table2D {
 
     public Table2D(int hight, int width, int[] bag) {
         if (hight >1){
+
             this.cases = new Pion[hight][width];
             this.initTable2D(bag);
         }else {
-            this.casesK3 = new Pion[width];
+            this.cases = new Pion [hight][width];
             this.initTable1D(width,bag);
         }
     }
@@ -133,19 +133,19 @@ public class Table2D {
             couleurPion = RandomPions(bag);
             switch (couleurPion) {
                 case ROUGE:
-                    this.casesK3[i] = new Pion(couleurPion, Pion.TypePion.COLORE, ROUGE, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORE, ROUGE, 0, i);
                     break;
                 case BLEU:
-                    this.casesK3[i] = new Pion(couleurPion, Pion.TypePion.COLORE, BLEU, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORE, BLEU, 0, i);
                     break;
                 case VERT:
-                    this.casesK3[i] = new Pion(couleurPion, Pion.TypePion.COLORE, VERT, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORE, VERT, 0, i);
                     break;
                 case JAUNE:
-                    this.casesK3[i] = new Pion(couleurPion, Pion.TypePion.COLORE, JAUNE, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORE, JAUNE, 0, i);
                     break;
                 case NOIR:
-                    this.casesK3[i] = new Pion(couleurPion, Pion.TypePion.COLORE, NOIR, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORE, NOIR, 0, i);
                     break;
             }
         }

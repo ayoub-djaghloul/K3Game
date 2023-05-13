@@ -19,7 +19,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
 
 
-    public MainFrame(Table2D table2D, Pyramide pyramide) {
+    public MainFrame(Table2D table2D, Pyramide pyramide, Table2D baseK3) {
         mainFrame = new JFrame("K3");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1200, 800);
@@ -45,7 +45,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             public void actionPerformed(ActionEvent e) {
                 JPanel table2DPanel = tabel2DPanel(table2D);
                 JPanel pyramidPanel = pyramidePanel(pyramide);
-                addPanel(Phase1(table2DPanel, pyramidPanel), "phase1");
+                JPanel baseK3Panel = baseK3(baseK3);
+                addPanel(Phase1(table2DPanel, pyramidPanel,baseK3Panel), "phase1");
 
             }
         });
@@ -106,11 +107,28 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return pyramidePanel;
     }
 
-    public JPanel Phase1(JPanel pyramid, JPanel table2D){
+    public JPanel baseK3(Table2D table2){
+        JPanel baseK3 = new JPanel(new GridLayout(table2.getHeight(), table2.getWidth(), 0, 0));
+        for (int i = 0; i < table2.getHeight(); i++) {
+            for (int j = 0; j < table2.getWidth(); j++) {
+                Pion pion = table2.getCases()[i][j];
+                JLabel table2DLabel = new JLabel(pion.getImageIcon());
+                    baseK3.add(table2DLabel);
+                }
+            }
+        // transparent background
+        baseK3.setOpaque(false);
+        //style of the panel
+        return baseK3;
+    }
+
+
+    public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3){
         JPanel phase1 = new JPanel();
-        phase1.setLayout(new GridLayout(2, 1));
-        phase1.add(table2D, BorderLayout.NORTH);
-        phase1.add(pyramid, BorderLayout.CENTER);
+        phase1.setLayout(new BorderLayout(2, 1));
+        phase1.add(table2D, BorderLayout.CENTER);
+        phase1.add(pyramid, BorderLayout.NORTH);
+        phase1.add(baseK3, BorderLayout.SOUTH);
         // transparent background
         phase1.setOpaque(false);
         return phase1;

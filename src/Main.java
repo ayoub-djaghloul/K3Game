@@ -22,8 +22,9 @@ public class Main {
         int bag[] = {9, 9, 9, 9, 9};
         Table2D table2D = new Table2D(2, 11, bag);
         Pyramide playerPyramide = new Pyramide(6, 6);
+        Table2D baseK3 = new Table2D(1, 9, bag);
         playerPyramide.initPyramide(6, 6);
-        MainFrame mainFrame = new MainFrame(table2D, playerPyramide);
+        MainFrame mainFrame = new MainFrame(table2D, playerPyramide , baseK3);
 
     }
 }
