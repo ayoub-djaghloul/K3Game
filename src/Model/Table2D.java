@@ -7,13 +7,13 @@ public class Table2D {
     // bag containes the number of colors of each pion
 
     // colors of pions
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
 
     public Table2D(int hight, int width, int[] bag) {
         if (hight >1){

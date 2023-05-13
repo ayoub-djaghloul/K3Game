@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.util.Stack;
+import java.util.jar.JarEntry;
 
 import static javax.swing.GroupLayout.Alignment.CENTER;
 
@@ -20,9 +22,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     private Pion[] pionSource = new Pion[1];
     private JLabel labelr;
 
-
-
-
+    private Stack<Pion> history2Dtable = new Stack<Pion>();
+    private Stack<Pion> historyPyramid = new Stack<Pion>();
     public MainFrame(Table2D table2D, Pyramide pyramide, Table2D baseK3) {
         mainFrame = new JFrame("K3");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,13 +37,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the image from a file
-                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon("../sources/Images/bg.png").getImage();
                 // Draw the image on the panel
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        Icon icon = new ImageIcon("sources/Images/READY.png");
+        Icon icon = new ImageIcon("../sources/Images/READY.png");
         JButton addButton1 = new JButton(icon);
         addButton1.setPreferredSize(new Dimension(122, 45));
         addButton1.addActionListener(new ActionListener() {
@@ -64,7 +65,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JPanel table2DPanel = tabel2DPanel(table2D);
                 JPanel pyramidPanel = pyramidePanel(pyramide);
                 JPanel baseK3Panel = baseK3(baseK3);
-                addPanel(Phase1(table2DPanel, pyramidPanel,baseK3Panel), "phase1");
+                JButton undoButton = undoButton(table2D ,table2DPanel,pyramidPanel);
+                addPanel(Phase1(table2DPanel, pyramidPanel,baseK3Panel, undoButton), "phase1");
                 addButton.setVisible(false);
                 mainFrame.add(addButton1, BorderLayout.SOUTH);
             }
@@ -107,7 +109,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         pionSource[0]=table2D.getPion(finalI, finalJ);
                         labelr = table2DLabel;
-                        //history2Dtable.push(pionSource[0]);
+                        history2Dtable.push(pionSource[0]);
                     }
                 });
             }
@@ -139,6 +141,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 labelr = null;
                                 pionDestination.replacePion(pionSource[0]);
                                 pionDestination.setAccessible(false);
+                                historyPyramid.push(pionDestination);
                                // pionCount[0]++;
                             }
                         }
@@ -168,17 +171,17 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     }
 
 
-    public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3){
+    public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3, JButton undoButton){
         JPanel phase1 = new JPanel();
         phase1.setLayout(new BorderLayout(2, 1));
         phase1.add(table2D, BorderLayout.CENTER);
         phase1.add(pyramid, BorderLayout.NORTH);
         phase1.add(baseK3, BorderLayout.SOUTH);
+        phase1.add(undoButton, BorderLayout.EAST);
         // transparent background
         phase1.setOpaque(false);
         return phase1;
     }
-
     public void addPanel(JPanel panelParam , String name) {
         // Create a new panel to hold the tabel2DPanel
         JPanel panel = new JPanel();
@@ -190,7 +193,33 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         cardLayout.show(mainPanel, name);
     }
 
-
-
+    public JButton undoButton(Table2D table2D , JPanel tablePanel, JPanel pyramidPanel){
+        JButton undoButton = new JButton("Undo");
+        undoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int tableX = history2Dtable.peek().getX();
+                int tableY = history2Dtable.peek().getY();
+                int pyramidX = historyPyramid.peek().getX();
+                int pyramidY = historyPyramid.peek().getY();
+                if (!history2Dtable.empty() && !historyPyramid.empty()) {
+                    Pion pion2D = history2Dtable.pop();
+                    Pion pionPyramid = historyPyramid.pop();
+                    pionPyramid.resetPion();
+                    table2D.getCases()[tableX][tableY].replacePion(pion2D);
+                    pion2D.setAccessible(true);
+                    // update the table's label with the pion's image icon
+                    JLabel tableLabel = (JLabel) tablePanel.getComponent(tableX * table2D.getWidth() + tableY);
+                    tableLabel.setIcon(pion2D.getImageIcon());
+                    tableLabel.setVisible(true);
+                    // update the pyramid's label with the pion's image icon
+                    JPanel pionPanel = (JPanel) pyramidPanel.getComponent(pyramidX);
+                    JLabel pyramidLabel = (JLabel) pionPanel.getComponent(pyramidY);
+                    pyramidLabel.setIcon(pionPyramid.getImageIcon());
+                }
+            }
+        });
+        return undoButton;
+    }
 
 }
