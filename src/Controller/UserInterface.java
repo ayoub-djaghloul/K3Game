@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.K3;
+
 public interface UserInterface {
     void displayGameInstructions();
     void displayGameBoard(K3 k3);

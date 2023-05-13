@@ -65,7 +65,7 @@ public class Pyramide {
 
 
     public Pyramide initPyramide(int hight, int width) {
-        ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
+        ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
 
         for (int i = 0; i < hight; i++) {
             for (int j = 0; j <= i; j++) {

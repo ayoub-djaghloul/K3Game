@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import static javax.swing.GroupLayout.Alignment.CENTER;
 
@@ -16,6 +17,10 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     private JFrame mainFrame;
     private JPanel mainPanel;
     private CardLayout cardLayout;
+
+    private Pion[] pionSource = new Pion[1];
+    private JLabel labelr;
+
 
 
 
@@ -32,7 +37,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the image from a file
-                Image backgroundImage = new ImageIcon("../sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
                 // Draw the image on the panel
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -65,6 +70,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
         // Add the button to the main frame
         mainFrame.add(addButton, BorderLayout.SOUTH);
+
     }
 
     public JPanel tabel2DPanel(Table2D table2D) {
@@ -82,6 +88,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 } else {
                     tablePanel.add(table2DLabel);
                 }
+                int finalI = i;
+                int finalJ = j;
+                table2DLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        pionSource[0]=table2D.getPion(finalI, finalJ);
+                        labelr = table2DLabel;
+                        //history2Dtable.push(pionSource[0]);
+                    }
+                });
             }
         }
         // transparent background
@@ -99,8 +114,25 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JLabel pyramideLabel = new JLabel(pion.getImageIcon());
                 pionPanel.add(pyramideLabel);
                 pionPanel.setOpaque(false);
-            }
+                int finalI = i;
+                int finalJ = j;
+                pyramideLabel.addMouseListener((MouseListener) new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if (labelr != null) {
+                            Pion pionDestination = pyramide.getPion(finalI, finalJ);
+                            if (pionDestination.estAccessible()) {
+                                pyramideLabel.setIcon(labelr.getIcon());
+                                labelr.setVisible(false);
+                                labelr = null;
+                                pionDestination.replacePion(pionSource[0]);
+                                pionDestination.setAccessible(false);
+                               // pionCount[0]++;
+                            }
+                        }
+                }
+            });
             pyramidePanel.add(pionPanel);
+        }
         }
         // transparent background
         pyramidePanel.setOpaque(false);
@@ -113,9 +145,9 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             for (int j = 0; j < table2.getWidth(); j++) {
                 Pion pion = table2.getCases()[i][j];
                 JLabel table2DLabel = new JLabel(pion.getImageIcon());
-                    baseK3.add(table2DLabel);
-                }
+                baseK3.add(table2DLabel);
             }
+        }
         // transparent background
         baseK3.setOpaque(false);
         //style of the panel
@@ -144,6 +176,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         mainPanel.add(panel, name);
         cardLayout.show(mainPanel, name);
     }
+
 
 
 
