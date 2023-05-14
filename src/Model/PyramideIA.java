@@ -12,14 +12,14 @@ public class PyramideIA {
     private Pion pion;
     private int hight;
     private int width;
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
-    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
+    ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
 
     //liste des images
     ImageIcon[] images = {BEIGE, BLANC, BLEU, JAUNE, NOIR, ROUGE, VERT, VIDE};
@@ -124,7 +124,7 @@ public class PyramideIA {
             for (int j = 0; j <= i; j++) {
                 int randomIndex = random.nextInt(couleurs.length);
                 CouleurPion couleur = couleurs[randomIndex];
-                pion = new Pion(couleur, Pion.TypePion.COLORE,images[randomIndex] , i, j);
+                pion = new Pion(couleur, Pion.TypePion.COLORED,images[randomIndex] , i, j);
                 this.ajouterPion(pion);
             }
         }

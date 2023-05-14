@@ -66,7 +66,7 @@ public class Pyramide {
 
 
     public Pyramide initPyramide() {
-        ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+        ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
 
         for (int i = 0; i < this.hight; i++) {
             for (int j = 0; j <= i; j++) {
@@ -76,6 +76,17 @@ public class Pyramide {
         }
         return this;
     }
+
+
+    public void K3Base( Table2D table2D){
+        //go to the base of the pyramid
+        int base = this.getHight()-1;
+        for (int i = 0; i <= base; i++) {
+            this.getPion(base, i).replacePion(table2D.getPion(0, i));
+        }
+    }
+
+
 
 
     public void setPion(int i, int j, Pion pion) {

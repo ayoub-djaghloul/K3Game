@@ -141,7 +141,7 @@ public class DisplayPyramidC {
         });
 
         //button that print the pyramid on the console
-        printPyramid.addActionListener(new java.awt.event.ActionListener() {
+/*        printPyramid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //print the pyramid on the console
                 PyramideIA pyramideia = new PyramideIA(6,6);
@@ -158,7 +158,7 @@ public class DisplayPyramidC {
                     System.out.println();
                 }
             }
-        });
+        });*/
 
 
         JPanel undoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
