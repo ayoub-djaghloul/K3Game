@@ -132,7 +132,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                         pyramideLabel.setIcon(labelr.getIcon());
                                         labelr.setVisible(false);
                                         labelr = null;
-                                        if(option ==1) {
+                                         if(option ==1) {
                                             new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide);
                                         }else{
                                         pionDestination.replacePion(pionSource[0]);
