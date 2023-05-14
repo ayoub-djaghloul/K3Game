@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class RandomAI {
 
 
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
 
     public RandomAI(Pyramide p2Pyramide, Table2D baseK3) {
         RandomPyramid(p2Pyramide, baseK3);
@@ -76,6 +76,11 @@ public class RandomAI {
         }
         return colors;
     }
+
+
+
+
+
 
 
 

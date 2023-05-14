@@ -1,4 +1,5 @@
 package View;
+import Controller.GameController;
 import Model.*;
 import Model.Pion;
 
@@ -48,11 +49,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             @Override
             public void actionPerformed(ActionEvent e) {
                     JPanel table2DP1Panel = tabel2DPanel(table2DP1);
-                    JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1);
+                    JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0);
                     JPanel baseK3Panel = baseK3(baseK3);
                     JPanel table2DP2Panel = tabel2DPanel(table2DP2);
-                    JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,1);
-                    JPanel K3Panel = pyramidePanel(K3,1);
+                    JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,2,0);
+                    JPanel K3Panel = pyramidePanel(K3,1,0);
                     JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel);
                     JButton readyButton = readyButton(p2PyramidPanel, K3Panel, p1Pyramide);
                     addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton), "phase1");
@@ -110,7 +111,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return tablePanel;
     }
 
-    public JPanel pyramidePanel(Pyramide pyramide , int s) {
+    public JPanel pyramidePanel(Pyramide pyramide , int s , int option) {
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
         for (int i = 0; i < pyramide.getHight(); i++) {
             JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -131,7 +132,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                         pyramideLabel.setIcon(labelr.getIcon());
                                         labelr.setVisible(false);
                                         labelr = null;
+                                        if(option ==1) {
+                                            new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide);
+                                        }else{
                                         pionDestination.replacePion(pionSource[0]);
+                                        }
                                         pionDestination.setAccessible(false);
                                         historyPyramid.push(pionDestination);
                                         //pionCount[0]++;
@@ -241,7 +246,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             @Override
             public void actionPerformed(ActionEvent e) {
                 //switch between the panels
-                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1);
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
                 cardLayout.show(mainPanel, "phase2");
             }

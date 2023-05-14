@@ -1,6 +1,7 @@
 package Model;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Table2D {
     private Pion[][] cases;
@@ -67,12 +68,15 @@ public class Table2D {
 
 
     public CouleurPion RandomPions(int bag[]) { // Randomly choose a color of pion
-        int random = (int) (Math.random() * 5);
-        while (bag[random] == 0) {
-            random = (int) (Math.random() * 5);
+        ArrayList<Integer> listdesPions = new ArrayList<Integer>();
+        for (int k = 0; k < bag.length; k++) {
+            if(bag[k] != 0)
+                listdesPions.add(k);
         }
-        bag[random]--;
-        switch (random) {
+
+         int random = (int) (Math.random() * listdesPions.size());
+        bag[listdesPions.get(random)]--;
+        switch (listdesPions.get(random)) {
             case 0:
                 return CouleurPion.ROUGE;
             case 1:

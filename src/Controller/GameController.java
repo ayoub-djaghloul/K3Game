@@ -1,30 +1,26 @@
 package Controller;
 
+import Model.CouleurPion;
+import Model.Pion;
+import Model.Pyramide;
+
 public class GameController {
-//    private K3 k3;
-//    private UserInterface userInterface;
-//    private AIController aiController;
-//    private UserController userController;
-//    private RuleController ruleController;
-//
-//    public GameController(K3 k3, UserInterface userInterface, AIController aiController, UserController userController, RuleController ruleController) {
-//        this.k3 = k3;
-//        this.userInterface = userInterface;
-//        this.aiController = aiController;
-//        this.userController = userController;
-//        this.ruleController = ruleController;
-//    }
-//
-//    public void startGame() {
-//        userInterface.displayGameInstructions();
-//        k3.initializePions();
-//        while (!ruleController.isGameOver()) {
-//            if (ruleController.isAITurn()) {
-//                aiController.makeMove();
-//            } else {
-//                userController.makeMove();
-//            }
-//        }
-//        userInterface.displayGameResult(ruleController.getWinner());
-//    }
+
+    public void testDeplacementPion(Pion source, Pion distination, Pyramide K3) {
+        CouleurPion CSource = source.getCouleur();
+        int finalI = distination.getX();
+        int finalJ = distination.getY();
+        Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
+        Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
+
+        if (CSource == CouleurPion.BEIGE) {
+            distination.replacePion(source);
+        } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
+            System.out.println("Deplacement possible");
+            distination.replacePion(source);
+        } else {
+            System.out.println("Deplacement impossible");
+        }
+    }
+
 }

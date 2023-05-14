@@ -19,7 +19,7 @@ public class Main {
         DisplayPyramidC displayPyramidC = new DisplayPyramidC(table2D, pyramide);
         displayPyramidC.displayTableAndPyramid();*/
 
-        int bag[] = {99, 99, 99, 99, 99};
+        int bag[] = {10, 10, 10, 10, 10};
         Table2D baseK3 = new Table2D(1, 9, bag);
         Table2D table2DP1 = new Table2D(2, 11, bag);
         Table2D table2DP2 = new Table2D(2, 11, bag);
@@ -28,7 +28,7 @@ public class Main {
         p1Pyramide.initPyramide();
         Pyramide p2Pyramide = new Pyramide(6, 6);
         p2Pyramide.initPyramide();
-        //new RandomAI(p2Pyramide, table2DP2);
+        new RandomAI(p2Pyramide, table2DP2);
         Pyramide K3 = new Pyramide(9, 9).initPyramide();
         K3.K3Base(baseK3);
         MainFrame mainFrame = new MainFrame(table2DP1, table2DP2, baseK3, p1Pyramide, p2Pyramide, K3);
