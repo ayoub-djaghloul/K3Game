@@ -37,13 +37,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the image from a file
-                Image backgroundImage = new ImageIcon("../sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
                 // Draw the image on the panel
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
 
-        Icon icon = new ImageIcon("../sources/Images/READY.png");
+        Icon icon = new ImageIcon("sources/Images/READY.png");
         JButton addButton1 = new JButton(icon);
         addButton1.setPreferredSize(new Dimension(122, 45));
         addButton1.addActionListener(new ActionListener() {
@@ -52,7 +52,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 //print the pyramid on the console
                 PyramideIA pyramideia = new PyramideIA(6,6);
                 pyramideia.generatePyramidIA();
-                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramide,pyramideia);
+                MaDeuxiemeInterface maDeuxiemeInterface = new MaDeuxiemeInterface(pyramide,pyramideia,baseK3);
                 maDeuxiemeInterface.displayPyramids();
                 dispose();
 

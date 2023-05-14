@@ -23,6 +23,13 @@ public class Pion {
         this.Accessible = true;
     }
 
+    public boolean ifestnull() {
+        if(this.couleur == null)
+            return true;
+    else
+        return false;
+    }
+
     public Color getCouleur() {
         return this.couleur.getColor();
     }

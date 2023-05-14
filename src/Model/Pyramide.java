@@ -64,10 +64,11 @@ public class Pyramide {
     }
 
 
-    public Pyramide initPyramide(int hight, int width) {
-        ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
 
-        for (int i = 0; i < hight; i++) {
+    public Pyramide initPyramide() {
+        ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+
+        for (int i = 0; i < this.hight; i++) {
             for (int j = 0; j <= i; j++) {
                 Pion pion = new Pion(null, Pion.TypePion.VIDE, VIDE, i, j);
                 this.ajouterPion(pion);
@@ -77,6 +78,7 @@ public class Pyramide {
     }
 
 
-
-
+    public void setPion(int i, int j, Pion pion) {
+        this.cases[i][j] = pion;
+    }
 }
