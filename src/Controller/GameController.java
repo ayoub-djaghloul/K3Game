@@ -59,7 +59,7 @@ public class GameController {
                 return true;
             } else
                 return false;
-        }else if (pyramide.getPion(x-1,y).estAccessible() && pyramide.getPion(x-1,y+1).estAccessible()){
+        }else if (pyramide.getPion(x-1,y).estAccessible() && pyramide.getPion(x-1,y-1).estAccessible()){
             return true;
         }else
             return false;

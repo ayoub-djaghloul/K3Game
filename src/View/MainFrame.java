@@ -39,7 +39,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the image from a file
-                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon("../sources/Images/bg.png").getImage();
                 // Draw the image on the panel
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -135,7 +135,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                                 pyramideLabel.setIcon(labelr.getIcon());
                                                 labelr.setVisible(false);
                                                 labelr = null;
-                                                pionDestination.setAccessible(false);
+                                                //pionDestination.setAccessible(false);
                                                 pionCount[0]++;
                                             }
                                             }else{
@@ -153,7 +153,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             }
                             case 2 : {
                                 pionSource[0]=pyramide.getPion(finalI, finalJ);
-                                labelr = pyramideLabel;
+                                if (new GameController().testAvantDeplacement(pionSource[0], pyramide)==false){
+                                System.out.println("pion non accessible");
+                                }else{
+                                    labelr = pyramideLabel;
+                                }
                             }
                         }
                     }
@@ -278,7 +282,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return undoButton;
     }
     public JButton readyButton(JPanel p2PyramidPanel, JPanel K3Panel, Pyramide p1Pyramide){
-        Icon icon = new ImageIcon("sources/Images/READY.png");
+        Icon icon = new ImageIcon("../sources/Images/READY.png");
         JButton readyButton = new JButton(icon);
         readyButton.setPreferredSize(new Dimension(122, 45));
         if(p1Pyramide.getNbPions()!=15){
