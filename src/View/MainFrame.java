@@ -39,7 +39,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Load the image from a file
-                Image backgroundImage = new ImageIcon("../sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
                 // Draw the image on the panel
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -130,23 +130,23 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             case 1 : {
                                 if (labelr != null) {
                                     Pion pionDestination = pyramide.getPion(finalI, finalJ);
-                                        if(option ==1) {
-                                            if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
-                                                pyramideLabel.setIcon(labelr.getIcon());
-                                                labelr.setVisible(false);
-                                                labelr = null;
-                                                //pionDestination.setAccessible(false);
-                                                pionCount[0]++;
-                                            }
-                                            }else{
-                                            pionDestination.replacePion(pionSource[0]);
+                                    if(option ==1) {
+                                        if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
                                             pyramideLabel.setIcon(labelr.getIcon());
-                                            pionCount[0]++;
                                             labelr.setVisible(false);
                                             labelr = null;
-                                            pionDestination.setAccessible(false);
+                                            //pionDestination.setAccessible(false);
+                                            pionCount[0]++;
                                         }
-                                        historyPyramid.push(pionDestination);
+                                    }else{
+                                        pionDestination.replacePion(pionSource[0]);
+                                        pyramideLabel.setIcon(labelr.getIcon());
+                                        pionCount[0]++;
+                                        labelr.setVisible(false);
+                                        labelr = null;
+                                        pionDestination.setAccessible(false);
+                                    }
+                                    historyPyramid.push(pionDestination);
 
                                 }
                                 break;
@@ -154,7 +154,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             case 2 : {
                                 pionSource[0]=pyramide.getPion(finalI, finalJ);
                                 if (new GameController().testAvantDeplacement(pionSource[0], pyramide)==false){
-                                System.out.println("pion non accessible");
+                                    System.out.println("pion non accessible");
                                 }else{
                                     labelr = pyramideLabel;
                                 }
@@ -203,7 +203,18 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel phase2 = new JPanel();
         phase2.setLayout(new GridLayout(1,3));
         JLabel feedbackLabelcenter = new JLabel(" ");
-        JLabel feedbackLabelleft = new JLabel(" ");
+        JPanel pionPenalité = new JPanel();
+        pionPenalité.setLayout(new GridLayout(1,5));
+        //add emptyy buttons
+        Pion pionvides[] = new Pion[5];
+        for (int i = 0; i < 5; i++) {
+            ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+            pionvides[i] = new Pion(null, Pion.TypePion.VIDE, VIDE, 0,i);
+            JLabel PionVide = new JLabel(pionvides[i].getImageIcon());
+            PionVide.setOpaque(false);
+            pionPenalité.add(PionVide);
+            pionPenalité.setOpaque(false);
+        }
         JButton quitter = new JButton("quitter");
         //size of the button
         quitter.setPreferredSize(new Dimension(50, 50));
@@ -217,7 +228,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         });
         //leftPanel
         JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(feedbackLabelleft, BorderLayout.SOUTH);
+        leftPanel.add(pionPenalité, BorderLayout.SOUTH);
         leftPanel.add(p1Pyramide, BorderLayout.NORTH);
         leftPanel.setOpaque(false);
         phase2.add(leftPanel, BorderLayout.WEST);
@@ -282,15 +293,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return undoButton;
     }
     public JButton readyButton(JPanel p2PyramidPanel, JPanel K3Panel, Pyramide p1Pyramide){
-        Icon icon = new ImageIcon("../sources/Images/READY.png");
+        Icon icon = new ImageIcon("sources/Images/READY.png");
         JButton readyButton = new JButton(icon);
         readyButton.setPreferredSize(new Dimension(122, 45));
         if(p1Pyramide.getNbPions()!=15){
             readyButton.setEnabled(true);
         }
         else{
-        readyButton.setEnabled(false);
-        readyButton.setVisible(false);}
+            readyButton.setEnabled(false);
+            readyButton.setVisible(false);}
         readyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
