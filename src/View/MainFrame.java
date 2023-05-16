@@ -27,7 +27,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     final int[] pionCount = {0};
 
-    public int tour = 1;
+    public int tour = 2;
 
     private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
@@ -328,6 +328,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1);
                 JPanel p2PyramidPanel = pyramidePanel(p2Pyramide, 2,1);
                 JPanel K3Panel = pyramidePanel(K3, 1,1);
+                new LesCoutsAccessibles().afficherCoutsAccessibles(p2Pyramide, K3);
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
                 mainFrame.setSize(1280,720);
                 cardLayout.show(mainPanel, "phase2");

@@ -23,7 +23,7 @@ public class GameController {
             Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
             Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
             if(pionfils1.getCouleur()==null || pionfils2.getCouleur()==null){
-                System.out.println("un des fils est null");
+                System.out.println("un des fils est null donc Déplacement impossible");
                 return false;
             }else if (CSource == CouleurPion.BEIGE) {
                 destination.replacePion(source);
