@@ -106,7 +106,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 int finalJ = j;
                 table2DLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                       pionSource[0]=table2D.getPion(finalI, finalJ);
+                        pionSource[0]=table2D.getPion(finalI, finalJ);
                         labelr = table2DLabel;
                         history2Dtable.push(pionSource[0]);
                     }
@@ -142,7 +142,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             case 1 : {
                                 if (labelr != null) {
                                     Pion pionDestination = pyramide.getPion(finalI, finalJ);
-                                    if(option ==1) {
+                                    if(option ==1) {//construction de la derniere pyramide avec ordre
                                         if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
                                             pyramideLabel.setIcon(labelr.getIcon());
                                             labelr.setVisible(false);
@@ -157,7 +157,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                                 System.out.println(tour);
                                             }
                                         }
-                                    }else{
+                                    }else{//construction du premiere pyramide sans ordre
                                         pionDestination.replacePion(pionSource[0]);
                                         pyramideLabel.setIcon(labelr.getIcon());
 
@@ -172,13 +172,17 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 break;
                             }
                             case 2 : {
-                                pionSource[0]=pyramide.getPion(finalI, finalJ);
+                                pionSource[0] = pyramide.getPion(finalI, finalJ);
                                 //joueur =!joueur;
-                                if (new GameController().testAvantDeplacement(pionSource[0], pyramide, tour)==false){
-                                    System.out.println("pion non accessible");
-                                }else{
-                                    labelr = pyramideLabel;
+                                if (new GameController().testTour(tour, pionSource[0])) {
+                                    if (new GameController().testAvantDeplacement(pionSource[0], pyramide, tour) == false) {
+                                        System.out.println("pion non accessible");
+                                        labelr = null;
+                                    } else {
+                                        labelr = pyramideLabel;
+                                    }
                                 }
+                                break;
                             }
 /*                            case 3 :{
                                 pionSource[0]=pyramide.getPion(finalI, finalJ);
@@ -322,7 +326,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 //switch between the panels
                 JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1);
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
-                //mainFrame.setSize(1920, 1080);
+                mainFrame.setSize(1280,720);
                 cardLayout.show(mainPanel, "phase2");
             }
         });

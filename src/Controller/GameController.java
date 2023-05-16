@@ -15,46 +15,41 @@ public class GameController {
             return false;
         }
         else{
-        Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
-        Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
-        if(pionfils1.getCouleur()==null || pionfils2.getCouleur()==null){
-            System.out.println("un des fils est null");
-            return false;
-        }else if (CSource == CouleurPion.BEIGE) {
-            destination.replacePion(source);
-            System.out.println("Deplacement effectué parceque la source est beige");
-            destination.setAccessible(false);
-            source.setAccessible(true);
-            return true;
-        }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
-            destination.replacePion(source);
-            System.out.println("Deplacement effectué mais avec pénalité");
-            destination.setAccessible(false);
-            source.setAccessible(true);
-            return true;
-        } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
-            System.out.println("y a un fils qui a la meme couleur que la source");
-            destination.replacePion(source);
-            destination.setAccessible(false);
-            source.setAccessible(true);
-            return true;
-        }  else {
-            System.out.println("Deplacement impossible");
-            return false;
-        }
-    }}
+            Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
+            Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
+            if(pionfils1.getCouleur()==null || pionfils2.getCouleur()==null){
+                System.out.println("un des fils est null");
+                return false;
+            }else if (CSource == CouleurPion.BEIGE) {
+                destination.replacePion(source);
+                System.out.println("Deplacement effectué parceque la source est beige");
+                destination.setAccessible(false);
+                source.setAccessible(true);
+                return true;
+            }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
+                destination.replacePion(source);
+                System.out.println("Deplacement effectué mais avec pénalité");
+                destination.setAccessible(false);
+                source.setAccessible(true);
+                return true;
+            } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
+                System.out.println("y a un fils qui a la meme couleur que la source");
+                destination.replacePion(source);
+                destination.setAccessible(false);
+                source.setAccessible(true);
+                return true;
+            }  else {
+                System.out.println("Deplacement impossible");
+                return false;
+            }
+        }}
 
     public boolean testAvantDeplacement(Pion Source, Pyramide pyramide, int tour) {
         int x = Source.getX();
         int y = Source.getY();
 
 
-        if (tour == Source.getPlayer()) {
-            System.out.println("Ce n'est pas votre tour");
-            System.out.println( "Player" + Source.getPlayer());
-            System.out.println("Tour" + tour);
-            return false;
-        } else {
+
             if (x == 0) {
                 return true;
             } else if (y == 0) {
@@ -71,7 +66,16 @@ public class GameController {
                 return true;
             } else
                 return false;
-        }
-
     }
-}
+
+    public boolean testTour(int tour, Pion Source) {
+        System.out.println( "Joueur" + Source.getPlayer());
+        System.out.println("Tour du Joueur" + tour);
+        if (tour == Source.getPlayer()) {
+            return true;
+        } else {
+            System.out.println("ce n'est pas votre tour");
+            return false;}
+        }
+    }
+
