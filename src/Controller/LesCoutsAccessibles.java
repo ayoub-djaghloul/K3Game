@@ -9,18 +9,18 @@ public class LesCoutsAccessibles
 {
     Pion source;
     Pion destination;
-    ArrayList<>lesCoutsAccessibles = new ArrayList<>();
-    public LesCoutsAccessibles(Pion source, Pion destination, ArrayList<> lesCoutsAccessibles)
+    ArrayList<LesCoutsAccessibles> lesCoutsAccessibles = new ArrayList<LesCoutsAccessibles>();
+    public LesCoutsAccessibles(Pion source, Pion destination, ArrayList<LesCoutsAccessibles> lesCoutsAccessibles)
     {
         this.source = source;
         this.destination = destination;
         this.lesCoutsAccessibles = lesCoutsAccessibles;
     }
-    public Cout(Pion source, Pion destination, ArrayList<> lesCoutsAccessibles){
-        this.source = source;
-        this.destination = destination;
-        this.lesCoutsAccessibles = lesCoutsAccessibles;
-    }
+//    public Cout(Pion source, Pion destination, ArrayList<LesCoutsAccessibles> lesCoutsAccessibles){
+//        this.source = source;
+//        this.destination = destination;
+//        this.lesCoutsAccessibles = lesCoutsAccessibles;
+//    }
 
     public Pion getSource()
     {
