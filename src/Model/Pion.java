@@ -1,7 +1,6 @@
 package Model;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Pion {
     CouleurPion couleur;
@@ -9,7 +8,7 @@ public class Pion {
     private int x;
     private int y;
     ImageIcon imageIcon;
-    private boolean Accessible;
+    private boolean VideCase;
 
     private int player;
 
@@ -27,7 +26,7 @@ public class Pion {
         this.x = x;
         this.y = y;
         this.imageIcon = imageIcon;
-        this.Accessible = true;
+        this.VideCase = true;
         this.player= player;
     }
     public Pion(CouleurPion couleur, TypePion type, ImageIcon imageIcon, int x, int y) {
@@ -36,7 +35,7 @@ public class Pion {
         this.x = x;
         this.y = y;
         this.imageIcon = imageIcon;
-        this.Accessible = true;
+        this.VideCase = true;
         this.player=this.player;
     }
 
@@ -69,14 +68,14 @@ public class Pion {
         this.couleur = pionSource.couleur;
         this.type = pionSource.type;
         this.imageIcon = pionSource.imageIcon;
-        this.setAccessible(false);
+        this.setVideCase(false);
     }
 
     public void resetPion() {
         this.couleur = null;
         this.type = TypePion.VIDE;
         this.imageIcon = new ImageIcon("sources/Images/VIDE.png");
-        this.setAccessible(true);
+        this.setVideCase(true);
     }
 
     public ImageIcon getImageIcon() {
@@ -87,12 +86,12 @@ public class Pion {
         this.imageIcon = imageIcon;
     }
 
-    public void setAccessible(boolean Accessible) {
-        this.Accessible = Accessible;
+    public void setVideCase(boolean Accessible) {
+        this.VideCase = Accessible;
     }
 
-    public boolean estAccessible() {
-        return this.Accessible;
+    public boolean estVide() {
+        return this.VideCase;
     }
     public enum TypePion {
         NATUREL,

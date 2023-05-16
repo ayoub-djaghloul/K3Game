@@ -1,20 +1,15 @@
 package View;
 import Controller.GameController;
-import Controller.LesCoutsAccessibles;
 import Model.*;
 import Model.Pion;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.Stack;
-import java.util.jar.JarEntry;
-
-import static javax.swing.GroupLayout.Alignment.CENTER;
 
 public class MainFrame extends JFrame { // this class is the main frame of the game
 
@@ -55,7 +50,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel table2DP1Panel = tabel2DPanel(table2DP1);
-                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0,K3);
                 JPanel baseK3Panel = baseK3(baseK3);
                 //JPanel table2DP2Panel = tabel2DPanel(table2DP2);
                 //JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,2,0);
@@ -120,7 +115,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return tablePanel;
     }
 
-    public JPanel pyramidePanel(Pyramide pyramide , int s , int option) {
+    public JPanel pyramidePanel(Pyramide pyramide , int s , int option,Pyramide K3) {
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
 
         for (int i = 0; i < pyramide.getHight(); i++) {
@@ -146,7 +141,17 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                     if(option ==1) {//construction de la derniere pyramide avec ordre
                                         if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
                                             pyramideLabel.setIcon(labelr.getIcon());
-                                            labelr.setVisible(false);
+                                            Container container = labelr.getParent();
+                                            Dimension buttonSize = labelr.getSize();
+                                            JPanel newButton = new JPanel();
+                                            newButton.setPreferredSize(buttonSize);
+                                            newButton.setOpaque(false);
+                                            newButton.setPreferredSize(labelr.getPreferredSize());
+                                            container.remove(labelr);
+                                            container.add(newButton);
+                                            container.revalidate();
+                                            container.repaint();
+                                            //labelr.setVisible(false);
                                             labelr = null;
                                             //pionDestination.setAccessible(false);
                                             pionCount[0]++;
@@ -165,7 +170,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                         pionCount[0]++;
                                         labelr.setVisible(false);
                                         labelr = null;
-                                        pionDestination.setAccessible(false);
+                                        pionDestination.setVideCase(false);
                                     }
                                     historyPyramid.push(pionDestination);
 
@@ -175,7 +180,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             case 2 : {
                                 pionSource[0] = pyramide.getPion(finalI, finalJ);
                                 //joueur =!joueur;
-                                if (new GameController().testTour(tour, pionSource[0])) {
+                                if (new GameController().testTour(tour, pionSource[0], pyramide,K3)) {
                                     if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
                                         System.out.println("pion non accessible");
                                         labelr = null;
@@ -297,7 +302,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     Pion pionPyramid = historyPyramid.pop();
                     pionPyramid.resetPion();
                     table2D.getCases()[tableX][tableY].replacePion(pion2D);
-                    pion2D.setAccessible(true);
+                    pion2D.setVideCase(true);
                     // update the table's label with the pion's image icon
                     JLabel tableLabel = (JLabel) tablePanel.getComponent(tableX * table2D.getWidth() + tableY);
                     tableLabel.setIcon(pion2D.getImageIcon());
@@ -325,10 +330,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             @Override
             public void actionPerformed(ActionEvent e) {
                 //switch between the panels
-                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1);
-                JPanel p2PyramidPanel = pyramidePanel(p2Pyramide, 2,1);
-                JPanel K3Panel = pyramidePanel(K3, 1,1);
-                new LesCoutsAccessibles().afficherCoutsAccessibles(p2Pyramide, K3);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1,K3);
+                JPanel p2PyramidPanel = pyramidePanel(p2Pyramide, 2,1,K3);
+                JPanel K3Panel = pyramidePanel(K3, 1,1,K3);
+               /* LesCoutsAccessibles liste=new LesCoutsAccessibles();
+                liste.afficherCoutsAccessibles(p2Pyramide, K3);*/
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
                 mainFrame.setSize(1280,720);
                 cardLayout.show(mainPanel, "phase2");

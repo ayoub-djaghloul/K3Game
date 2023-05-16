@@ -43,31 +43,31 @@ public class LesCoutsAccessibles
 
 
 
-    public void afficherCoutsAccessibles(Pyramide pyramideJoueur, Pyramide K3)
+    public void afficherCoutsAccessibles(Pyramide pyramideJoueur, Pyramide K3 )
     {
-        Pion comparedPion;
-        Pion comparedPion2;
+        Pion sourcePion;
+        Pion destinationPion;
         System.out.println("Les couts accessibles sont : ");
         for (int i = 0; i < pyramideJoueur.getHight(); i++)
         {
             for (int j = 0; j <=i; j++)
             {
-                if (pyramideJoueur.getPion(i, j).estAccessible()==false)
+                if (pyramideJoueur.getPion(i, j).estVide()==false)
                 {
-                    comparedPion = pyramideJoueur.getPion(i, j);
-                    System.out.println("Pion source : " + comparedPion.getX() + " " + comparedPion.getY());
-
+                    sourcePion = pyramideJoueur.getPion(i, j);
+                    if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur))
                     for (int k = 0; k < K3.getHight(); k++)
                     {
                         for (int l = 0; l <=k; l++)
                         {
-                            if (K3.getPion(k, l).estAccessible()==true)
+                            if (K3.getPion(k, l).estVide()==true)
                             {
-                                comparedPion2 = K3.getPion(k, l);
-                                System.out.println("Pion destination : " + comparedPion2.getX() + " " + comparedPion2.getY());
-                                if (new GameController().testDeplacementPion(comparedPion, comparedPion2, K3)){
-                                    this.lesCoutsAccessibles.add(new LesCoutsAccessibles(comparedPion, comparedPion2));
-                                    //afficher les couts accessibles dans la console
+                                destinationPion = K3.getPion(k, l);
+                                if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)){
+                                    System.out.println("Pion source : " + sourcePion.getX() + " " + sourcePion.getY());
+                                    System.out.println("Pion destination : " + destinationPion.getX() + " " + destinationPion.getY());
+                                    this.lesCoutsAccessibles.add(new LesCoutsAccessibles(sourcePion, destinationPion));
+                                    //afficher le contenue de la liste des couts accessibles arraylist
 
                                 }
                             }
