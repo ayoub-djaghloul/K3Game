@@ -1,3 +1,4 @@
+/*
 package View;
 
 import Controller.GameController;
@@ -29,7 +30,9 @@ public class Listeners {
 
 
 
-    public void pyramidListener(Pyramide pyramide, int finalI, int finalJ, JLabel pyramideLabel, int option,/* int[] pionCount,*/  int s ) {
+    public void pyramidListener(Pyramide pyramide, int finalI, int finalJ, JLabel pyramideLabel, int option,*/
+/* int[] pionCount,*//*
+  int s ) {
         switch (s) {
             case 1: {
                 if (labelr != null) {
@@ -66,16 +69,22 @@ public class Listeners {
                 break;
             }
         }
-        /*
+        */
+/*
          case 3 :{
                                 pionSource[0]=pyramide.getPion(finalI, finalJ);
                                 joueur =!joueur;
-                                if (new GameController().testAvantDeplacement(pionSource[0], pyramide*//*, count, joueur*//* )==false){
+                                if (new GameController().testAvantDeplacement(pionSource[0], pyramide*//*
+*/
+/*, count, joueur*//*
+*/
+/* )==false){
                                     System.out.println("pion non accessible");
                                 }else{
                                     labelr = pyramideLabel;
                                 }
-                            }*/
+                            }*//*
+
     }
 
 
@@ -85,3 +94,4 @@ public class Listeners {
 
 
 }
+*/

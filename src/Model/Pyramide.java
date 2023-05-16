@@ -85,11 +85,4 @@ public class Pyramide {
             this.getPion(base, i).replacePion(table2D.getPion(0, i));
         }
     }
-
-
-
-
-    public void setPion(int i, int j, Pion pion) {
-        this.cases[i][j] = pion;
-    }
 }

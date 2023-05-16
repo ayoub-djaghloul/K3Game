@@ -30,12 +30,14 @@ public class Pion {
         this.Accessible = true;
         this.player= player;
     }
-
-    public boolean ifestnull() {
-        if(this.couleur == null)
-            return true;
-    else
-        return false;
+    public Pion(CouleurPion couleur, TypePion type, ImageIcon imageIcon, int x, int y) {
+        this.couleur = couleur;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.imageIcon = imageIcon;
+        this.Accessible = true;
+        this.player=this.player;
     }
 
     public CouleurPion getCouleur() {

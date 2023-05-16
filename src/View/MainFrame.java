@@ -1,5 +1,6 @@
 package View;
 import Controller.GameController;
+import Controller.LesCoutsAccessibles;
 import Model.*;
 import Model.Pion;
 
@@ -57,10 +58,10 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0);
                 JPanel baseK3Panel = baseK3(baseK3);
                 //JPanel table2DP2Panel = tabel2DPanel(table2DP2);
-                JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,2,0);
-                JPanel K3Panel = pyramidePanel(K3,1,1);
+                //JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,2,0);
+                //JPanel K3Panel = pyramidePanel(K3,1,1);
                 JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel);
-                JButton readyButton = readyButton(p2PyramidPanel, K3Panel, p1Pyramide);
+                JButton readyButton = readyButton(p1Pyramide, p2Pyramide, K3);
                 addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton), "phase1");
                 cardLayout.show(mainPanel, "phase1");
 
@@ -175,7 +176,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 pionSource[0] = pyramide.getPion(finalI, finalJ);
                                 //joueur =!joueur;
                                 if (new GameController().testTour(tour, pionSource[0])) {
-                                    if (new GameController().testAvantDeplacement(pionSource[0], pyramide, tour) == false) {
+                                    if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
                                         System.out.println("pion non accessible");
                                         labelr = null;
                                     } else {
@@ -310,7 +311,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         });
         return undoButton;
     }
-    public JButton readyButton(JPanel p2PyramidPanel, JPanel K3Panel, Pyramide p1Pyramide){
+    public JButton readyButton(Pyramide p1Pyramide,Pyramide p2Pyramide, Pyramide K3){
         Icon icon = new ImageIcon("sources/Images/READY.png");
         JButton readyButton = new JButton(icon);
         readyButton.setPreferredSize(new Dimension(122, 45));
@@ -325,6 +326,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             public void actionPerformed(ActionEvent e) {
                 //switch between the panels
                 JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 2,1);
+                JPanel p2PyramidPanel = pyramidePanel(p2Pyramide, 2,1);
+                JPanel K3Panel = pyramidePanel(K3, 1,1);
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
                 mainFrame.setSize(1280,720);
                 cardLayout.show(mainPanel, "phase2");

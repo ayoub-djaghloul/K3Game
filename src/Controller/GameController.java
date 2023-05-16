@@ -4,7 +4,12 @@ import Model.CouleurPion;
 import Model.Pion;
 import Model.Pyramide;
 
+import javax.swing.*;
+
 public class GameController {
+
+    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+
 
     public boolean testDeplacementPion(Pion source, Pion destination, Pyramide K3) {
         CouleurPion CSource = source.getCouleur();
@@ -24,19 +29,20 @@ public class GameController {
                 destination.replacePion(source);
                 System.out.println("Deplacement effectué parceque la source est beige");
                 destination.setAccessible(false);
-                source.setAccessible(true);
+                source = new Pion(null, Pion.TypePion.VIDE, VIDE, source.getX(), source.getY());
                 return true;
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 destination.replacePion(source);
                 System.out.println("Deplacement effectué mais avec pénalité");
                 destination.setAccessible(false);
+                source = new Pion(null, Pion.TypePion.VIDE, VIDE, source.getX(), source.getY());
                 source.setAccessible(true);
                 return true;
             } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
                 System.out.println("y a un fils qui a la meme couleur que la source");
                 destination.replacePion(source);
                 destination.setAccessible(false);
-                source.setAccessible(true);
+                source = new Pion(null, Pion.TypePion.VIDE, VIDE, source.getX(), source.getY());
                 return true;
             }  else {
                 System.out.println("Deplacement impossible");
@@ -44,7 +50,7 @@ public class GameController {
             }
         }}
 
-    public boolean testAvantDeplacement(Pion Source, Pyramide pyramide, int tour) {
+    public boolean testAvantDeplacement(Pion Source, Pyramide pyramide) {
         int x = Source.getX();
         int y = Source.getY();
 
