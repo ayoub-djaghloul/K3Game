@@ -8,13 +8,14 @@ public class Table2D {
     // bag containes the number of colors of each pion
 
     // colors of pions
-    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
+    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
 
     public Table2D(int hight, int width, int[] bag) {
         if (hight >1){
@@ -24,6 +25,14 @@ public class Table2D {
         }else {
             this.cases = new Pion [hight][width];
             this.initTable1D(width,bag);
+        }
+    }
+    public Table2D(int hight, int width) {
+        this.cases = new Pion[hight][width];
+        for (int i = 0; i < hight; i++) {
+            for (int j = 0; j < width; j++) {
+                this.cases[i][j] = new Pion(null, Pion.TypePion.VIDE, VIDE, 0,i, 0);
+            }
         }
     }
 
@@ -96,11 +105,11 @@ public class Table2D {
         for (int i = 0; i < this.getHeight(); i++) {
             for (int j = 0; j < this.getWidth(); j++) {
                 if (i == 0 && j == 0) {
-                    this.setCases(new Pion(CouleurPion.BLANC, Pion.TypePion.COLORED, BLANC, i, j), i, j);
+                    this.setCases(new Pion(CouleurPion.BLANC, Pion.TypePion.COLORED, BLANC, i, j, 0), i, j);
                 } else if (i == 0 && j == 1) {
-                    this.setCases(new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j), i, j);
+                    this.setCases(new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j,0), i, j);
                 } else if (i == 0 && j == 2) {
-                    this.setCases(new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j), i, j);
+                    this.setCases(new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j,0), i, j);
                 } else {
                     //randomly generate the pions
                     if (i > 1 && j == this.getWidth()) {
@@ -109,19 +118,19 @@ public class Table2D {
                         couleurPion = RandomPions(bag);
                         switch (couleurPion) {
                             case ROUGE:
-                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, ROUGE, i, j), i, j);
+                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, ROUGE, i, j,0), i, j);
                                 break;
                             case BLEU:
-                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, BLEU, i, j), i, j);
+                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, BLEU, i, j,0), i, j);
                                 break;
                             case VERT:
-                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, VERT, i, j), i, j);
+                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, VERT, i, j,0), i, j);
                                 break;
                             case JAUNE:
-                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, JAUNE, i, j), i, j);
+                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, JAUNE, i, j,0), i, j);
                                 break;
                             case NOIR:
-                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, NOIR, i, j), i, j);
+                                this.setCases(new Pion(couleurPion, Pion.TypePion.COLORED, NOIR, i, j,0), i, j);
                                 break;
                         }
                     }
@@ -138,19 +147,19 @@ public class Table2D {
             couleurPion = RandomPions(bag);
             switch (couleurPion) {
                 case ROUGE:
-                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, ROUGE, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, ROUGE, 0, i,0);
                     break;
                 case BLEU:
-                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, BLEU, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, BLEU, 0, i,0);
                     break;
                 case VERT:
-                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, VERT, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, VERT, 0, i,0);
                     break;
                 case JAUNE:
-                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, JAUNE, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, JAUNE, 0, i,0);
                     break;
                 case NOIR:
-                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, NOIR, 0, i);
+                    this.cases[0][i] = new Pion(couleurPion, Pion.TypePion.COLORED, NOIR, 0, i,0);
                     break;
             }
         }

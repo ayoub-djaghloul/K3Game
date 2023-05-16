@@ -44,25 +44,34 @@ public class GameController {
         }
     }}
 
-    public boolean testAvantDeplacement(Pion Source, Pyramide pyramide){
+    public boolean testAvantDeplacement(Pion Source, Pyramide pyramide, int tour) {
         int x = Source.getX();
         int y = Source.getY();
-        if (x==0){
-            return true;
-        } else if (y==0) {
-            if (pyramide.getPion(x-1,y).estAccessible()){
+
+
+        if (tour == Source.getPlayer()) {
+            System.out.println("Ce n'est pas votre tour");
+            System.out.println( "Player" + Source.getPlayer());
+            System.out.println("Tour" + tour);
+            return false;
+        } else {
+            if (x == 0) {
                 return true;
-            }else
-                return false;
-        }else if (y==x) {
-            if (pyramide.getPion(x - 1, y - 1).estAccessible()) {
+            } else if (y == 0) {
+                if (pyramide.getPion(x - 1, y).estAccessible()) {
+                    return true;
+                } else
+                    return false;
+            } else if (y == x) {
+                if (pyramide.getPion(x - 1, y - 1).estAccessible()) {
+                    return true;
+                } else
+                    return false;
+            } else if (pyramide.getPion(x - 1, y).estAccessible() && pyramide.getPion(x - 1, y - 1).estAccessible()) {
                 return true;
             } else
                 return false;
-        }else if (pyramide.getPion(x-1,y).estAccessible() && pyramide.getPion(x-1,y-1).estAccessible()){
-            return true;
-        }else
-            return false;
         }
 
+    }
 }

@@ -124,7 +124,7 @@ public class PyramideIA {
             for (int j = 0; j <= i; j++) {
                 int randomIndex = random.nextInt(couleurs.length);
                 CouleurPion couleur = couleurs[randomIndex];
-                pion = new Pion(couleur, Pion.TypePion.COLORED,images[randomIndex] , i, j);
+                pion = new Pion(couleur, Pion.TypePion.COLORED,images[randomIndex] , i, j,1);
                 this.ajouterPion(pion);
             }
         }

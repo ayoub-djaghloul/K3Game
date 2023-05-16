@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class RandomAI {
 
 
-    ImageIcon BEIGE = new ImageIcon("../sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("../sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("../sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("../sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("../sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("../sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("../sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
+    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
+    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
+    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
+    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
+    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
+    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
 
     public RandomAI(Pyramide p2Pyramide, Table2D baseK3) {
         RandomPyramid(p2Pyramide, baseK3);
@@ -40,13 +40,13 @@ public class RandomAI {
                 colors[listdescouleurnonnul.get(index)]--;
 
                 switch (listdescouleurnonnul.get(index)){
-                    case 0 -> pionSource = new Pion(CouleurPion.ROUGE, Pion.TypePion.COLORED, ROUGE, i, j);
-                    case 1 -> pionSource = new Pion(CouleurPion.BLEU, Pion.TypePion.COLORED, BLEU, i, j);
-                    case 2 -> pionSource = new Pion(CouleurPion.VERT, Pion.TypePion.COLORED, VERT, i, j);
-                    case 3 -> pionSource = new Pion(CouleurPion.JAUNE, Pion.TypePion.COLORED, JAUNE, i, j);
-                    case 4 -> pionSource = new Pion(CouleurPion.NOIR, Pion.TypePion.COLORED, NOIR, i, j);
-                    case 5 -> pionSource = new Pion(CouleurPion.BLANC, Pion.TypePion.COLORED, BLANC, i, j);
-                    case 6 -> pionSource = new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j);
+                    case 0 -> pionSource = new Pion(CouleurPion.ROUGE, Pion.TypePion.COLORED, ROUGE, i, j,2);
+                    case 1 -> pionSource = new Pion(CouleurPion.BLEU, Pion.TypePion.COLORED, BLEU, i, j,2);
+                    case 2 -> pionSource = new Pion(CouleurPion.VERT, Pion.TypePion.COLORED, VERT, i, j,2);
+                    case 3 -> pionSource = new Pion(CouleurPion.JAUNE, Pion.TypePion.COLORED, JAUNE, i, j,2);
+                    case 4 -> pionSource = new Pion(CouleurPion.NOIR, Pion.TypePion.COLORED, NOIR, i, j,2);
+                    case 5 -> pionSource = new Pion(CouleurPion.BLANC, Pion.TypePion.COLORED, BLANC, i, j,2);
+                    case 6 -> pionSource = new Pion(CouleurPion.BEIGE, Pion.TypePion.COLORED, BEIGE, i, j,2);
                 }
 
                 assert pionSource != null; //if pionSource is null, the program will stop
@@ -76,12 +76,5 @@ public class RandomAI {
         }
         return colors;
     }
-
-
-
-
-
-
-
 
 }

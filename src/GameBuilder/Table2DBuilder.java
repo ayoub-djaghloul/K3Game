@@ -44,7 +44,7 @@ public class Table2DBuilder {
                 CouleurPion couleur = couleurs[randomIndex];
                 //switch case to get the right image
                 if (k == 16) {
-                    this.table2D.setCases(new Pion(null, Pion.TypePion.VIDE, VIDE, i, j), i, j);
+                    this.table2D.setCases(new Pion(null, Pion.TypePion.VIDE, VIDE, i, j,1), i, j);
                     //set pion inaccessible
                     Pion pion = table2D.getPion(i, j);
                     pion.setAccessible(false);
@@ -52,25 +52,25 @@ public class Table2DBuilder {
                 }
                 switch (couleur) {
                     case BEIGE:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BEIGE, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BEIGE, i, j,1), i, j);
                         break;
                     case BLANC:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BLANC, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BLANC, i, j,1), i, j);
                         break;
                     case BLEU:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BLEU, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, BLEU, i, j,1), i, j);
                         break;
                     case JAUNE:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, JAUNE, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, JAUNE, i, j,1), i, j);
                         break;
                     case NOIR:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, NOIR, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, NOIR, i, j,1), i, j);
                         break;
                     case ROUGE:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, ROUGE, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, ROUGE, i, j,1), i, j);
                         break;
                     case VERT:
-                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, VERT, i, j), i, j);
+                        this.table2D.setCases(new Pion(couleur, Pion.TypePion.COLORED, VERT, i, j,1), i, j);
                         break;
                 }
             }

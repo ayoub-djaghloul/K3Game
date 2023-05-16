@@ -65,12 +65,12 @@ public class Pyramide {
 
 
 
-    public Pyramide initPyramide() {
-        ImageIcon VIDE = new ImageIcon("../sources/Images/VIDE.png");
+    public Pyramide initPyramide(int player) {
+        ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
 
         for (int i = 0; i < this.hight; i++) {
             for (int j = 0; j <= i; j++) {
-                Pion pion = new Pion(null, Pion.TypePion.VIDE, VIDE, i, j);
+                Pion pion = new Pion(null, Pion.TypePion.VIDE, VIDE, i, j, player);
                 this.ajouterPion(pion);
             }
         }

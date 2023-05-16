@@ -49,8 +49,8 @@ public class MaDeuxiemeInterface extends JFrame {
                 Table2D table2D = new Table2D(2, 11, bag);
                 Pyramide playerPyramide = new Pyramide(6, 6);
                 Table2D baseK3 = new Table2D(1, 9, bag);
-                playerPyramide.initPyramide();
-                MainFrame mainFrame = new MainFrame(table2D, playerPyramide , baseK3);
+                playerPyramide.initPyramide(1);
+              //  MainFrame mainFrame = new MainFrame(table2D, playerPyramide , baseK3);
                 dispose();
 
             }
@@ -113,20 +113,19 @@ public class MaDeuxiemeInterface extends JFrame {
         }
         //pyramide vide au centre de base 9 pions
         Pyramide pyramidevidePlayer = new Pyramide(9, 9);
-        pyramidevidePlayer.initPyramide();
+        pyramidevidePlayer.initPyramide(1);
         JPanel pyramidvidePanel = new JPanel(new GridLayout(pyramidevidePlayer.getHight(), pyramidevidePlayer.getWidth()));
         // Ajouter un panel pour afficher la pyramide
         for (int i = 0; i < 9; i++) {
     JPanel pyramideiPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
     for (int j = 0; j <= i; j++) {
-                Pion pion;
+                Pion pion ;
                 JLabel pionLabel;
                 if(i==8){
                     pyramidevidePlayer.setPion(8, j, baseK3.getPion(0, j));
                     pion = pyramidevidePlayer.getPion(i, j);
                     pionLabel = new JLabel(pion.getImageIcon());
-                }
-                else{
+                }else{
                     pion = pyramidevidePlayer.getPion(i, j);
                     pionLabel = new JLabel(pion.getImageIcon());
                 int finalI = i;
