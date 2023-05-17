@@ -64,8 +64,7 @@ public class LesCoutsAccessibles
                             {
                                 destinationPion = K3.getPion(k, l);
                                 if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)){
-                                    System.out.println("Pion source : " + sourcePion.getX() + " " + sourcePion.getY());
-                                    System.out.println("Pion destination : " + destinationPion.getX() + " " + destinationPion.getY());
+                                    System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
                                     this.lesCoutsAccessibles.add(new LesCoutsAccessibles(sourcePion, destinationPion));
                                     //afficher le contenue de la liste des couts accessibles arraylist
 

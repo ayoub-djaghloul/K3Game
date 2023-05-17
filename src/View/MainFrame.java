@@ -26,6 +26,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     JLabel feedbackLabelcenter;
 
+    JButton readyButton;
+
     private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
     public MainFrame(Table2D table2DP1, Table2D table2DP2, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide K3) {
@@ -48,6 +50,10 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         };
 
         JButton addButton = new JButton("Start Game");
+        Box box = Box.createHorizontalBox();
+        box.add(Box.createHorizontalGlue());
+        box.add(addButton);
+        box.add(Box.createHorizontalGlue());
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +86,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         mainFrame.setVisible(true);
 
         // Add the button to the main frame
-        mainFrame.add(addButton, BorderLayout.SOUTH);
+        mainFrame.add(box, BorderLayout.CENTER);
     }
 
     public JPanel tabel2DPanel(Table2D table2D) {
@@ -121,12 +127,14 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
 
         for (int i = 0; i < pyramide.getHight(); i++) {
-            JPanel pionPanel = createPionPanel(pyramide, i);
+            JPanel pionPanel =new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
             for (int j = 0; j <= i; j++) {
                 Pion pion = pyramide.getPion(i, j);
                 JLabel pyramideLabel = createPyramideLabel(pion);
                 pionPanel.add(pyramideLabel);
+                pionPanel.setOpaque(false);
                 //no distance between the pions
+                pionPanel.setBorder(BorderFactory.createEmptyBorder());
                 int finalI = i;
                 int finalJ = j;
                 pyramideLabel.addMouseListener((MouseListener) new java.awt.event.MouseAdapter() {
@@ -154,7 +162,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                             feedbackLabelcenter.setBackground(Color.BLACK);
                                             feedbackLabelcenter.setForeground(Color.GREEN);
                                             //pionDestination.setAccessible(false);
-                                            pionCount[0]++;
                                             if (tour == 1) {
                                                 tour = 2;
                                                 System.out.println(tour);
@@ -172,19 +179,22 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                     }else{//construction du premiere pyramide sans ordre
                                         pionDestination.replacePion(pionSource[0]);
                                         pyramideLabel.setIcon(labelr.getIcon());
-
                                         pionCount[0]++;
                                         labelr.setVisible(false);
                                         labelr = null;
                                         pionDestination.setVideCase(false);
+                                        if(pionCount[0]==21){
+                                            readyButton.setVisible(true);                                        }
                                     }
                                     historyPyramid.push(pionDestination);
 
                                 }
                                 else{
-                                    feedbackLabelcenter.setText("selectionner un pion");
-                                    feedbackLabelcenter.setForeground(Color.RED);
-                                    feedbackLabelcenter.setBackground(Color.BLACK);
+                                    if(feedbackLabelcenter!=null) {
+                                        feedbackLabelcenter.setText("selectionner un pion");
+                                        feedbackLabelcenter.setForeground(Color.RED);
+                                        feedbackLabelcenter.setBackground(Color.BLACK);
+                                    }
                                 }
                                 break;
                             }
@@ -243,13 +253,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return pyramidePanel;
     }
 
-    private JPanel createPionPanel(Pyramide pyramide, int i) {
-        JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        pionPanel.setOpaque(false);
-        pionPanel.setBorder(BorderFactory.createEmptyBorder());
-        return pionPanel;
-    }
-
     private JLabel createPyramideLabel(Pion pion) {
         ImageIcon ImagePion = pion.getImageIcon();
         // reduce the size of the image
@@ -276,13 +279,18 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3, JButton undoButton, JButton readyButton) {
         JPanel phase1 = new JPanel();
+        Box boxReadyButton = Box.createHorizontalBox();
+        boxReadyButton.add(readyButton);
+
+        Box boxUndoButton = Box.createHorizontalBox();
+        boxUndoButton.add(undoButton);
 
         phase1.setLayout(new BorderLayout(30, 30));
         phase1.add(table2D, BorderLayout.CENTER);
         phase1.add(pyramid, BorderLayout.NORTH);
         phase1.add(baseK3, BorderLayout.SOUTH);
-        phase1.add(readyButton, BorderLayout.EAST);
-        phase1.add(undoButton, BorderLayout.WEST);
+        phase1.add(boxUndoButton, BorderLayout.WEST);
+        phase1.add(boxReadyButton, BorderLayout.EAST);
 
 
         // transparent background
@@ -293,27 +301,31 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     public JPanel Phase2(JPanel p1Pyramide, JPanel p2Pyramide, JPanel K3){
         //Box phase2 = Box.createHorizontalBox();
         JPanel phase2 = new JPanel();
-        phase2.setLayout(new GridLayout(1,3));
+        phase2.setLayout(new BoxLayout (phase2, BoxLayout.X_AXIS));
         feedbackLabelcenter = new JLabel(" ");
         JPanel pionPenalité = penalitePanel();
         pionPenalité.setLayout(new GridLayout());
-        //add emptyy buttons
+        //add quitter button
         JButton quitter = quitter();
+        Box boxQuitter = Box.createHorizontalBox();
+        boxQuitter.add(Box.createHorizontalGlue());
+        boxQuitter.add(quitter);
+        boxQuitter.setOpaque(false);
         //leftPanel
         JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(pionPenalité, BorderLayout.SOUTH);
+        leftPanel.add(pionPenalité, BorderLayout.CENTER);
         leftPanel.add(p1Pyramide, BorderLayout.NORTH);
         leftPanel.setOpaque(false);
         phase2.add(leftPanel);
         //centerPanel
         JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(feedbackLabelcenter, BorderLayout.SOUTH);
+        centerPanel.add(feedbackLabelcenter, BorderLayout.CENTER);
         centerPanel.add(K3, BorderLayout.NORTH);
         centerPanel.setOpaque(false);
         phase2.add(centerPanel);
         //rightPanel
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(quitter, BorderLayout.SOUTH);
+        rightPanel.add(boxQuitter, BorderLayout.CENTER);
         rightPanel.add(p2Pyramide, BorderLayout.NORTH);
         rightPanel.setOpaque(false);
         phase2.add(rightPanel);
@@ -359,6 +371,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     JPanel pionPanel = (JPanel) pyramidPanel.getComponent(pyramidX);
                     JLabel pyramidLabel = (JLabel) pionPanel.getComponent(pyramidY);
                     pyramidLabel.setIcon(pionPyramid.getImageIcon());
+                    pionCount[0]--;
                 }
             }
         });
@@ -366,8 +379,9 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     }
     public JButton readyButton(Pyramide p1Pyramide,Pyramide p2Pyramide, Pyramide K3){
         Icon icon = new ImageIcon("sources/Images/READY.png");
-        JButton readyButton = new JButton(icon);
-        readyButton.setPreferredSize(new Dimension(122, 45));
+        readyButton = new JButton(icon);
+        Dimension d = new Dimension(icon.getIconWidth(), icon.getIconHeight());
+        readyButton.setPreferredSize(d);
 /*        if(pionCount[0]<21){
             readyButton.setEnabled(true);
         }
@@ -388,6 +402,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 cardLayout.show(mainPanel, "phase2");
             }
         });
+        readyButton.setVisible(false);
         return readyButton;
     }
 
@@ -414,4 +429,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         pionPenalité = tabel2DPanel(penalité);
         return pionPenalité;
     }
+
+
 }
