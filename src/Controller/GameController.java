@@ -63,6 +63,7 @@ public class GameController {
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 destination.replacePion(source);
                 System.out.println("Deplacement effectué mais avec pénalité");
+                this.DeplacementPenalite(source);
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
@@ -77,6 +78,15 @@ public class GameController {
                 return false;
             }
         }
+    }
+
+    private void DeplacementPenalite(Pion source) {
+        //choisir le pion à enlever
+        int x = source.getX();
+        int y = source.getY();
+        //rajouter dans le tableau des pions enlevés
+        //enlever le pion
+        source.setVideCase(true);
     }
 
     public boolean testAvantDeplacement(Pion Source, Pyramide pyramide) {
