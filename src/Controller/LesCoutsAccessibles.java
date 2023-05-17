@@ -9,17 +9,23 @@ public class LesCoutsAccessibles
 {
     Pion source;
     Pion destination;
-    ArrayList<LesCoutsAccessibles> lesCoutsAccessibles = new ArrayList<LesCoutsAccessibles>();
+    //arraylist pour stocker le pion source et le pion destination
+    ArrayList<Pion> lesPionsSources = new ArrayList<Pion>();
+    ArrayList<Pion> lesPionsDestinations = new ArrayList<Pion>();
+    ArrayList<LesCoutsAccessibles> lesCoutsAccessible = new ArrayList<LesCoutsAccessibles>();
+
+    Feedback example = new Feedback();
+
     public LesCoutsAccessibles(Pion source, Pion destination)
     {
         this.source = source;
         this.destination = destination;
-        this.lesCoutsAccessibles = lesCoutsAccessibles;
+        this.lesCoutsAccessible = lesCoutsAccessible;
     }
     public LesCoutsAccessibles(){
         this.source = source;
         this.destination = destination;
-        this.lesCoutsAccessibles = lesCoutsAccessibles;
+        this.lesCoutsAccessible = lesCoutsAccessible;
     }
 
     public Pion getSource()
@@ -65,7 +71,9 @@ public class LesCoutsAccessibles
                                 destinationPion = K3.getPion(k, l);
                                 if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)){
                                     System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
-                                    this.lesCoutsAccessibles.add(new LesCoutsAccessibles(sourcePion, destinationPion));
+                                    this.lesPionsSources.add(sourcePion);
+                                    this.lesPionsDestinations.add(destinationPion);
+                                    this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
                                     //afficher le contenue de la liste des couts accessibles arraylist
 
                                 }
@@ -75,14 +83,20 @@ public class LesCoutsAccessibles
                 }
             }
         }
+        example.setVisible(true);
+        //afficher le contenue des listes des pions sources et destinations
+        example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,20000);
+
+
+
     }
 
 
-    public ArrayList<LesCoutsAccessibles> getLesCoutsAccessibles() {
-        return lesCoutsAccessibles;
+    public ArrayList<LesCoutsAccessibles> getLesCoutsAccessible() {
+        return lesCoutsAccessible;
     }
 
-    public void setLesCoutsAccessibles(ArrayList<LesCoutsAccessibles> lesCoutsAccessibles) {
-        this.lesCoutsAccessibles = lesCoutsAccessibles;
+    public void setLesCoutsAccessible(ArrayList<LesCoutsAccessibles> lesCoutsAccessible) {
+        this.lesCoutsAccessible = lesCoutsAccessible;
     }
 }

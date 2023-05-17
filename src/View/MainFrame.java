@@ -1,4 +1,5 @@
 package View;
+import Controller.Feedback;
 import Controller.GameController;
 import Model.*;
 import Model.Pion;
@@ -27,6 +28,10 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     JLabel feedbackLabelcenter;
 
     JButton readyButton;
+
+    Feedback example = new Feedback();
+
+
 
     private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
@@ -158,6 +163,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                             container.repaint();
                                             //labelr.setVisible(false);
                                             labelr = null;
+                                            example.setVisible(true);
+                                            example.showFeedback("Deplacement effectué", 1000);
                                             feedbackLabelcenter.setText("Deplacement effectué");
                                             feedbackLabelcenter.setBackground(Color.BLACK);
                                             feedbackLabelcenter.setForeground(Color.GREEN);
@@ -171,6 +178,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                             }
                                         }
                                         else {
+                                            example.setVisible(true);
+                                            example.showFeedback("Deplacement non effectué", 1000);
                                             feedbackLabelcenter.setText("Deplacement non effectué");
                                             feedbackLabelcenter.setForeground(Color.RED);
                                             feedbackLabelcenter.setBackground(Color.BLACK);
@@ -194,6 +203,10 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                         feedbackLabelcenter.setText("selectionner un pion");
                                         feedbackLabelcenter.setForeground(Color.RED);
                                         feedbackLabelcenter.setBackground(Color.BLACK);
+                                    }else{
+                                        example.setVisible(true);
+                                        example.showFeedback("selectionner un pion SVP", 2000);
+
                                     }
                                 }
                                 break;
@@ -203,9 +216,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 //joueur =!joueur;
                                 if (new GameController().testTour(tour, pionSource[0], pyramide,K3)) {
                                     if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
+                                        example.setVisible(true);
+                                        example.showFeedback("pion non accessible", 1000);
                                         System.out.println("pion non accessible");
                                         labelr = null;
                                     } else if(pionSource[0].getCouleur()==CouleurPion.BLANC){
+                                        example.setVisible(true);
+                                        example.showFeedback("Tour du joueur Passé avec succés", 1000);
                                         feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
                                         feedbackLabelcenter.setForeground(Color.GREEN);
                                         if (tour == 1) {
