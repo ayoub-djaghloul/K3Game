@@ -315,27 +315,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel pionPenalité = penalitePanel();
         pionPenalité.setLayout(new GridLayout());
         //add quitter button
-        JButton quitter = quitter();
-        Box boxQuitter = Box.createHorizontalBox();
-        boxQuitter.add(Box.createHorizontalGlue());
-        boxQuitter.add(quitter);
-        boxQuitter.setOpaque(false);
+        Box quitter = quitter();
         //leftPanel
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.add(pionPenalité, BorderLayout.CENTER);
-        leftPanel.add(p1Pyramide, BorderLayout.NORTH);
-        leftPanel.setOpaque(false);
+        JPanel leftPanel = phase2Panel(pionPenalité, p1Pyramide);
         phase2.add(leftPanel);
         //centerPanel
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(feedbackLabelcenter, BorderLayout.CENTER);
-        centerPanel.add(K3, BorderLayout.NORTH);
-        centerPanel.setOpaque(false);
+        JPanel centerPanel = phase2Panel(feedbackLabelcenter, K3);
         phase2.add(centerPanel);
         //rightPanel
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(boxQuitter, BorderLayout.CENTER);
-        rightPanel.add(p2Pyramide, BorderLayout.NORTH);
+        JPanel rightPanel = phase2Panel(quitter, p2Pyramide);
         rightPanel.setOpaque(false);
         phase2.add(rightPanel);
         // transparent background
@@ -345,6 +333,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return phase2;
     }
 
+
+
+    JPanel phase2Panel(Component C1, Component C2){
+        JPanel Panel = new JPanel(new BorderLayout());
+        Panel.add(C1, BorderLayout.CENTER);
+        Panel.add(C2, BorderLayout.NORTH);
+        Panel.setOpaque(false);
+        return Panel;
+    }
 
 
     public void addPanel(JPanel panelParam , String name) {
@@ -416,7 +413,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     }
 
 
-    public JButton quitter(){
+    public Box quitter(){
         JButton quitter = new JButton("quitter");
         //size of the button
         quitter.setPreferredSize(new Dimension(50, 50));
@@ -428,7 +425,14 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 System.exit(0);
             }
         });
-        return quitter;
+
+        Box boxQuitter = Box.createHorizontalBox();
+        boxQuitter.add(Box.createHorizontalGlue());
+        boxQuitter.add(quitter);
+        boxQuitter.setOpaque(false);
+
+
+        return boxQuitter;
     }
 
 
