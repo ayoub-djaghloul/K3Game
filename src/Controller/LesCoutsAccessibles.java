@@ -80,7 +80,7 @@ public class LesCoutsAccessibles
         }
         example.setVisible(true);
         if (possibility == false){
-            example.showFeedback("Aucun couts accessibles",2000);
+            example.showFeedback("l'autre joueur qui a gangné",2000);
         }else{
             example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,2000);
         }

@@ -13,48 +13,29 @@ import java.awt.event.MouseListener;
 import java.util.Stack;
 
 public class MainFrame extends JFrame { // this class is the main frame of the game
-
     private JFrame mainFrame;
     private JPanel mainPanel;
     private CardLayout cardLayout;
-
     private Pion[] pionSource = new Pion[1];
     private JLabel labelr;
-
     final int[] pionCount = {0};
-
     public int tour = 1;
-
     JLabel feedbackLabelcenter;
-
     JButton readyButton;
-
     Feedback example = new Feedback();
-
-
-
-    private Stack<Pion> history2Dtable = new Stack<Pion>();
+        private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
     public MainFrame(Table2D table2DP1, Table2D table2DP2, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide K3) {
-        mainFrame = new JFrame("K3");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(1200, 800);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setLayout(new BorderLayout());
-
+        initializeFrame();
         // Create a panel to hold the background image
-        JPanel backgroundPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Load the image from a file
-                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
-                // Draw the image on the panel
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-            }
-        };
+        addBackgroundPanel();
+        Box box =addButton("Start Game", table2DP1, baseK3, p1Pyramide, p2Pyramide, K3);
+        mainFrame.setVisible(true);
+        mainFrame.add(box, BorderLayout.CENTER);
+    }
 
-        JButton addButton = new JButton("Start Game");
+    private Box addButton(String nom , Table2D table2DP1, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide k3) {
+        JButton addButton = new JButton(nom);
         Box box = Box.createHorizontalBox();
         box.add(Box.createHorizontalGlue());
         box.add(addButton);
@@ -62,24 +43,31 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Start Game");
+                example.showFeedback("Start Game", 10000);
                 JPanel table2DP1Panel = tabel2DPanel(table2DP1);
-                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0,K3);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide, 1,0,k3);
                 JPanel baseK3Panel = baseK3(baseK3);
-                //JPanel table2DP2Panel = tabel2DPanel(table2DP2);
-                //JPanel p2PyramidPanel = pyramidePanel(p2Pyramide,2,0);
-                //JPanel K3Panel = pyramidePanel(K3,1,1);
                 JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel);
-                JButton readyButton = readyButton(p1Pyramide, p2Pyramide, K3);
+                JButton readyButton = readyButton(p1Pyramide, p2Pyramide, k3);
                 addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton), "phase1");
                 cardLayout.show(mainPanel, "phase1");
-
                 addButton.setVisible(false);
             }
         });
+        return box;
+    }
 
+    private void addBackgroundPanel() {
+        JPanel backgroundPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         backgroundPanel.setLayout(new BorderLayout());
-
-        // Add the background panel to the main frame
         mainFrame.setContentPane(backgroundPanel);
 
         cardLayout = new CardLayout();
@@ -87,11 +75,16 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         mainPanel.setLayout(cardLayout);
         mainPanel.setOpaque(false);
         mainFrame.add(mainPanel, BorderLayout.CENTER);
+    }
 
-        mainFrame.setVisible(true);
+    private void initializeFrame() {
+        mainFrame = new JFrame("K3");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(1200, 800);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLayout(new BorderLayout());
 
-        // Add the button to the main frame
-        mainFrame.add(box, BorderLayout.CENTER);
+
     }
 
     public JPanel tabel2DPanel(Table2D table2D) {
@@ -290,10 +283,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel phase1 = new JPanel();
         Box boxReadyButton = Box.createHorizontalBox();
         boxReadyButton.add(readyButton);
-
         Box boxUndoButton = Box.createHorizontalBox();
         boxUndoButton.add(undoButton);
-
         phase1.setLayout(new BorderLayout(30, 30));
         phase1.add(table2D, BorderLayout.CENTER);
         phase1.add(pyramid, BorderLayout.NORTH);
