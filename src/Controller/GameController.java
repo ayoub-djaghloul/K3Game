@@ -31,7 +31,8 @@ public class GameController {
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 System.out.println("Deplacement effectué mais avec pénalité");
                 return true;
-            } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
+            } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource
+                    || pionfils1.getCouleur() == CouleurPion.BEIGE || pionfils2.getCouleur() == CouleurPion.BEIGE ) {
                 System.out.println("y a un fils qui a la meme couleur que la source");
                 return true;
             }  else {

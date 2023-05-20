@@ -125,8 +125,150 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
 
         for (int i = 0; i < pyramide.getHight(); i++) {
-            JPanel pionPanel =new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            for (int j = 0; j <= i; j++) {
+            //JPanel pionPanel =new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+            JPanel pionPanel = createPionPanel(pyramide, i, s, option, K3);
+            pyramidePanel.add(pionPanel);
+        }
+        pyramidePanel.setOpaque(false);
+        return pyramidePanel;
+    }
+
+    private JPanel createPionPanel(Pyramide pyramide, int i, int s, int option, Pyramide K3) {
+        JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        for (int j = 0; j <= i; j++) {
+            Pion pion = pyramide.getPion(i, j);
+            JLabel pyramideLabel = createPyramideLabel(pion);
+            pionPanel.add(pyramideLabel);
+            pionPanel.setOpaque(false);
+            pionPanel.setBorder(BorderFactory.createEmptyBorder());
+            int finalRow = i;
+            int finalCol = j;
+            pyramideLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    handleMouseClicked(s, option, finalRow, finalCol, pyramide, K3, pyramideLabel);
+                }
+            });
+        }
+        return pionPanel;
+    }
+    private void handleMouseClicked(int s, int option, int row, int col, Pyramide pyramide, Pyramide K3, JLabel pyramideLabel) {
+        switch (s) {
+            case 1:
+                handleCase1(option, row, col, pyramide, pyramideLabel);
+                break;
+            case 2:
+                handleCase2(row, col, pyramide, pyramideLabel,K3);
+                break;
+            // case 3: handleCase3(row, col, pyramide);
+            // ...
+        }
+    }
+
+    private void handleCase2(int row, int col, Pyramide pyramide,JLabel pyramideLabel,Pyramide K3) {
+        {
+            pionSource[0] = pyramide.getPion(row, col);
+            //joueur =!joueur;
+            if (new GameController().testTour(tour, pionSource[0], pyramide,K3)) {
+                if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
+                    example.setVisible(true);
+                    example.showFeedback("pion non accessible", 1000);
+                    System.out.println("pion non accessible");
+                    labelr = null;
+                } else if(pionSource[0].getCouleur()==CouleurPion.BLANC){
+                    example.setVisible(true);
+                    example.showFeedback("Tour du joueur Passé avec succés", 1000);
+                    feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
+                    feedbackLabelcenter.setForeground(Color.GREEN);
+                    pionSource[0].setVideCase(true);
+                    if (tour == 1) {
+                        tour = 2;
+                        System.out.println(tour);
+                    } else {
+                        tour = 1;
+                        System.out.println(tour);
+                    }
+                    labelr = pyramideLabel;
+                    labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                    labelr =null;
+                }else {
+                    labelr = pyramideLabel;
+                }
+            }else {
+                example.setVisible(true);
+                example.showFeedback("ce n'est pas votre tour", 1000);
+                System.out.println("ce n'est pas votre tour");
+                labelr = null;
+            }
+        }
+
+    }
+
+    private void handleCase1(int option, int row, int col, Pyramide pyramide,JLabel pyramideLabel) {
+        {
+            if (labelr != null) {
+                Pion pionDestination = pyramide.getPion(row, col);
+                if(option ==1) {//construction de la derniere pyramide avec ordre
+                    if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
+                        pyramideLabel.setIcon(labelr.getIcon());
+                        labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                        //labelr.setVisible(false);
+                        labelr = null;
+                        example.setVisible(true);
+                        example.showFeedback("Deplacement effectué", 1000);
+                        feedbackLabelcenter.setText("Deplacement effectué");
+                        feedbackLabelcenter.setBackground(Color.BLACK);
+                        feedbackLabelcenter.setForeground(Color.GREEN);
+                        //pionDestination.setAccessible(false);
+                        if (tour == 1) {
+                            tour = 2;
+                            System.out.println(tour);
+                        } else {
+                            tour = 1;
+                            System.out.println(tour);
+                        }
+                    }
+                    else {
+                        example.setVisible(true);
+                        example.showFeedback("Deplacement non effectué", 1000);
+                        feedbackLabelcenter.setText("Deplacement non effectué");
+                        feedbackLabelcenter.setForeground(Color.RED);
+                        feedbackLabelcenter.setBackground(Color.BLACK);
+                        labelr = null;
+                    }
+                }else{//construction du premiere pyramide sans ordre
+                    pionDestination.replacePion(pionSource[0]);
+                    pyramideLabel.setIcon(labelr.getIcon());
+                    pionCount[0]++;
+                    labelr.setVisible(false);
+                    labelr = null;
+                    pionDestination.setVideCase(false);
+                    if(pionCount[0]==21){
+                        readyButton.setVisible(true);                                        }
+                }
+                historyPyramid.push(pionDestination);
+
+            }
+            else{
+                if(feedbackLabelcenter!=null) {
+                    feedbackLabelcenter.setText("selectionner un pion");
+                    feedbackLabelcenter.setForeground(Color.RED);
+                    feedbackLabelcenter.setBackground(Color.BLACK);
+                }else{
+                    example.setVisible(true);
+                    example.showFeedback("selectionner un pion SVP", 2000);
+
+                }
+            }
+        }
+    }
+
+    private JLabel createPyramideLabel(Pion pion) {
+        ImageIcon ImagePion = pion.getImageIcon();
+        ImagePion.setImage(ImagePion.getImage().getScaledInstance(55, 40, Image.SCALE_DEFAULT));
+        JLabel pyramideLabel = new JLabel(ImagePion);
+        return pyramideLabel;
+    }
+            /*for (int j = 0; j <= i; j++) {
                 Pion pion = pyramide.getPion(i, j);
                 JLabel pyramideLabel = createPyramideLabel(pion);
                 pionPanel.add(pyramideLabel);
@@ -235,7 +377,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 }
                                 break;
                             }
-/*                            case 3 :{
+                            case 3 :{
                                 pionSource[0]=pyramide.getPion(finalI, finalJ);
                                 joueur =!joueur;
                                 if (new GameController().testAvantDeplacement(pionSource[0], pyramide*//*, count, joueur*//* )==false){
@@ -243,7 +385,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 }else{
                                     labelr = pyramideLabel;
                                 }
-                            }*/
+                            }
                         }
                     }
                 });
@@ -253,15 +395,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         // transparent background
         pyramidePanel.setOpaque(false);
         return pyramidePanel;
-    }
+    }*/
 
-    private JLabel createPyramideLabel(Pion pion) {
+  /*  private JLabel createPyramideLabel(Pion pion) {
         ImageIcon ImagePion = pion.getImageIcon();
         // reduce the size of the image
         ImagePion.setImage(ImagePion.getImage().getScaledInstance(55, 40, Image.SCALE_DEFAULT));
         JLabel pyramideLabel = new JLabel(ImagePion);
         return pyramideLabel;
-    }
+    }*/
 
     public JPanel baseK3(Table2D table2){
         JPanel baseK3 = new JPanel(new GridLayout(table2.getHeight(), table2.getWidth(), 0, 0));
