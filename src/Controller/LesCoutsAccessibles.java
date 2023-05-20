@@ -51,23 +51,18 @@ public class LesCoutsAccessibles
 
     public void afficherCoutsAccessibles(Pyramide pyramideJoueur, Pyramide K3 )
     {
+        boolean possibility = false;
         Pion sourcePion;
         Pion destinationPion;
         System.out.println("Les couts accessibles sont : ");
-        for (int i = 0; i < pyramideJoueur.getHight(); i++)
-        {
-            for (int j = 0; j <=i; j++)
-            {
-                if (pyramideJoueur.getPion(i, j).estVide()==false)
-                {
+        for (int i = 0; i < pyramideJoueur.getHight(); i++) {
+            for (int j = 0; j <=i; j++) {
+                if (pyramideJoueur.getPion(i, j).estVide()==false) {
                     sourcePion = pyramideJoueur.getPion(i, j);
                     if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur))
-                    for (int k = 0; k < K3.getHight(); k++)
-                    {
-                        for (int l = 0; l <=k; l++)
-                        {
-                            if (K3.getPion(k, l).estVide()==true)
-                            {
+                    for (int k = 0; k < K3.getHight(); k++){
+                        for (int l = 0; l <=k; l++) {
+                            if (K3.getPion(k, l).estVide()==true) {
                                 destinationPion = K3.getPion(k, l);
                                 if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)){
                                     System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
@@ -75,7 +70,7 @@ public class LesCoutsAccessibles
                                     this.lesPionsDestinations.add(destinationPion);
                                     this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
                                     //afficher le contenue de la liste des couts accessibles arraylist
-
+                                    possibility = true;
                                 }
                             }
                         }
@@ -84,10 +79,11 @@ public class LesCoutsAccessibles
             }
         }
         example.setVisible(true);
-        //afficher le contenue des listes des pions sources et destinations
-        example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,2000);
-
-
+        if (possibility == false){
+            example.showFeedback("Aucun couts accessibles",2000);
+        }else{
+            example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,2000);
+        }
 
     }
 
