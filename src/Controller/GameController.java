@@ -67,7 +67,8 @@ public class GameController {
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
-            } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource) {
+            } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource
+            || pionfils1.getCouleur() == CouleurPion.BEIGE || pionfils2.getCouleur() == CouleurPion.BEIGE ){
                 System.out.println("y a un fils qui a la meme couleur que la source");
                 destination.replacePion(source);
                 destination.setVideCase(false);

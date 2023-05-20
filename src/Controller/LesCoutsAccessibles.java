@@ -85,7 +85,7 @@ public class LesCoutsAccessibles
         }
         example.setVisible(true);
         //afficher le contenue des listes des pions sources et destinations
-        example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,20000);
+        example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,2000);
 
 
 

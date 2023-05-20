@@ -151,16 +151,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                     if(option ==1) {//construction de la derniere pyramide avec ordre
                                         if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
                                             pyramideLabel.setIcon(labelr.getIcon());
-                                            Container container = labelr.getParent();
-                                            Dimension buttonSize = labelr.getSize();
-                                            JPanel newButton = new JPanel();
-                                            newButton.setPreferredSize(buttonSize);
-                                            newButton.setOpaque(false);
-                                            newButton.setPreferredSize(labelr.getPreferredSize());
-                                            container.remove(labelr);
-                                            container.add(newButton);
-                                            container.revalidate();
-                                            container.repaint();
+                                            labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                                             //labelr.setVisible(false);
                                             labelr = null;
                                             example.setVisible(true);
@@ -225,6 +216,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                         example.showFeedback("Tour du joueur Passé avec succés", 1000);
                                         feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
                                         feedbackLabelcenter.setForeground(Color.GREEN);
+                                        pionSource[0].setVideCase(true);
                                         if (tour == 1) {
                                             tour = 2;
                                             System.out.println(tour);
@@ -419,7 +411,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 cardLayout.show(mainPanel, "phase2");
             }
         });
-        readyButton.setVisible(false);
+        readyButton.setVisible(true);
         return readyButton;
     }
 
