@@ -440,6 +440,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         readyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO if contre ia k==3 else k==2
                 //switch between the panels
                 JPanel K3Panel = pyramidePanel(null, K3, 1,1,K3);
                 JPanel p1PyramidPanel = pyramidePanel(K3Panel, p1Pyramide, 2,1,K3);
