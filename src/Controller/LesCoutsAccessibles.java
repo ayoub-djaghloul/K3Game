@@ -87,6 +87,78 @@ public class LesCoutsAccessibles
 
     }
 
+    public Pion choisir_un_pion_ajouer(Pyramide pyramideJoueur, Pyramide K3)    {
+        Pion sourcePion;
+        Pion destinationPion;
+        int i = 0;
+        while (i < pyramideJoueur.getHight()) {
+            int j = 0;
+            while(j <=i) {
+                if (pyramideJoueur.getPion(i, j).estVide()==false) {
+                    sourcePion = pyramideJoueur.getPion(i, j);
+                    if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)) {
+                        int k = 0;
+                        while (k < K3.getHight()) {
+                            int l = 0;
+                            while (l <= k) {
+                                if (K3.getPion(k, l).estVide() == true) {
+                                    destinationPion = K3.getPion(k, l);
+                                    if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)) {
+                                        System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
+                                        source=sourcePion;
+                                        return destinationPion;
+                                    }
+                                }
+                                l++;
+                            }
+                            k++;
+                        }
+                    }
+                }
+                j++;
+            }
+            i++;
+        }
+        example.setVisible(true);
+        example.showFeedback("l'autre joueur qui a gangné",10000);
+        return null;
+    }
+    public Pion choisir_un_pion_ajouer_source(Pyramide pyramideJoueur, Pyramide K3)
+    {
+        Pion sourcePion;
+        Pion destinationPion;
+        int i = 0;
+        while (i < pyramideJoueur.getHight()) {
+            int j = 0;
+            while(j <=i) {
+                if (pyramideJoueur.getPion(i, j).estVide()==false) {
+                    sourcePion = pyramideJoueur.getPion(i, j);
+                    if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)) {
+                        int k = 0;
+                        while (k < K3.getHight()) {
+                            int l = 0;
+                            while (l <= k) {
+                                if (K3.getPion(k, l).estVide() == true) {
+                                    destinationPion = K3.getPion(k, l);
+                                    if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)) {
+                                        System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
+                                        return sourcePion;
+                                    }
+                                }
+                                l++;
+                            }
+                            k++;
+                        }
+                    }
+                }
+                j++;
+            }
+            i++;
+        }
+        example.setVisible(true);
+        example.showFeedback("l'autre joueur qui a gangné",10000);
+        return null;
+    }
 
     public ArrayList<LesCoutsAccessibles> getLesCoutsAccessible() {
         return lesCoutsAccessible;
