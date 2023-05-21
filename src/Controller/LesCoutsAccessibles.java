@@ -86,7 +86,7 @@ public class LesCoutsAccessibles
         }
 
     }
-
+    // TODO : Test des Pions Blancs
     public Pion choisir_un_pion_ajouer(Pyramide pyramideJoueur, Pyramide K3)    {
         Pion sourcePion;
         Pion destinationPion;
