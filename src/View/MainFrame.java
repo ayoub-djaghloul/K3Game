@@ -143,17 +143,38 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             pyramideLabel.setName(Integer.toString(i+j));
             pionPanel.setOpaque(false);
             pionPanel.setBorder(BorderFactory.createEmptyBorder());
-            int finalRow = i;
+           /* int finalRow = i;
             int finalCol = j;
             pyramideLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     handleMouseClicked(k3Panel,s, option, finalRow, finalCol, pyramide, K3, pyramideLabel);
                 }
-            });
+            });*/
         }
         return pionPanel;
     }
-    private void handleMouseClicked(JPanel k3Panel, int s, int option, int row, int col, Pyramide pyramide, Pyramide K3, JLabel pyramideLabel) {
+
+
+    private void panelListener(JPanel pyramidPanel, JPanel K3Panel, Pyramide pyramide, Pyramide K3, int s, int option){
+        for(int i = 0; i < pyramidPanel.getComponentCount(); i++){
+            JPanel pionPanel = (JPanel) pyramidPanel.getComponent(i);
+            for(int j = 0; j < pionPanel.getComponentCount(); j++){
+                JLabel pyramideLabel = (JLabel) pionPanel.getComponent(j);
+                int finalRow = i;
+                int finalCol = j;
+                pyramideLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        handleMouseClicked(K3Panel,s, option, finalRow, finalCol, pyramide, K3, pyramideLabel, pyramidPanel);
+                    }
+                });
+            }
+        }
+    }
+
+
+
+
+    private void handleMouseClicked(JPanel k3Panel, int s, int option, int row, int col, Pyramide pyramide, Pyramide K3, JLabel pyramideLabel, JPanel pyramidPanel) {
         switch (s) {
             case 1:
                 handleCase1(option, row, col, pyramide, pyramideLabel);
@@ -162,7 +183,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 handleCase2(row, col, pyramide, pyramideLabel,K3);
                 break;
             case 3:
-                handleCase3(row, col, pyramide, k3Panel,K3);//IA
+                handleCase3(row, col, pyramide, k3Panel,K3, pyramidPanel);//IA
                 break;
             default:
                 break;
@@ -267,37 +288,26 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     }
 
-    private void handleCase3(int row, int col, Pyramide pyramide, JPanel k3, Pyramide K3) {
+    private void handleCase3(int row, int col, Pyramide pyramide, JPanel k3, Pyramide K3, JPanel pyramidPanel) {
         pionSource[0] = pyramide.getPion(0, 0);
         Pion pionDestination;
         // joueur =!joueur;
         if (new GameController().testTour(tour, pionSource[0], pyramide, K3)) {
-            pionDestination = new LesCoutsAccessibles().choisir_un_pion_ajouer(pyramide, K3);
-            pionSource[0]=new LesCoutsAccessibles().choisir_un_pion_ajouer_source(pyramide, K3);
+            pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3);
+            pionSource[0]=new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3);
             if (pionDestination != null) {
                 example.setVisible(true);
                 example.showFeedback("Il y a une possibilité de coup", 1000);
                 System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + image " +pionSource[0].getImageIcon() +"--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } ");
 
                 // Get the JLabel from k3 panel using the pionDestination's coordinates
-                int panelIndex = pionDestination.getX();
-                int labelIndex = pionDestination.getY();
-                Component[] components = k3.getComponents();
-                if (panelIndex < components.length) {
-                    Component component = components[panelIndex];
-                    if (component instanceof JPanel) {
-                        JPanel panel = (JPanel) component;
-                        if (labelIndex < panel.getComponentCount()) {
-                            Component innerComponent = panel.getComponent(labelIndex);
-                            if (innerComponent instanceof JLabel) {
-                                JLabel label = (JLabel) innerComponent;
-                                label.setIcon(pionSource[0].getImageIcon());
-                            }
-                        }
-                    }
-                }
+                JLabel distinationLabel = LabelSource(pionDestination, k3);
+                distinationLabel.setIcon(pionSource[0].getImageIcon());
                 pionDestination.replacePion(pionSource[0]);
                 pionDestination.setVideCase(false);
+
+                JLabel sourcePanel = LabelSource(pionSource[0], pyramidPanel);
+                sourcePanel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                 pionSource[0].setVideCase(true);
                 tour = 1;
             } else {
@@ -308,6 +318,26 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             labelr = null;
         }
     }
+    private JLabel LabelSource(Pion source, JPanel Pyramid){
+        int panelIndex = source.getX();
+        int labelIndex = source.getY();
+        Component[] components = Pyramid.getComponents();
+        if (panelIndex < components.length) {
+            Component component = components[panelIndex];
+            if (component instanceof JPanel) {
+                JPanel panel = (JPanel) component;
+                if (labelIndex < panel.getComponentCount()) {
+                    Component innerComponent = panel.getComponent(labelIndex);
+                    if (innerComponent instanceof JLabel) {
+                        JLabel label = (JLabel) innerComponent;
+                        return label;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private JLabel createPyramideLabel(Pion pion) {
         ImageIcon ImagePion = pion.getImageIcon();
         ImagePion.setImage(ImagePion.getImage().getScaledInstance(55, 40, Image.SCALE_DEFAULT));
@@ -444,7 +474,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 //switch between the panels
                 JPanel K3Panel = pyramidePanel(null, K3, 1,1,K3);
                 JPanel p1PyramidPanel = pyramidePanel(K3Panel, p1Pyramide, 2,1,K3);
-                JPanel p2PyramidPanel = pyramidePanel(K3Panel,p2Pyramide, 3,1,K3);
+                JPanel p2PyramidPanel = pyramidePanel(K3Panel,p2Pyramide, 2,1,K3);
+
+
+                    panelListener(K3Panel, K3Panel, K3, K3, 1, 1);
+                    panelListener(p1PyramidPanel, K3Panel, p1Pyramide, K3, 2, 1);
+                    panelListener(p2PyramidPanel, K3Panel, p2Pyramide, K3, 3, 1);
+
                /* LesCoutsAccessibles liste=new LesCoutsAccessibles();
                 liste.afficherCoutsAccessibles(p2Pyramide, K3);*/
                 addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel), "phase2");
@@ -455,7 +491,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         readyButton.setVisible(true);
         return readyButton;
     }
-
 
     public Box quitter(){
         JButton quitter = new JButton("quitter");
@@ -474,11 +509,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         boxQuitter.add(Box.createHorizontalGlue());
         boxQuitter.add(quitter);
         boxQuitter.setOpaque(false);
-
-
         return boxQuitter;
     }
-
 
     public JPanel penalitePanel(){
         JPanel pionPenalité;
@@ -486,6 +518,4 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         pionPenalité = tabel2DPanel(penalité);
         return pionPenalité;
     }
-
-
 }

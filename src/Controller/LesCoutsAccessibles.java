@@ -87,7 +87,7 @@ public class LesCoutsAccessibles
 
     }
     // TODO : Test des Pions Blancs
-    public Pion choisir_un_pion_ajouer(Pyramide pyramideJoueur, Pyramide K3)    {
+    public Pion choisirUnPionAjouer(Pyramide pyramideJoueur, Pyramide K3)    {
         Pion sourcePion;
         Pion destinationPion;
         int i = 0;
@@ -123,7 +123,7 @@ public class LesCoutsAccessibles
         example.showFeedback("l'autre joueur qui a gangné",10000);
         return null;
     }
-    public Pion choisir_un_pion_ajouer_source(Pyramide pyramideJoueur, Pyramide K3)
+    public Pion choisirUnPionAjouerSource(Pyramide pyramideJoueur, Pyramide K3)
     {
         Pion sourcePion;
         Pion destinationPion;
