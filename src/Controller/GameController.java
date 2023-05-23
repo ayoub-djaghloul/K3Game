@@ -41,6 +41,7 @@ public class GameController {
             }
         }
     }
+
     public boolean getPenalite(Pion source,Pion destination,Pyramide K3){
         CouleurPion CSource = source.getCouleur();
         int finalI = destination.getX();

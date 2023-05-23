@@ -93,6 +93,11 @@ public class Pion {
     public boolean estVide() {
         return this.VideCase;
     }
+
+    public void setY(int i) {
+        this.y = i;
+    }
+
     public enum TypePion {
         NATUREL,
         COLORED,
