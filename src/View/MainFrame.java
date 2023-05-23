@@ -25,6 +25,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     Feedback example = new Feedback();
         private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
+    public boolean penalite=false;
+
     public MainFrame(Table2D table2DP1, Table2D table2DP2, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide K3) {
         initializeFrame();
         // Create a panel to hold the background image
@@ -196,6 +198,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 Pion pionDestination = pyramide.getPion(row, col);
                 if(option ==1) {//construction de la derniere pyramide avec ordre
                     if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
+                        penalite=new GameController().getPenalite(pionSource[0], pionDestination, pyramide);
                         pyramideLabel.setIcon(labelr.getIcon());
                         labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                         //labelr.setVisible(false);
@@ -254,6 +257,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             pionSource[0] = pyramide.getPion(row, col);
             //joueur =!joueur;
             if (new GameController().testTour(tour, pionSource[0], pyramide,K3)) {
+                if(!penalite){
                 if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
                     example.setVisible(true);
                     example.showFeedback("pion non accessible", 1000);
@@ -277,7 +281,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     labelr =null;
                 }else {
                     labelr = pyramideLabel;
+                }}
+                else {
+                    //deplacer le pion source vers la case vide du panel penalite
+                    example.showFeedback("penalité a executer", 5000);
+                    penalite = false;
                 }
+
             }else {
                 example.setVisible(true);
                 example.showFeedback("ce n'est pas votre tour", 1000);
@@ -293,6 +303,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         Pion pionDestination;
         // joueur =!joueur;
         if (new GameController().testTour(tour, pionSource[0], pyramide, K3)) {
+            if(!penalite){
             pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3);
             pionSource[0]=new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3);
             if (pionDestination != null) {
@@ -315,6 +326,19 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 example.showFeedback("Ce n'est pas votre tour", 1000);
                 System.out.println("Ce n'est pas votre tour");
             }
+            labelr = null;
+        }
+        else {
+            //deplacer le pion source vers la case vide du panel penalite
+                example.showFeedback("penalité a executer-------------------------------", 5000);
+                System.out.println("penalité a executer");
+                penalite = false;
+
+            }
+        }
+        else {
+            example.setVisible(true);
+            example.showFeedback("ce n'est pas votre tour", 1000);
             labelr = null;
         }
     }

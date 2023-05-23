@@ -3,7 +3,7 @@ package Controller;
 import Model.CouleurPion;
 import Model.Pion;
 import Model.Pyramide;
-
+import View.MainFrame;
 import javax.swing.*;
 
 public class GameController {
@@ -26,19 +26,31 @@ public class GameController {
                 //System.out.println("un des fils est null donc Déplacement impossible");
                 return false;
             }else if (CSource == CouleurPion.BEIGE) {
-                System.out.println("Deplacement effectué parceque la source est beige");
+                //System.out.println("Deplacement effectué parceque la source est beige");
                 return true;
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 System.out.println("Deplacement effectué mais avec pénalité");
                 return true;
             } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource
                     || pionfils1.getCouleur() == CouleurPion.BEIGE || pionfils2.getCouleur() == CouleurPion.BEIGE ) {
-                System.out.println("y a un fils qui a la meme couleur que la source");
+                //System.out.println("y a un fils qui a la meme couleur que la source");
                 return true;
             }  else {
                 //System.out.println("Deplacement impossible");
                 return false;
             }
+        }
+    }
+    public boolean getPenalite(Pion source,Pion destination,Pyramide K3){
+        CouleurPion CSource = source.getCouleur();
+        int finalI = destination.getX();
+        int finalJ = destination.getY();
+        Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
+        Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
+        if(CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()){
+            return true;
+        }else{
+            return false;
         }
     }
     public boolean testDeplacementPion(Pion source, Pion destination, Pyramide K3) {
