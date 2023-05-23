@@ -21,7 +21,7 @@ public class Main {
         Pyramide p2Pyramide = new Pyramide(6, 6);
         p2Pyramide.initPyramide(2);
         new RandomAI(p2Pyramide, table2DP2);
-        new RandomAI(p1Pyramide, table2DP1);
+      //  new RandomAI(p1Pyramide, table2DP1);
         Pyramide K3 = new Pyramide(9, 9).initPyramide(0);
         K3.K3Base(baseK3);
         MainFrame mainFrame = new MainFrame(table2DP1, table2DP2, baseK3, p1Pyramide, p2Pyramide, K3);

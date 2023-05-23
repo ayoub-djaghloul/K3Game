@@ -31,13 +31,30 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         initializeFrame();
         // Create a panel to hold the background image
         addBackgroundPanel();
-        Box box =addButton("Start Game", table2DP1, baseK3, p1Pyramide, p2Pyramide, K3);
+        Box box =addButton(table2DP1, baseK3, p1Pyramide, p2Pyramide, K3);
         mainFrame.setVisible(true);
         mainFrame.add(box, BorderLayout.CENTER);
     }
 
-    private Box addButton(String nom , Table2D table2DP1, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide k3) {
-        JButton addButton = new JButton(nom);
+
+
+
+
+/*    public JPanel phase0(){
+
+    }
+    */
+
+
+
+
+
+
+
+
+
+    private Box addButton(Table2D table2DP1, Table2D baseK3, Pyramide p1Pyramide, Pyramide p2Pyramide, Pyramide K3) {
+        JButton addButton = new JButton();
         Box box = Box.createHorizontalBox();
         box.add(Box.createHorizontalGlue());
         box.add(addButton);
@@ -45,20 +62,52 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Start Game");
-                example.showFeedback("Start Game", 10000);
+                //System.out.println("Start Game");
+               // example.showFeedback("Start Game", 10000);
                 JPanel table2DP1Panel = tabel2DPanel(table2DP1);
-                JPanel p1PyramidPanel = pyramidePanel(null, p1Pyramide, 1,0,k3);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide);
+                panelListener(p1PyramidPanel, null, p1Pyramide, K3, 1, 0);
                 JPanel baseK3Panel = baseK3(baseK3);
                 JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel);
-                JButton readyButton = readyButton(p1Pyramide, p2Pyramide, k3);
+                JButton readyButton = readyButton(p1Pyramide, p2Pyramide, K3);
                 addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton), "phase1");
                 cardLayout.show(mainPanel, "phase1");
                 addButton.setVisible(false);
             }
         });
+
+        //set a background picture to the button and make it transparent
+        addButton.setIcon(new ImageIcon("sources/Images/1v1.png"));
+        addButton.setOpaque(false);
+        addButton.setContentAreaFilled(false);
+        addButton.setBorderPainted(false);
+        addButton.setMargin(new Insets(0, 0, 0, 0));
+        addButton.setBorder(null);
+        //add animation when i pass the cursor on the button
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addButton.setIcon(new ImageIcon("sources/Images/1v1hover.png"));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addButton.setIcon(new ImageIcon("sources/Images/1v1.png"));
+            }
+        });
+
         return box;
     }
+
+
+    //private void startGameListener()
+
+
+
+
+
+
+
+
+
 
     private void addBackgroundPanel() {
         JPanel backgroundPanel = new JPanel() {
@@ -123,19 +172,19 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return tablePanel;
     }
 
-    public JPanel pyramidePanel(JPanel k3Panel, Pyramide pyramide , int s , int option, Pyramide K3) {
+    public JPanel pyramidePanel(Pyramide pyramide) {
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
 
         for (int i = 0; i < pyramide.getHight(); i++) {
             //JPanel pionPanel =new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-            JPanel pionPanel = createPionPanel(k3Panel,pyramide, i, s, option, K3);
+            JPanel pionPanel = createPionPanel(pyramide, i);
             pyramidePanel.add(pionPanel);
         }
         pyramidePanel.setOpaque(false);
         return pyramidePanel;
     }
 
-    private JPanel createPionPanel(JPanel k3Panel, Pyramide pyramide, int i, int s, int option, Pyramide K3) {
+    private JPanel createPionPanel(Pyramide pyramide, int i) {
         JPanel pionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         for (int j = 0; j <= i; j++) {
             Pion pion = pyramide.getPion(i, j);
@@ -496,9 +545,9 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             public void actionPerformed(ActionEvent e) {
                 // TODO if contre ia k==3 else k==2
                 //switch between the panels
-                JPanel K3Panel = pyramidePanel(null, K3, 1,1,K3);
-                JPanel p1PyramidPanel = pyramidePanel(K3Panel, p1Pyramide, 2,1,K3);
-                JPanel p2PyramidPanel = pyramidePanel(K3Panel,p2Pyramide, 2,1,K3);
+                JPanel K3Panel = pyramidePanel(K3);
+                JPanel p1PyramidPanel = pyramidePanel(p1Pyramide);
+                JPanel p2PyramidPanel = pyramidePanel(p2Pyramide);
 
 
                     panelListener(K3Panel, K3Panel, K3, K3, 1, 1);
