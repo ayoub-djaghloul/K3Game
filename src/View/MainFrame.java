@@ -366,9 +366,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             Pion pionDestination;
             if (new GameController().testTour(tour, pionSource[0], pyramide, K3,penalitetable)) {
                 if (!penalite) {
-                    pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3);
-                    pionSource[0] = new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3);
-                    if (pionDestination != null) {
+                    pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3,penalitetable);
+                    pionSource[0] = new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable);
+                    JLabel pyramideLabel = LabelSource(pionSource[0], pyramidPanel);
+                    if(pionSource[0].getCouleur()==CouleurPion.BLANC){
+                        tour = changertour(tour);
+                        pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                        pionSource[0].setVideCase(true);
+                    }
+                    else if (pionDestination != null) {
                         example.setVisible(true);
                         example.showFeedback("Il y a une possibilité de coup", 1000);
 
