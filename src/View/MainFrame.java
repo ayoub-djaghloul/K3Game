@@ -5,6 +5,8 @@ import Controller.GameController;
 import Controller.LesCoutsAccessibles;
 import Model.*;
 import Model.Pion;
+import com.sun.tools.javac.Main;
+import launcher.GameLauncher;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -12,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
+
 
 public class MainFrame extends JFrame { // this class is the main frame of the game
     private JFrame mainFrame;
@@ -290,7 +293,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                     labelr = null;
                     pionDestination.setVideCase(false);
-                    if(pionCount[0]==21){readyButton.setEnabled(true);}
+                    //if(pionCount[0]==21){readyButton.setEnabled(true);}
                     if(pionCount[0]<=0){undoButton.setEnabled(false);}
                     else{undoButton.setEnabled(true);}
                 }
@@ -316,40 +319,74 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         return tour;
     }
 
+
+    private JPanel phase3(String message){
+        JPanel phase3Panel = new JPanel();
+        Box quitterBox = quitter();
+        Box rejouerBox = rejouer();
+        //display the winner
+        JLabel winnerLabel = new JLabel(message);
+        // Text BLACK and big in the center
+        winnerLabel.setHorizontalAlignment(JLabel.CENTER);
+        winnerLabel.setVerticalAlignment(JLabel.CENTER);
+        winnerLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        winnerLabel.setForeground(Color.BLACK);
+        //add the winner label to the panel
+        JPanel winnerPanel = new JPanel();
+        winnerPanel.setLayout(new BorderLayout());
+        winnerPanel.add(winnerLabel, BorderLayout.CENTER);
+        phase3Panel.setLayout(new BorderLayout());
+        phase3Panel.add(quitterBox, BorderLayout.WEST);
+        phase3Panel.add(rejouerBox, BorderLayout.EAST);
+        return phase3Panel;
+    }
+
+
+
+
+
+
     private void handleCase2(int row, int col, Pyramide pyramide, JLabel pyramideLabel, Pyramide K3, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
         {
             if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
-                pionSource[0] = pyramide.getPion(row, col);
-                if (new GameController().testTour(tour, pionSource[0], pyramide, K3, penalitetable)) {
-                    if (!penalite) {
-                        if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
-                            example.setVisible(true);
-                            example.showFeedback("pion non accessible", 1000);
-                            System.out.println("pion non accessible");
-                            labelr = null;
-                        } else
-                        {
-                            if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
-                            example.setVisible(true);
-                            example.showFeedback("Tour du joueur Passé avec succés", 1000);
-                            feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
-                            feedbackLabelcenter.setForeground(Color.GREEN);
-                            tour = changertour(tour);
-                            pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
-                            pionSource[0].setVideCase(true);
-                            labelr = null;
+                if(new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable)!=null){
+                    String message = "The winner is the player " + tour;
+                    addPanel(phase3(message), "phase3");
+                    cardLayout.show(mainPanel, "phase3");
+                }
+                else{
+                    pionSource[0] = pyramide.getPion(row, col);
+                    if (new GameController().testTour(tour, pionSource[0], pyramide, K3, penalitetable)) {
+                        if (!penalite) {
+                            if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
+                                example.setVisible(true);
+                                example.showFeedback("pion non accessible", 1000);
+                                System.out.println("pion non accessible");
+                                labelr = null;
+                            } else
+                            {
+                                if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
+                                    example.setVisible(true);
+                                    example.showFeedback("Tour du joueur Passé avec succés", 1000);
+                                    feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
+                                    feedbackLabelcenter.setForeground(Color.GREEN);
+                                    tour = changertour(tour);
+                                    pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                                    pionSource[0].setVideCase(true);
+                                    labelr = null;
+                                } else {
+                                    labelr = pyramideLabel;
+                                }
+                            }
                         } else {
-                            labelr = pyramideLabel;
+                            penalite_func(row, col, pyramide, pyramidPanel, penalitetable, penalitePanel);
                         }
-                        }
-                    } else {
-                        penalite_func(row, col, pyramide, pyramidPanel, penalitetable, penalitePanel);
-                    }
 
-                } else {
-                    example.setVisible(true);
-                    example.showFeedback("ce n'est pas votre tour", 1000);
-                    System.out.println("ce n'est pas votre tour");
+                    } else {
+                        example.setVisible(true);
+                        example.showFeedback("ce n'est pas votre tour", 1000);
+                        System.out.println("ce n'est pas votre tour");
+                    }
                 }
             }
             else
@@ -370,44 +407,51 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 if (!penalite) {
                     pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3,penalitetable);
                     pionSource[0] = new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable);
-                    JLabel pyramideLabel = LabelSource(pionSource[0], pyramidPanel);
-                    if(pionSource[0].getCouleur()==CouleurPion.BLANC){
-                        tour = changertour(tour);
-                        pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
-                        pionSource[0].setVideCase(true);
-                    }
-                    else if (pionDestination != null) {
-                        example.setVisible(true);
-                        example.showFeedback("Il y a une possibilité de coup", 1000);
-
-                        // Get the JLabel from k3 panel using the pionDestination's coordinates
-                        JLabel distinationLabel = LabelSource(pionDestination, k3);
-                        distinationLabel.setIcon(pionSource[0].getImageIcon());
-                        pionDestination.replacePion(pionSource[0]);
-                        pionDestination.setVideCase(false);
-                        JLabel sourcePanel = LabelSource(pionSource[0], pyramidPanel);
-                        sourcePanel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
-                        pionSource[0].setVideCase(true);
-                        System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
-                        penalite = new GameController().getPenalite(pionDestination, pionDestination, K3);
-                        if (!penalite) {
-                            feedbackLabelcenter.setText("Deplacement effectué");
-                            feedbackLabelcenter.setBackground(Color.BLACK);
-                            feedbackLabelcenter.setForeground(Color.GREEN);
+                    if(pionSource[0]==null){
+                        String message = "The winner is the player " + tour;
+                        addPanel(phase3(message), "phase3");
+                        cardLayout.show(mainPanel, "phase3");
+                    }else{
+                        JLabel pyramideLabel = LabelSource(pionSource[0], pyramidPanel);
+                        if(pionSource[0].getCouleur()==CouleurPion.BLANC){
                             tour = changertour(tour);
-                            penalite = false;
-                        } else {
-                            feedbackLabelcenter.setText("Deplacement effectué avec penalité(choisir un pion pour l'enlever)");
-                            feedbackLabelcenter.setBackground(Color.BLACK);
-                            feedbackLabelcenter.setForeground(Color.RED);
-                            penalite = true;
+                            pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                            pionSource[0].setVideCase(true);
                         }
-                    } else {
-                        example.setVisible(true);
-                        example.showFeedback("Ce n'est pas votre tour", 1000);
-                        System.out.println("Ce n'est pas votre tour");
+                        else if (pionDestination != null) {
+                            example.setVisible(true);
+                            example.showFeedback("Il y a une possibilité de coup", 1000);
+
+                            // Get the JLabel from k3 panel using the pionDestination's coordinates
+                            JLabel distinationLabel = LabelSource(pionDestination, k3);
+                            distinationLabel.setIcon(pionSource[0].getImageIcon());
+                            pionDestination.replacePion(pionSource[0]);
+                            pionDestination.setVideCase(false);
+                            JLabel sourcePanel = LabelSource(pionSource[0], pyramidPanel);
+                            sourcePanel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                            pionSource[0].setVideCase(true);
+                            System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
+                            penalite = new GameController().getPenalite(pionDestination, pionDestination, K3);
+                            if (!penalite) {
+                                feedbackLabelcenter.setText("Deplacement effectué");
+                                feedbackLabelcenter.setBackground(Color.BLACK);
+                                feedbackLabelcenter.setForeground(Color.GREEN);
+                                tour = changertour(tour);
+                                penalite = false;
+                            } else {
+                                feedbackLabelcenter.setText("Deplacement effectué avec penalité(choisir un pion pour l'enlever)");
+                                feedbackLabelcenter.setBackground(Color.BLACK);
+                                feedbackLabelcenter.setForeground(Color.RED);
+                                penalite = true;
+                            }
+                        } else {
+                            example.setVisible(true);
+                            example.showFeedback("Ce n'est pas votre tour", 1000);
+                            System.out.println("Ce n'est pas votre tour");
+                        }
+                        labelr = null;
                     }
-                    labelr = null;
+
                 } else {
                     penalite_func(row, col, pyramide, pyramidPanel, penalitetable, penalitePanel);
                 }
@@ -656,7 +700,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         styleButton(readyButton, img);
         //add padding to the button
         readyButton.setBorder(BorderFactory.createEmptyBorder(0,80,0 , 470));
-        readyButton.setEnabled(false);
+        //readyButton.setEnabled(false);
         return readyButton;
     }
 
@@ -718,6 +762,30 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         boxQuitter.setOpaque(false);
         return boxQuitter;
     }
+
+    public Box rejouer(){
+        JButton rejouer = new JButton("rejouer");
+        //size of the button
+        rejouer.setPreferredSize(new Dimension(50, 50));
+        //width of button border
+        rejouer.setBorder(new LineBorder(Color.BLACK, 5));
+        rejouer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new GameLauncher().launcher();
+
+            }
+        });
+
+        Box boxRejouer = Box.createHorizontalBox();
+        boxRejouer.add(Box.createHorizontalGlue());
+        boxRejouer.add(rejouer);
+        boxRejouer.setOpaque(false);
+        return boxRejouer;
+    }
+
+
+
     public JPanel penalitePanel(Table2D penalité){
         JPanel pionPenalité;
         pionPenalité = tabel2DPanel(penalité);
