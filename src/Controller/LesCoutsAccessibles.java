@@ -1,7 +1,9 @@
 package Controller;
 
+import Model.CouleurPion;
 import Model.Pion;
 import Model.Pyramide;
+import Model.Table2D;
 
 import java.util.ArrayList;
 
@@ -49,8 +51,7 @@ public class LesCoutsAccessibles
 
 
 
-    public void afficherCoutsAccessibles(Pyramide pyramideJoueur, Pyramide K3 )
-    {
+    public void afficherCoutsAccessibles(Table2D penalite,Pyramide pyramideJoueur, Pyramide K3 ) {
         boolean possibility = false;
         Pion sourcePion;
         Pion destinationPion;
@@ -59,25 +60,53 @@ public class LesCoutsAccessibles
             for (int j = 0; j <=i; j++) {
                 if (pyramideJoueur.getPion(i, j).estVide()==false) {
                     sourcePion = pyramideJoueur.getPion(i, j);
-                    if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur))
-                    for (int k = 0; k < K3.getHight(); k++){
-                        for (int l = 0; l <=k; l++) {
-                            if (K3.getPion(k, l).estVide()==true) {
-                                destinationPion = K3.getPion(k, l);
-                                if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)){
-                                    System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
-                                    this.lesPionsSources.add(sourcePion);
-                                    this.lesPionsDestinations.add(destinationPion);
-                                    this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
-                                    //afficher le contenue de la liste des couts accessibles arraylist
-                                    possibility = true;
+                    if(sourcePion.getCouleur()== CouleurPion.BLANC){
+                        example.showFeedback("tu peux jouer le blanc",50000);
+                    possibility = true;}
+                    else
+                    if (new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)){
+                        for (int k = 0; k < K3.getHight(); k++) {
+                            for (int l = 0; l <= k; l++) {
+                                if (K3.getPion(k, l).estVide() == true) {
+                                    destinationPion = K3.getPion(k, l);
+                                    if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)) {
+                                        System.out.println("[" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
+                                        this.lesPionsSources.add(sourcePion);
+                                        this.lesPionsDestinations.add(destinationPion);
+                                        this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
+                                        //afficher le contenue de la liste des couts accessibles arraylist
+                                        possibility = true;
+                                    }
                                 }
                             }
                         }
-                    }
+                }
                 }
             }
         }
+            /*for (int j = 0; j < penalite.getWidth()-1; j++) {
+                if (penalite.getPion(0, j).estVide()==false) {
+                    sourcePion = penalite.getPion(0, j);
+                        for (int k = 0; k < K3.getHight(); k++) {
+                            for (int l = 0; l <= k; l++) {
+                                if (K3.getPion(k, l).estVide() == true) {
+                                    destinationPion = K3.getPion(k, l);
+                                    if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)) {
+                                        System.out.println("penalité tableau [" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
+                                        this.lesPionsSources.add(sourcePion);
+                                        this.lesPionsDestinations.add(destinationPion);
+                                        this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
+                                        //afficher le contenue de la liste des couts accessibles arraylist
+                                        possibility = true;
+                                    }
+                                }
+                            }
+                        }
+
+                }
+
+        }*/
+
         example.setVisible(true);
         if (possibility == false){
             example.showFeedback("l'autre joueur qui a gangné",2000);

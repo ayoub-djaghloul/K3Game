@@ -20,8 +20,12 @@ public class RandomAI {
     ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
     ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
 
-    public RandomAI(Pyramide p2Pyramide, Table2D baseK3) {
-        RandomPyramid(p2Pyramide, baseK3);
+    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+
+
+    public RandomAI(Pyramide p2Pyramide, Table2D tabe2D, Table2D baseK3) {
+        //RandomPyramid(p2Pyramide, baseK3);
+        GeneratePyramid(p2Pyramide,tabe2D, baseK3);
     }
 
     public void RandomPyramid(Pyramide pyramide, Table2D table2D){
@@ -55,7 +59,72 @@ public class RandomAI {
         }
     }
 
-
+    public void GeneratePyramid(Pyramide pyramide,Table2D table2D,Table2D basek3){
+        boolean bool;
+        for(int i = 0; i<pyramide.getHight(); i++){
+            for (int j=0 ; j<=i;j++) {
+                bool=false;
+                int k = 2;
+                if(i==0&&j==0){//pour eviter les penalites au debut
+                    while(k < basek3.getWidth()-2&&bool==false){
+                        Pion ex=basek3.getPion(0,k);
+                        for (int m = 0; m < table2D.getHeight(); m++) {
+                            for (int l = 0; l < table2D.getWidth()-m; l++) {
+                                Pion ex2=table2D.getCases(m,l);
+                                if(ex2.getImageIcon().toString()=="sources/Images/VIDE.png"){
+                                    if(ex.getImageIcon()==ex2.getImageIcon()){
+                                        pyramide.getPion(i,j).replacePion(ex2);
+                                        ex2.setImageIcon(VIDE);
+                                        bool=true;
+                                    }
+                                }
+                            }
+                        }
+                        }
+                    k++;
+                }
+                else if (i==1) {
+                    Pion ex2;
+                    for (int m = 0; m < table2D.getHeight(); m++) {
+                        for (int l = 0; l < table2D.getWidth()-m; l++) {
+                            ex2=table2D.getCases(m,l);
+                            //if(ex2.getImageIcon().toString()==VIDE.toString()){
+                                pyramide.getPion(i,j).replacePion(ex2);
+                                ex2.setImageIcon(VIDE);
+                            //}
+                        }
+                    }
+                }
+                /*else if (i==2) {
+                    Pion ex2;
+                    for (int m = 0; m < table2D.getHeight(); m++) {
+                        for (int l = 0; l < table2D.getWidth()-m; l++) {
+                            ex2=table2D.getCases(m,l);
+                            if((ex2.getImageIcon().toString()==BEIGE.toString()||ex2.getImageIcon().toString()==BLANC.toString())&&pyramide.getPion(i,j).getCouleur()==null){
+                                pyramide.getPion(i,j).replacePion(ex2);
+                                System.out.println("i= "+i+" j= "+j+" couleur= "+ex2.getCouleur()+" image= "+ex2.getImageIcon().toString());
+                                ex2.setImageIcon(VIDE);
+                            }
+                            else if(ex2.getCouleur()!=null){
+                                pyramide.getPion(i,j).setCouleur(CouleurPion.NOIR);
+                                ex2.setCouleur(null);
+                            }
+                        }
+                }} else{
+                   /* Pion ex2;
+                    for (int m = 0; m < table2D.getHeight(); m++) {
+                        for (int l = 0; l < table2D.getWidth()-m; l++) {
+                            ex2=table2D.getCases(m,l);
+                            if(ex2.getCouleur()!=null){
+                                pyramide.getPion(i,j).replacePion(ex2);
+                                ex2.setCouleur(null);
+                            }
+                        }
+                    }
+                }*/
+            }
+            }
+    }
     public int[] calculateColors(Table2D table2D){
         //calculate the number of each color in the table
         int[] colors = new int[7];

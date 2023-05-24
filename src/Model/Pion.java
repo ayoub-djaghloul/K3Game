@@ -90,6 +90,10 @@ public class Pion {
         this.VideCase = Accessible;
     }
 
+    public void setCouleur(CouleurPion couleur) {
+        this.couleur = couleur;
+    }
+
     public boolean estVide() {
         return this.VideCase;
     }

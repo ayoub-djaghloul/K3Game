@@ -3,6 +3,7 @@ package Controller;
 import Model.CouleurPion;
 import Model.Pion;
 import Model.Pyramide;
+import Model.Table2D;
 import View.MainFrame;
 import javax.swing.*;
 
@@ -132,12 +133,12 @@ public class GameController {
             }
     }
 
-    public boolean testTour(int tour, Pion Source, Pyramide pyramidesource, Pyramide pyramidedestination) {
+    public boolean testTour(int tour, Pion Source, Pyramide pyramidesource, Pyramide pyramidedestination, Table2D penalitetable) {
         System.out.println( "Joueur" + Source.getPlayer());
         System.out.println("Tour du Joueur" + tour);
         if (tour == Source.getPlayer()) {
             LesCoutsAccessibles liste=new LesCoutsAccessibles();
-            liste.afficherCoutsAccessibles(pyramidesource, pyramidedestination);
+            liste.afficherCoutsAccessibles(penalitetable,pyramidesource, pyramidedestination);
             return true;
         } else {
             System.out.println("ce n'est pas votre tour");

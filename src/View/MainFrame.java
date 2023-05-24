@@ -30,7 +30,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     JLabel feedbackLabelcenter;
     JButton readyButton;
     Feedback example = new Feedback();
-        private Stack<Pion> history2Dtable = new Stack<Pion>();
+    private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
     public boolean penalite=false;
 
@@ -92,7 +92,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 JPanel penalitePanel1 = penalitePanel(penalitetable1);
                 JPanel penalitePanel2 = penalitePanel(penalitetable2);
                 if(gameMode==1){
-                    new RandomAI(p2Pyramide, table2DP2);
+                    new RandomAI(p2Pyramide, table2DP2,baseK3);
                     p2PyramidPanel = pyramidePanel(p2Pyramide);
                     JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel);
                     JButton readyButton = readyButton(p1Pyramide, p2Pyramide, K3, p1PyramidPanel, p2PyramidPanel, 1, penalitetable1, penalitePanel1, penalitetable2, penalitePanel2);
@@ -286,7 +286,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     pionDestination.replacePion(pionSource[0]);
                     pyramideLabel.setIcon(labelr.getIcon());
                     pionCount[0]++;
-                    labelr.setVisible(false);
+                    labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                     labelr = null;
                     pionDestination.setVideCase(false);
                     if(pionCount[0]==21){
@@ -316,34 +316,29 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     private void handleCase2(int row, int col, Pyramide pyramide, JLabel pyramideLabel, Pyramide K3, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
         {
-            if (labelr == null) {
+            if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
                 pionSource[0] = pyramide.getPion(row, col);
-                //joueur =!joueur;
-                if (new GameController().testTour(tour, pionSource[0], pyramide, K3)) {
+                if (new GameController().testTour(tour, pionSource[0], pyramide, K3, penalitetable)) {
                     if (!penalite) {
                         if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
                             example.setVisible(true);
                             example.showFeedback("pion non accessible", 1000);
                             System.out.println("pion non accessible");
                             labelr = null;
-                        } else if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
+                        } else
+                        {
+                            if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
                             example.setVisible(true);
                             example.showFeedback("Tour du joueur Passé avec succés", 1000);
                             feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
                             feedbackLabelcenter.setForeground(Color.GREEN);
+                            tour = changertour(tour);
+                            pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                             pionSource[0].setVideCase(true);
-                            if (tour == 1) {
-                                tour = 2;
-                                System.out.println(tour);
-                            } else {
-                                tour = 1;
-                                System.out.println(tour);
-                            }
-                            labelr = pyramideLabel;
-                            labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                             labelr = null;
                         } else {
                             labelr = pyramideLabel;
+                        }
                         }
                     } else {
                         penalite_func(row, col, pyramide, pyramidPanel, penalitetable, penalitePanel);
@@ -353,8 +348,14 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     example.setVisible(true);
                     example.showFeedback("ce n'est pas votre tour", 1000);
                     System.out.println("ce n'est pas votre tour");
-                    labelr = null;
                 }
+            }
+            else
+            {
+                System.out.println("labelr = " + labelr + " pyramideLabel = " + pyramideLabel.getIcon());
+                example.setVisible(true);
+                example.showFeedback("selectionner un pion SVPppppp", 2000);
+                System.out.println("selectionner un pion SVP");
             }
         }
     }
@@ -363,7 +364,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         if(labelr==null) {
             pionSource[0] = pyramide.getPion(0, 0);
             Pion pionDestination;
-            if (new GameController().testTour(tour, pionSource[0], pyramide, K3)) {
+            if (new GameController().testTour(tour, pionSource[0], pyramide, K3,penalitetable)) {
                 if (!penalite) {
                     pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3);
                     pionSource[0] = new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3);
@@ -420,24 +421,24 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             labelr = null;
         }
         else{
-        penalite = false;
-        tour=changertour(tour);
-        //choisi un pion a enlever from peramite panel
-        pionSource[0] = pyramide.getPion(row, col);
-        pionSource[0].setVideCase(true);
-        Pion piondestination = le_premier_libre_penalite(penalitetable);
-        System.out.println("piondestination x et y:  " + piondestination.getX() + "  " + piondestination.getY());
+            penalite = false;
+            tour=changertour(tour);
+            //choisi un pion a enlever from peramite panel
+            pionSource[0] = pyramide.getPion(row, col);
+            pionSource[0].setVideCase(true);
+            Pion piondestination = le_premier_libre_penalite(penalitetable);
+            System.out.println("piondestination x et y:  " + piondestination.getX() + "  " + piondestination.getY());
 
-        piondestination.replacePion(pionSource[0]);
-        piondestination.setVideCase(false);
-        System.out.println("piondestination: couleur " + piondestination.getCouleur() + " vide ou nn !  " + piondestination.estVide());
-        JLabel labelSource = LabelSource(pionSource[0],pyramidPanel);
-        JLabel labelDestination = le_premier_libre_penalite_label(penalitePanel, piondestination.getY());
-        labelDestination.setIcon(labelSource.getIcon());
-        labelSource.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
-        labelSource.setVisible(true);
-        //enlever le pion de la pyramide
-    }}
+            piondestination.replacePion(pionSource[0]);
+            piondestination.setVideCase(false);
+            System.out.println("piondestination: couleur " + piondestination.getCouleur() + " vide ou nn !  " + piondestination.estVide());
+            JLabel labelSource = LabelSource(pionSource[0],pyramidPanel);
+            JLabel labelDestination = le_premier_libre_penalite_label(penalitePanel, piondestination.getY());
+            labelDestination.setIcon(labelSource.getIcon());
+            labelSource.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+            labelSource.setVisible(true);
+            //enlever le pion de la pyramide
+        }}
 
     private JLabel LabelSource(Pion source, JPanel Pyramid){
         int panelIndex = source.getX();
@@ -474,11 +475,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     public JLabel le_premier_libre_penalite_label(JPanel penalite,int sourceY){
         int labelIndex = sourceY;
         if (labelIndex < penalite.getComponentCount()) {
-        Component innerComponent = penalite.getComponent(labelIndex);
+            Component innerComponent = penalite.getComponent(labelIndex);
             System.out.println("labelIndex "+labelIndex);
             if (innerComponent instanceof JLabel) {
-            return (JLabel) innerComponent;
-        }}
+                return (JLabel) innerComponent;
+            }}
         return null;
     }
     private JLabel createPyramideLabel(Pion pion) {
@@ -612,6 +613,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     //ImagePion.setImage(ImagePion.getImage().getScaledInstance(55, 40, Image.SCALE_DEFAULT));
                     pyramidLabel.setIcon(ImagePion);
                     pionCount[0]--;
+
                 }
             }
         });
@@ -653,8 +655,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 panelListener(K3Panel, K3Panel, K3, K3, 1, 1, null, null);//TODO: change the penalite table and panel
 
                 if (GameModeHandler == 1) {
-                    panelListener(p1PyramidPanel, K3Panel, p1Pyramide, K3, 2, 0, penalitetable1, penalitePanel1);
-                    panelListener(p2PyramidPanel, K3Panel, p2Pyramide, K3, 3, 0, penalitetable2, penalitePanel2);
+                    panelListener(p1PyramidPanel, K3Panel, p1Pyramide, K3, 2, 0, penalitetable2, penalitePanel2);
+                    panelListener(p2PyramidPanel, K3Panel, p2Pyramide, K3, 3, 0, penalitetable1, penalitePanel1);
                /* LesCoutsAccessibles liste=new LesCoutsAccessibles();
                 liste.afficherCoutsAccessibles(p2Pyramide, K3);*/
                     addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel, penalitePanel1, penalitePanel2), "phase2");
@@ -663,8 +665,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 }else if(GameModeHandler == 2){
                     cardLayout.show(mainPanel, "phase11");
                 }else if(GameModeHandler == 3){
-                    panelListener(p1PyramidPanel, K3Panel, p1Pyramide, K3, 2, 1 , penalitetable1, penalitePanel1);
-                    panelListener(p2PyramidPanel, K3Panel, p2Pyramide, K3, 2, 1 , penalitetable2, penalitePanel2);
+                    panelListener(p1PyramidPanel, K3Panel, p1Pyramide, K3, 2, 1 , penalitetable2, penalitePanel2);
+                    panelListener(p2PyramidPanel, K3Panel, p2Pyramide, K3, 2, 1 , penalitetable1, penalitePanel1);
                     addPanel(Phase2(p1PyramidPanel, p2PyramidPanel, K3Panel, penalitePanel1, penalitePanel2), "phase2");
                     cardLayout.show(mainPanel, "phase2");
                 }
