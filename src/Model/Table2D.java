@@ -17,6 +17,8 @@ public class Table2D {
     ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
     ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
 
+    ImageIcon EMPTY = new ImageIcon("sources/Images/EMPTY.png");
+
     public Table2D(int hight, int width, int[] bag) {
         if (hight >1){
 
@@ -31,7 +33,7 @@ public class Table2D {
         this.cases = new Pion[hight][width];
         for (int i = 0; i < hight; i++) {
             for (int j = 0; j < width; j++) {
-                this.cases[i][j] = new Pion(null, Pion.TypePion.VIDE, VIDE, 0,i, 0);
+                this.cases[i][j] = new Pion(null, Pion.TypePion.VIDE, EMPTY, 0,i, 0);
             }
         }
     }
@@ -76,14 +78,19 @@ public class Table2D {
     }
 
 
-    public CouleurPion RandomPions(int bag[]) { // Randomly choose a color of pion
+    public CouleurPion RandomPions(int bag[]) { // Randomly choose a color of pion but at least 4 colors
         ArrayList<Integer> listdesPions = new ArrayList<Integer>();
         for (int k = 0; k < bag.length; k++) {
             if(bag[k] != 0)
                 listdesPions.add(k);
         }
-
-         int random = (int) (Math.random() * listdesPions.size());
+        while (listdesPions.size() < 4) {
+            for (int k = 0; k < bag.length; k++) {
+                if(bag[k] != 0)
+                    listdesPions.add(k);
+            }
+        }
+        int random = (int) (Math.random() * listdesPions.size());
         bag[listdesPions.get(random)]--;
         switch (listdesPions.get(random)) {
             case 0:
@@ -144,6 +151,7 @@ public class Table2D {
     public Table2D initTable1D(int width,int bag[]) {//K3 base
         CouleurPion couleurPion;
         for (int i = 0; i < width; i++) {
+            //randomly generate the pions but 4 colors at least
             couleurPion = RandomPions(bag);
             switch (couleurPion) {
                 case ROUGE:
