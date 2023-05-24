@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class LesCoutsAccessibles
 {
+    private static final int MAX_DEPTH = 5;
     Pion source;
     Pion destination;
     //arraylist pour stocker le pion source et le pion destination
@@ -116,7 +117,8 @@ public class LesCoutsAccessibles
 
     }
     // TODO : Test des Pions Blancs
-    public Pion choisirUnPionAjouer(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite) {
+
+ public Pion choisirUnPionAjouer1(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite) {
         Pion sourcePion;
         Pion destinationPion;
         int i = 0;
@@ -175,8 +177,7 @@ public class LesCoutsAccessibles
         example.showFeedback("l'autre joueur qui a gangné",10000);
         return null;
     }
-    public Pion choisirUnPionAjouerSource(Pyramide pyramideJoueur, Pyramide K3,Table2D penalite)
-    {
+    public Pion choisirUnPionAjouerSource1(Pyramide pyramideJoueur, Pyramide K3,Table2D penalite)    {
         Pion sourcePion;
         Pion destinationPion;
         int i = 0;
@@ -239,6 +240,36 @@ public class LesCoutsAccessibles
         return null;
     }
 
+    public Pion choisirUnPionAjouer(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite) {
+        return minimax(pyramideJoueur, K3, penalite, 0).destination;
+    }
+
+    public Pion choisirUnPionAjouerSource(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite) {
+        return minimax(pyramideJoueur, K3, penalite, 0).source;
+    }
+
+    private Evaluation minimax(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite, int depth) {
+        Evaluation bestMove=new Evaluation();
+        bestMove.source = choisirUnPionAjouerSource1(pyramideJoueur, K3, penalite);
+        bestMove.destination = choisirUnPionAjouer1(pyramideJoueur, K3, penalite);
+        return bestMove;
+        }
+
+
+    private Evaluation evaluateBoard(Pyramide pyramideJoueur, Pyramide K3, Table2D penalite) {
+        //minimax heuristique (normalement)
+        Evaluation evaluation = new Evaluation();
+        evaluation.value = /* calculer la valeur de l'état actuel du tableau*/  0;
+        return evaluation;
+    }
+
+
+
+    private static class Evaluation {
+        Pion source;
+        Pion destination;
+        int value;
+    }
     public ArrayList<LesCoutsAccessibles> getLesCoutsAccessible() {
         return lesCoutsAccessible;
     }
