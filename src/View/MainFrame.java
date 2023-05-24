@@ -9,6 +9,7 @@ import com.sun.tools.javac.Main;
 import launcher.GameLauncher;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,10 +30,14 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     ImageIcon startIMG1v1Hover = new ImageIcon("sources/Images/1v1hover.png");
     ImageIcon startIMG1vAI = new ImageIcon("sources/Images/1vAI.png");
     ImageIcon startIMG1vAIHover = new ImageIcon("sources/Images/1vAIhover.png");
-
+    ImageIcon EXITIMG = new ImageIcon("sources/Images/EXIT.png");
+    ImageIcon EXITIMGHover = new ImageIcon("sources/Images/EXIThover.png");
+    ImageIcon REPLAYIMG = new ImageIcon("sources/Images/REPLAY.png");
+    ImageIcon REPLAYIMGHover = new ImageIcon("sources/Images/REPLAYhover.png");
+    ImageIcon undoIMG = new ImageIcon("sources/Images/undo.png");
+    ImageIcon undohoverIMG = new ImageIcon("sources/Images/undohover.png");
     JLabel feedbackLabelcenter;
     JButton readyButton;
-    Feedback example = new Feedback();
     private Stack<Pion> history2Dtable = new Stack<Pion>();
     private Stack<Pion> historyPyramid = new Stack<Pion>();
     public boolean penalite=false;
@@ -82,11 +87,9 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //System.out.println("Start Game");
-                // example.showFeedback("Start Game", 10000);
-                JPanel table2DP1Panel = tabel2DPanel(table2DP1);
+                JPanel table2DP1Panel = tabel2DPanel(table2DP1, 1);
                 JPanel p1PyramidPanel = pyramidePanel(p1Pyramide);
-                JPanel table2DP2Panel = tabel2DPanel(table2DP2);
+                JPanel table2DP2Panel = tabel2DPanel(table2DP2,1);
                 JPanel p2PyramidPanel = pyramidePanel(p2Pyramide);
                 JPanel baseK3Panel = baseK3(baseK3);
                 JPanel baseK3Panel2 = baseK3(baseK3);
@@ -138,18 +141,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         mainPanel.setOpaque(false);
         mainFrame.add(mainPanel, BorderLayout.CENTER);
     }
-
     private void initializeFrame() {
         mainFrame = new JFrame("K3");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1200, 800);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setLayout(new BorderLayout());
-
-
     }
 
-    public JPanel tabel2DPanel(Table2D table2D) {
+    public JPanel tabel2DPanel(Table2D table2D, int mode) {
         JPanel tablePanel = new JPanel(new GridLayout(table2D.getHeight(), table2D.getWidth(), 0, 0));
         int k = 0;
 
@@ -167,9 +167,23 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 int finalJ = j;
                 table2DLabel.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        pionSource[0]=table2D.getPion(finalI, finalJ);
-                        labelr = table2DLabel;
-                        history2Dtable.push(pionSource[0]);
+                        switch (mode){
+                            case 1:{
+                                pionSource[0]=table2D.getPion(finalI, finalJ);
+                                labelr = table2DLabel;
+                                history2Dtable.push(pionSource[0]);
+                            }
+                            break;
+                            case 2: {
+                                if (new GameController().testTourSeule(tour, pionSource[0])==false) {
+                                    pionSource[0]=table2D.getPion(finalI, finalJ);
+                                    labelr = table2DLabel;
+                                    history2Dtable.push(pionSource[0]);
+                                }
+                                break;
+                            }
+
+                        }
                     }
                 });
             }
@@ -180,7 +194,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         //style of the panel
         return tablePanel;
     }
-
     public JPanel pyramidePanel(Pyramide pyramide) {
         JPanel pyramidePanel = new JPanel(new GridLayout(pyramide.getHight(), pyramide.getHight(), 0, 0));
 
@@ -224,16 +237,17 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                 int finalRow = i;
                 int finalCol = j;
                 pyramideLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        pyramideLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
+
                         handleMouseClicked(K3Panel,s, option, finalRow, finalCol, pyramide, K3, pyramideLabel, pyramidPanel, penalitetable, penalitePanel, readyButton, undoButton);
                     }
                 });
             }
         }
     }
-
-
-
 
     private void handleMouseClicked(JPanel k3Panel, int s, int option, int row, int col, Pyramide pyramide, Pyramide K3, JLabel pyramideLabel, JPanel pyramidPanel,Table2D penalitetable, JPanel penalitePanel, JButton readyButton, JButton undoButton) {
         switch (s) {
@@ -253,6 +267,16 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     private void handleCase1(int option, int row, int col, Pyramide pyramide,JLabel pyramideLabel, JButton readyButton, JButton undoButton) {
         {
+            if (tour!=1){
+                //set the color of the label
+                feedbackLabelcenter.setForeground(Color.BLACK);
+                feedbackLabelcenter.setText("Player 1 (Left Pyramid)");
+            }else {
+                feedbackLabelcenter.setForeground(Color.BLACK);
+                feedbackLabelcenter.setText("Player 2 (Right Pyramid)");
+            }
+
+
             if (labelr != null) {
                 Pion pionDestination = pyramide.getPion(row, col);
                 if(option ==1) {//construction de la pyramide K3 avec ordre
@@ -263,14 +287,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                         labelr = null;
                         if(!penalite){
-                            feedbackLabelcenter.setText("Deplacement effectué");
-                            feedbackLabelcenter.setBackground(Color.BLACK);
-                            feedbackLabelcenter.setForeground(Color.GREEN);
                             tour=changertour(tour);
                             penalite=false;
                         }
                         else{
-                            feedbackLabelcenter.setText("Deplacement effectué avec penalité(choisir un pion pour l'enlever)");
+                            feedbackLabelcenter.setText("penalization");
                             feedbackLabelcenter.setBackground(Color.BLACK);
                             feedbackLabelcenter.setForeground(Color.RED);
                             penalite=true;
@@ -278,11 +299,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     }
                     else {
                         //handle case when the move is not possible
-                        example.setVisible(true);
-                        example.showFeedback("Deplacement non effectué", 1000);
-                        feedbackLabelcenter.setText("Deplacement non effectué");
-                        feedbackLabelcenter.setForeground(Color.RED);
-                        feedbackLabelcenter.setBackground(Color.BLACK);
                         labelr = null;
                     }
                 }else{//construction du premiere pyramide sans ordre
@@ -302,13 +318,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             }
             else{
                 if(feedbackLabelcenter!=null) {
-                    feedbackLabelcenter.setText("selectionner un pion");
-                    feedbackLabelcenter.setForeground(Color.RED);
-                    feedbackLabelcenter.setBackground(Color.BLACK);
+                    feedbackLabelcenter.setText("Pion is selected");
+                    feedbackLabelcenter.setForeground(Color.GREEN);
                 }else{
-                    example.setVisible(true);
-                    example.showFeedback("selectionner un pion SVP", 2000);
-
+                    feedbackLabelcenter.setText("Select a pion");
+                    feedbackLabelcenter.setForeground(Color.RED);
                 }
             }
         }
@@ -322,8 +336,12 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     private JPanel phase3(String message){
         JPanel phase3Panel = new JPanel();
-        Box quitterBox = quitter();
-        Box rejouerBox = rejouer();
+        JButton quitterBox = quitter();
+        JButton rejouerBox = rejouer();
+        Box quitterRejouerBox = Box.createHorizontalBox();
+        quitterRejouerBox.add(quitterBox);
+        quitterRejouerBox.add(rejouerBox);
+        quitterRejouerBox.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
         //display the winner
         JLabel winnerLabel = new JLabel(message);
         // Text BLACK and big in the center
@@ -335,9 +353,16 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         JPanel winnerPanel = new JPanel();
         winnerPanel.setLayout(new BorderLayout());
         winnerPanel.add(winnerLabel, BorderLayout.CENTER);
+        winnerPanel.setOpaque(false);
+        //add margin to the panel
         phase3Panel.setLayout(new BorderLayout());
-        phase3Panel.add(quitterBox, BorderLayout.WEST);
-        phase3Panel.add(rejouerBox, BorderLayout.EAST);
+        phase3Panel.add(quitterRejouerBox, BorderLayout.SOUTH);
+
+        phase3Panel.setOpaque(false);
+        phase3Panel.add(winnerPanel, BorderLayout.CENTER);
+        //add margin to the panel
+        phase3Panel.setBorder(BorderFactory.createEmptyBorder(300, 300, 200, 300));
+        //
         return phase3Panel;
     }
 
@@ -349,8 +374,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     private void handleCase2(int row, int col, Pyramide pyramide, JLabel pyramideLabel, Pyramide K3, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
         {
             if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
-                if(new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable)!=null){
-                    String message = "The winner is the player " + tour;
+                if(new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable)==null){
+                    String message = "THE WINNER IS THE PLAYER " + tour;
                     addPanel(phase3(message), "phase3");
                     cardLayout.show(mainPanel, "phase3");
                 }
@@ -359,17 +384,12 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     if (new GameController().testTour(tour, pionSource[0], pyramide, K3, penalitetable)) {
                         if (!penalite) {
                             if (new GameController().testAvantDeplacement(pionSource[0], pyramide) == false) {
-                                example.setVisible(true);
-                                example.showFeedback("pion non accessible", 1000);
-                                System.out.println("pion non accessible");
+
+                                feedbackLabelcenter.setText("pion not naccessible");
                                 labelr = null;
                             } else
                             {
                                 if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
-                                    example.setVisible(true);
-                                    example.showFeedback("Tour du joueur Passé avec succés", 1000);
-                                    feedbackLabelcenter.setText("Tour du joueur Passé avec succés");
-                                    feedbackLabelcenter.setForeground(Color.GREEN);
                                     tour = changertour(tour);
                                     pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                                     pionSource[0].setVideCase(true);
@@ -383,18 +403,14 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         }
 
                     } else {
-                        example.setVisible(true);
-                        example.showFeedback("ce n'est pas votre tour", 1000);
-                        System.out.println("ce n'est pas votre tour");
+                        feedbackLabelcenter.setText("It's not your turn");
                     }
                 }
             }
             else
             {
-                System.out.println("labelr = " + labelr + " pyramideLabel = " + pyramideLabel.getIcon());
-                example.setVisible(true);
-                example.showFeedback("selectionner un pion SVPppppp", 2000);
-                System.out.println("selectionner un pion SVP");
+                System.out.println();
+                feedbackLabelcenter.setText("Choose a pion");
             }
         }
     }
@@ -419,8 +435,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             pionSource[0].setVideCase(true);
                         }
                         else if (pionDestination != null) {
-                            example.setVisible(true);
-                            example.showFeedback("Il y a une possibilité de coup", 1000);
 
                             // Get the JLabel from k3 panel using the pionDestination's coordinates
                             JLabel distinationLabel = LabelSource(pionDestination, k3);
@@ -430,24 +444,23 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             JLabel sourcePanel = LabelSource(pionSource[0], pyramidPanel);
                             sourcePanel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                             pionSource[0].setVideCase(true);
-                            System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
+                            //System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
                             penalite = new GameController().getPenalite(pionDestination, pionDestination, K3);
                             if (!penalite) {
-                                feedbackLabelcenter.setText("Deplacement effectué");
-                                feedbackLabelcenter.setBackground(Color.BLACK);
-                                feedbackLabelcenter.setForeground(Color.GREEN);
+                               // feedbackLabelcenter.setText("Deplacement effectué");
+                                //feedbackLabelcenter.setBackground(Color.BLACK);
+                               // feedbackLabelcenter.setForeground(Color.GREEN);
                                 tour = changertour(tour);
                                 penalite = false;
                             } else {
-                                feedbackLabelcenter.setText("Deplacement effectué avec penalité(choisir un pion pour l'enlever)");
-                                feedbackLabelcenter.setBackground(Color.BLACK);
+                                feedbackLabelcenter.setText("penalization");
+                                //feedbackLabelcenter.setBackground(Color.BLACK);
                                 feedbackLabelcenter.setForeground(Color.RED);
                                 penalite = true;
                             }
                         } else {
-                            example.setVisible(true);
-                            example.showFeedback("Ce n'est pas votre tour", 1000);
-                            System.out.println("Ce n'est pas votre tour");
+                          feedbackLabelcenter.setText("Ce n'est pas votre tour");
+                            //System.out.println("Ce n'est pas votre tour");
                         }
                         labelr = null;
                     }
@@ -456,20 +469,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     penalite_func(row, col, pyramide, pyramidPanel, penalitetable, penalitePanel);
                 }
             } else {
-                example.setVisible(true);
-                example.showFeedback("ce n'est pas votre tour", 1000);
                 labelr = null;
             }
         }
     }
 
     private void penalite_func(int row,int col,Pyramide pyramide, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
-        //deplacer le pion source vers la case vide du panel penalite
-        example.showFeedback("penalité a executer-------------------------------", 5000);
-        System.out.println("penalité a executer11111");
         if(new GameController().testAvantDeplacement(pionSource[0],pyramide)==false){
-            example.showFeedback("pion non accessible choisie un autre", 1000);
-            System.out.println("pion non accessible choisie un autre");
             labelr = null;
         }
         else{
@@ -479,11 +485,11 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             pionSource[0] = pyramide.getPion(row, col);
             pionSource[0].setVideCase(true);
             Pion piondestination = le_premier_libre_penalite(penalitetable);
-            System.out.println("piondestination x et y:  " + piondestination.getX() + "  " + piondestination.getY());
+            //System.out.println("piondestination x et y:  " + piondestination.getX() + "  " + piondestination.getY());
 
             piondestination.replacePion(pionSource[0]);
             piondestination.setVideCase(false);
-            System.out.println("piondestination: couleur " + piondestination.getCouleur() + " vide ou nn !  " + piondestination.estVide());
+            //System.out.println("piondestination: couleur " + piondestination.getCouleur() + " vide ou nn !  " + piondestination.estVide());
             JLabel labelSource = LabelSource(pionSource[0],pyramidPanel);
             JLabel labelDestination = le_premier_libre_penalite_label(penalitePanel, piondestination.getY());
             labelDestination.setIcon(labelSource.getIcon());
@@ -589,28 +595,37 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         //Box phase2 = Box.createHorizontalBox();
         JPanel phase2 = new JPanel();
         phase2.setLayout(new BoxLayout (phase2, BoxLayout.X_AXIS));
-        feedbackLabelcenter = new JLabel(" ");
+        feedbackLabelcenter = new JLabel("Player 1 (Left Pyramid)");
+        feedbackLabelcenter.setFont(new Font("Serif", Font.BOLD, 30));
+        feedbackLabelcenter.setForeground(Color.BLACK);
+        //add margin to feedbackLabelcenter
+        feedbackLabelcenter.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 0));
         penalitePanel1.setLayout(new GridLayout());
         penalitePanel2.setLayout(new GridLayout());
         //add quitter button
-        Box quitter = quitter();
+        JButton quitter = quitter();
+        JButton rejouer = rejouer();
+        Box boxQuitter = Box.createHorizontalBox();
+        boxQuitter.add(quitter);
+        boxQuitter.add(rejouer);
+        //add margin to boxQuitter
+        boxQuitter.setBorder(BorderFactory.createEmptyBorder(100, 50, 0, 0));
+
+
         //leftPanel
-        JPanel leftPanel = phase2Panel(penalitePanel1, p1Pyramide);
+        JPanel leftPanel = phase2Panel(p1Pyramide, penalitePanel1, null);
         phase2.add(leftPanel);
         //centerPanel
-        JPanel centerPanel = phase2Panel(feedbackLabelcenter, K3);
+        JPanel centerPanel = phase2Panel(feedbackLabelcenter, K3, boxQuitter);
         phase2.add(centerPanel);
         //rightPanel
-        JPanel rightPanel = phase2Panel(penalitePanel2, p2Pyramide);
+        JPanel rightPanel = phase2Panel(p2Pyramide, penalitePanel2, null);
+
         rightPanel.setOpaque(false);
         phase2.add(rightPanel);
-        // transparent background
-        phase2.setOpaque(false);
-        //JPanel p = new JPanel();
-        //p.add(phase2);
 
-        //add margin to the panel
-        phase2.setBorder(BorderFactory.createEmptyBorder(100, 0, 100, 100));
+        phase2.setOpaque(false);
+        phase2.setBorder(BorderFactory.createEmptyBorder(100, 0, 100, 200));
 
 
         return phase2;
@@ -618,14 +633,16 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
 
 
-    JPanel phase2Panel(Component C1, Component C2){
+    JPanel phase2Panel(Component C1, Component C2, Component C3){
         //distance between the two components
         JPanel Panel = new JPanel(new BorderLayout());
-        Panel.add(C1, BorderLayout.CENTER);
-        Panel.add(C2, BorderLayout.NORTH);
+        Panel.add(C1, BorderLayout.NORTH);
+        Panel.add(C2, BorderLayout.CENTER);
+        if(C3!=null)
+        Panel.add(C3, BorderLayout.SOUTH);
         Panel.setOpaque(false);
         //add margin to the panel
-        Panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        Panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0,0 ));
         return Panel;
     }
 
@@ -640,7 +657,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         mainPanel.add(panel, name);
     }
     public JButton undoButton(Table2D table2D , JPanel tablePanel, JPanel pyramidPanel, JButton readyButton){
-        JButton undoButton = new JButton("Undo");
+        JButton undoButton = new JButton();
         if(pionCount[0]<=0){undoButton.setEnabled(false);}
         else{undoButton.setEnabled(true);}
         undoButton.addActionListener(new ActionListener() {
@@ -677,20 +694,15 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         });
 
 
+        styleButton(undoButton, undoIMG);
+        hover(undoButton, undoIMG, undohoverIMG);
+
 
         return undoButton;
     }
 
     public JButton readyButton(Pyramide p1Pyramide,Pyramide p2Pyramide, Pyramide K3, JPanel p1PyramidPanel, JPanel p2PyramidPanel, int PlayerNumber, Table2D penalitetable1, JPanel penalitePanel1, Table2D penalitetable2, JPanel penalitePanel2 ){
         readyButton = new JButton();
-/*        if(pionCount[0]==21){
-            readyButton.setEnabled(true);
-            readyButton.setVisible(true);
-        }
-        else{
-            readyButton.setEnabled(false);
-            readyButton.setVisible(false);}*/
-
         readyButtonListener(p1Pyramide, p2Pyramide, K3, p1PyramidPanel, p2PyramidPanel, PlayerNumber, penalitetable1, penalitePanel1, penalitetable2, penalitePanel2);
         ImageIcon img = new ImageIcon("sources/Images/READY.png");
 
@@ -738,13 +750,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         });
     }
 
-
-
-
-
-
-    public Box quitter(){
-        JButton quitter = new JButton("quitter");
+    public JButton quitter(){
+        JButton quitter = new JButton();
         //size of the button
         quitter.setPreferredSize(new Dimension(50, 50));
         //width of button border
@@ -756,15 +763,17 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             }
         });
 
-        Box boxQuitter = Box.createHorizontalBox();
+     /*   Box boxQuitter = Box.createHorizontalBox();
         boxQuitter.add(Box.createHorizontalGlue());
         boxQuitter.add(quitter);
-        boxQuitter.setOpaque(false);
-        return boxQuitter;
+        boxQuitter.setOpaque(false);*/
+        styleButton(quitter, EXITIMG);
+        hover(quitter, EXITIMG, EXITIMGHover);
+        return quitter;
     }
 
-    public Box rejouer(){
-        JButton rejouer = new JButton("rejouer");
+    public JButton rejouer(){
+        JButton rejouer = new JButton();
         //size of the button
         rejouer.setPreferredSize(new Dimension(50, 50));
         //width of button border
@@ -772,28 +781,33 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         rejouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //close the current window
+                mainFrame.dispose();
                 new GameLauncher().launcher();
 
             }
         });
 
-        Box boxRejouer = Box.createHorizontalBox();
+/*        Box boxRejouer = Box.createHorizontalBox();
         boxRejouer.add(Box.createHorizontalGlue());
         boxRejouer.add(rejouer);
-        boxRejouer.setOpaque(false);
-        return boxRejouer;
+        boxRejouer.setOpaque(false);*/
+        styleButton(rejouer, REPLAYIMG);
+        hover(rejouer, REPLAYIMG, REPLAYIMGHover);
+        return rejouer;
     }
 
 
 
     public JPanel penalitePanel(Table2D penalité){
         JPanel pionPenalité;
-        pionPenalité = tabel2DPanel(penalité);
+        pionPenalité = tabel2DPanel(penalité, 2);
         return pionPenalité;
     }
     private void hover(JButton button, ImageIcon img, ImageIcon imgHover){
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 button.setIcon(imgHover);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {

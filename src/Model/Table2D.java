@@ -84,7 +84,7 @@ public class Table2D {
             if(bag[k] != 0)
                 listdesPions.add(k);
         }
-        while (listdesPions.size() < 4) {
+        while (listdesPions.size() <4) {
             for (int k = 0; k < bag.length; k++) {
                 if(bag[k] != 0)
                     listdesPions.add(k);

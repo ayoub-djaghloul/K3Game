@@ -17,7 +17,7 @@ public class LesCoutsAccessibles
     ArrayList<Pion> lesPionsDestinations = new ArrayList<Pion>();
     ArrayList<LesCoutsAccessibles> lesCoutsAccessible = new ArrayList<LesCoutsAccessibles>();
 
-    Feedback example = new Feedback();
+
 
     public LesCoutsAccessibles(Pion source, Pion destination)
     {
@@ -62,7 +62,6 @@ public class LesCoutsAccessibles
                 if (pyramideJoueur.getPion(i, j).estVide()==false) {
                     sourcePion = pyramideJoueur.getPion(i, j);
                     if(sourcePion.getCouleur()== CouleurPion.BLANC){
-                        example.showFeedback("tu peux jouer le blanc",50000);
                     possibility = true;}
                     else
                     if (new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)){
@@ -85,36 +84,6 @@ public class LesCoutsAccessibles
                 }
             }
         }
-            /*for (int j = 0; j < penalite.getWidth()-1; j++) {
-                if (penalite.getPion(0, j).estVide()==false) {
-                    sourcePion = penalite.getPion(0, j);
-                        for (int k = 0; k < K3.getHight(); k++) {
-                            for (int l = 0; l <= k; l++) {
-                                if (K3.getPion(k, l).estVide() == true) {
-                                    destinationPion = K3.getPion(k, l);
-                                    if (new GameController().testDeplacementPionsanschangement1(sourcePion, destinationPion, K3)) {
-                                        System.out.println("penalité tableau [" + sourcePion.getX() + "," + sourcePion.getY() + "]" + "-->" + "[" + destinationPion.getX() + "," + destinationPion.getY() + "]");
-                                        this.lesPionsSources.add(sourcePion);
-                                        this.lesPionsDestinations.add(destinationPion);
-                                        this.lesCoutsAccessible.add(new LesCoutsAccessibles(sourcePion, destinationPion));
-                                        //afficher le contenue de la liste des couts accessibles arraylist
-                                        possibility = true;
-                                    }
-                                }
-                            }
-                        }
-
-                }
-
-        }*/
-
-        example.setVisible(true);
-        if (possibility == false){
-            example.showFeedback("l'autre joueur qui a gangné",2000);
-        }else{
-            example.showFeedbackArraylist(lesPionsSources, lesPionsDestinations,2000);
-        }
-
     }
     // TODO : Test des Pions Blancs
 
@@ -173,8 +142,6 @@ public class LesCoutsAccessibles
             }
             i++;
         }
-        example.setVisible(true);
-        example.showFeedback("l'autre joueur qui a gangné",10000);
         return null;
     }
     public Pion choisirUnPionAjouerSource1(Pyramide pyramideJoueur, Pyramide K3,Table2D penalite)    {
@@ -234,9 +201,6 @@ public class LesCoutsAccessibles
             }
             i++;
         }
-
-        example.setVisible(true);
-        example.showFeedback("l'autre joueur qui a gangné",10000);
         return null;
     }
 

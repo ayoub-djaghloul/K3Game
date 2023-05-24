@@ -30,7 +30,7 @@ public class GameController {
                 //System.out.println("Deplacement effectué parceque la source est beige");
                 return true;
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
-                System.out.println("Deplacement effectué mais avec pénalité");
+                //System.out.println("Deplacement effectué mais avec pénalité");
                 return true;
             } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource
                     || pionfils1.getCouleur() == CouleurPion.BEIGE || pionfils2.getCouleur() == CouleurPion.BEIGE ) {
@@ -60,37 +60,37 @@ public class GameController {
         int finalI = destination.getX();
         int finalJ = destination.getY();
         if(!destination.estVide()){
-            System.out.println("Destination non accessible(pas vide)");
+           // System.out.println("Destination non accessible(pas vide)");
             return false;
         }
         else{
             Pion pionfils1 = K3.getPion(finalI + 1, finalJ);
             Pion pionfils2 = K3.getPion(finalI + 1, finalJ + 1);
             if(pionfils1.getCouleur()==null || pionfils2.getCouleur()==null){
-                System.out.println("un des fils est null donc Déplacement impossible");
+                //System.out.println("un des fils est null donc Déplacement impossible");
                 return false;
             }else if (CSource == CouleurPion.BEIGE) {
                 destination.replacePion(source);
-                System.out.println("Deplacement effectué parceque la source est beige");
+                //System.out.println("Deplacement effectué parceque la source est beige");
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 destination.replacePion(source);
-                System.out.println("Deplacement effectué mais avec pénalité");
+               //System.out.println("Deplacement effectué mais avec pénalité");
                 this.DeplacementPenalite(source);
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
             } else if (pionfils1.getCouleur() == CSource || pionfils2.getCouleur() == CSource
             || pionfils1.getCouleur() == CouleurPion.BEIGE || pionfils2.getCouleur() == CouleurPion.BEIGE ){
-                System.out.println("y a un fils qui a la meme couleur que la source");
+                //System.out.println("y a un fils qui a la meme couleur que la source");
                 destination.replacePion(source);
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
             }  else {
-                System.out.println("Deplacement impossible");
+                //System.out.println("Deplacement impossible");
                 return false;
             }
         }
@@ -141,8 +141,19 @@ public class GameController {
             liste.afficherCoutsAccessibles(penalitetable,pyramidesource, pyramidedestination);
             return true;
         } else {
-            System.out.println("ce n'est pas votre tour");
             return false;}
         }
+
+    public boolean testTourSeule(int tour, Pion Source) {
+        System.out.println( "Joueur" + Source.getPlayer());
+        System.out.println("Tour du Joueur" + tour);
+        if (tour == Source.getPlayer()) {
+            return true;
+        } else {
+            return false;}
+    }
+
+
+
     }
 
