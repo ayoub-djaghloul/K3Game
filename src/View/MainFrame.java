@@ -419,7 +419,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     pionDestination = new LesCoutsAccessibles().choisirUnPionAjouer(pyramide, K3,penalitetable);
                     pionSource[0] = new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable);
                     if(pionSource[0]==null){
-                        String message = "The winner is the player " + tour;
+                        String message = "The winner is the player " + changertour(tour) ;
                         addPanel(phase3(message), "phase3");
                         cardLayout.show(mainPanel, "phase3");
                     }else{
