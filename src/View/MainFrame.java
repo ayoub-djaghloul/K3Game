@@ -100,7 +100,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     JButton readyButton = readyButton(p1Pyramide, p2Pyramide, K3, p1PyramidPanel, p2PyramidPanel, 1, penalitetable1, penalitePanel1, penalitetable2, penalitePanel2);
                     JButton undoButton = undoButton(table2DP1, table2DP1Panel, p1PyramidPanel, readyButton);
                     panelListener(p1PyramidPanel, null, p1Pyramide, K3, 1, 0, penalitetable, penalitePanel, readyButton, undoButton);
-                    addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton), "phase1");
+                    addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButton, readyButton,1), "phase1");
                     cardLayout.show(mainPanel, "phase1");
                 }else if(gameMode==2){
                     JButton readyButton1 = readyButton(p1Pyramide, p2Pyramide, K3, p1PyramidPanel, p2PyramidPanel, 2, penalitetable1, penalitePanel1, penalitetable2, penalitePanel2);
@@ -109,8 +109,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     JButton undoButtonP2 = undoButton(table2DP1, table2DP2Panel, p2PyramidPanel, readyButton2);
                     panelListener(p1PyramidPanel, null, p1Pyramide, K3, 1, 0, penalitetable, penalitePanel, readyButton1, undoButtonP1);
                     panelListener(p2PyramidPanel, null, p2Pyramide, K3, 1, 0, penalitetable, penalitePanel, readyButton2, undoButtonP2);
-                    addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButtonP1, readyButton1), "phase10");
-                    addPanel(Phase1(table2DP2Panel, p2PyramidPanel, baseK3Panel2, undoButtonP2, readyButton2), "phase11");
+                    addPanel(Phase1(table2DP1Panel, p1PyramidPanel, baseK3Panel, undoButtonP1, readyButton1,1), "phase10");
+                    addPanel(Phase1(table2DP2Panel, p2PyramidPanel, baseK3Panel2, undoButtonP2, readyButton2,2), "phase11");
                     cardLayout.show(mainPanel, "phase10");
                     //startButton.setVisible(false);
                 }
@@ -452,7 +452,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                                 penalite = true;
                             }
                         } else {
-                          feedbackLabelcenter.setText("Ce n'est pas votre tour");
+                            feedbackLabelcenter.setText("Ce n'est pas votre tour");
                             //System.out.println("Ce n'est pas votre tour");
                         }
                         labelr = null;
@@ -562,14 +562,18 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
 
 
-    public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3, JButton undoButton, JButton readyButton) {
+    public JPanel Phase1(JPanel pyramid, JPanel table2D, JPanel baseK3, JButton undoButton, JButton readyButton,int num) {
         JPanel phase1 = new JPanel();
+        JLabel feedbackLabelcenter = new JLabel("Pyramide Du Player "+ num);
+        feedbackLabelcenter.setFont(new Font("Serif", Font.BOLD, 30));
+        feedbackLabelcenter.setForeground(Color.BLACK);
         Box boxBaseReady = Box.createVerticalBox();
         boxBaseReady.add(baseK3);
         boxBaseReady.add(readyButton);
         Box boxUndoButton = Box.createHorizontalBox();
         boxUndoButton.add(undoButton);
         phase1.setLayout(new BorderLayout(30, 30));
+        phase1.add(feedbackLabelcenter, BorderLayout.WEST);
         phase1.add(table2D, BorderLayout.CENTER);
         phase1.add(pyramid, BorderLayout.NORTH);
         //phase1.add(baseK3, BorderLayout.SOUTH);
@@ -632,7 +636,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         Panel.add(C1, BorderLayout.NORTH);
         Panel.add(C2, BorderLayout.CENTER);
         if(C3!=null)
-        Panel.add(C3, BorderLayout.SOUTH);
+            Panel.add(C3, BorderLayout.SOUTH);
         Panel.setOpaque(false);
         //add margin to the panel
         Panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0,0 ));
