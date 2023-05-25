@@ -1,15 +1,12 @@
 package View;
 import AI.RandomAI;
-import Controller.Feedback;
 import Controller.GameController;
 import Controller.LesCoutsAccessibles;
 import Model.*;
 import Model.Pion;
-import com.sun.tools.javac.Main;
 import launcher.GameLauncher;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -217,13 +214,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             pyramideLabel.setName(Integer.toString(i+j));
             pionPanel.setOpaque(false);
             pionPanel.setBorder(BorderFactory.createEmptyBorder());
-           /* int finalRow = i;
-            int finalCol = j;
-            pyramideLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    handleMouseClicked(k3Panel,s, option, finalRow, finalCol, pyramide, K3, pyramideLabel);
-                }
-            });*/
+
         }
         return pionPanel;
     }
@@ -267,19 +258,19 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     private void handleCase1(int option, int row, int col, Pyramide pyramide,JLabel pyramideLabel, JButton readyButton, JButton undoButton) {
         {
-            if (tour!=1){
-                //set the color of the label
-                feedbackLabelcenter.setForeground(Color.BLACK);
-                feedbackLabelcenter.setText("Player 1 (Left Pyramid)");
-            }else {
-                feedbackLabelcenter.setForeground(Color.BLACK);
-                feedbackLabelcenter.setText("Player 2 (Right Pyramid)");
-            }
-
-
             if (labelr != null) {
                 Pion pionDestination = pyramide.getPion(row, col);
                 if(option ==1) {//construction de la pyramide K3 avec ordre
+
+                    if (tour!=1){
+                        //set the color of the label
+                        feedbackLabelcenter.setForeground(Color.BLACK);
+                        feedbackLabelcenter.setText("Player 1 (Left Pyramid)");
+                    }else {
+                        feedbackLabelcenter.setForeground(Color.BLACK);
+                        feedbackLabelcenter.setText("Player 2 (Right Pyramid)");
+                    }
+
                     if(new GameController().testDeplacementPion(pionSource[0], pionDestination, pyramide)==true) {
                         //handle case when the move is possible
                         penalite=new GameController().getPenalite(pionSource[0], pionDestination, pyramide);
@@ -309,7 +300,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
                     labelr = null;
                     pionDestination.setVideCase(false);
-                    //if(pionCount[0]==21){readyButton.setEnabled(true);}
+                    if(pionCount[0]==21){readyButton.setEnabled(true);}
                     if(pionCount[0]<=0){undoButton.setEnabled(false);}
                     else{undoButton.setEnabled(true);}
                 }
@@ -374,7 +365,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     private void handleCase2(int row, int col, Pyramide pyramide, JLabel pyramideLabel, Pyramide K3, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
         {
             if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
-                if(new LesCoutsAccessibles().choisirUnPionAjouerSource(pyramide, K3,penalitetable)==null){
+                if(new LesCoutsAccessibles().choisirUnPionAjouerSource1(pyramide, K3,penalitetable)==null){
                     String message = "THE WINNER IS THE PLAYER " + tour;
                     addPanel(phase3(message), "phase3");
                     cardLayout.show(mainPanel, "phase3");
@@ -447,9 +438,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             //System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
                             penalite = new GameController().getPenalite(pionDestination, pionDestination, K3);
                             if (!penalite) {
-                               // feedbackLabelcenter.setText("Deplacement effectué");
-                                //feedbackLabelcenter.setBackground(Color.BLACK);
-                               // feedbackLabelcenter.setForeground(Color.GREEN);
+
                                 tour = changertour(tour);
                                 penalite = false;
                             } else {
@@ -712,7 +701,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         styleButton(readyButton, img);
         //add padding to the button
         readyButton.setBorder(BorderFactory.createEmptyBorder(0,80,0 , 470));
-        //readyButton.setEnabled(false);
+        readyButton.setEnabled(false);
         return readyButton;
     }
 
@@ -763,10 +752,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             }
         });
 
-     /*   Box boxQuitter = Box.createHorizontalBox();
-        boxQuitter.add(Box.createHorizontalGlue());
-        boxQuitter.add(quitter);
-        boxQuitter.setOpaque(false);*/
         styleButton(quitter, EXITIMG);
         hover(quitter, EXITIMG, EXITIMGHover);
         return quitter;
@@ -781,17 +766,13 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         rejouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //close the current window
                 mainFrame.dispose();
                 new GameLauncher().launcher();
 
             }
         });
 
-/*        Box boxRejouer = Box.createHorizontalBox();
-        boxRejouer.add(Box.createHorizontalGlue());
-        boxRejouer.add(rejouer);
-        boxRejouer.setOpaque(false);*/
+
         styleButton(rejouer, REPLAYIMG);
         hover(rejouer, REPLAYIMG, REPLAYIMGHover);
         return rejouer;
