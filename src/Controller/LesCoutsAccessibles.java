@@ -152,7 +152,9 @@ public class LesCoutsAccessibles
             if (penalite.getPion(0, i).estVide()==false) {
                 sourcePion = penalite.getPion(0, i);
                 if(sourcePion.getCouleur()== CouleurPion.BLANC)
-                    return sourcePion;
+                {
+                        System.out.println("penalité tableau [" + sourcePion.getX() + "," + sourcePion.getY() + "]" );
+                        return sourcePion;}
                 int k = 0;
                 while (k < K3.getHight()) {
                     int l = 0;
@@ -178,7 +180,10 @@ public class LesCoutsAccessibles
                 if (pyramideJoueur.getPion(i, j).estVide()==false) {
                     sourcePion = pyramideJoueur.getPion(i, j);
                     if(sourcePion.getCouleur()== CouleurPion.BLANC)
-                        return sourcePion;
+                    {
+                        if (new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)) {
+                            System.out.println("penalité tableau [" + sourcePion.getX() + "," + sourcePion.getY() + "]" );
+                            return sourcePion;}}
                         if(new GameController().testAvantDeplacement(sourcePion, pyramideJoueur)) {
                         int k = 0;
                         while (k < K3.getHight()) {
