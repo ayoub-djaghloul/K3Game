@@ -78,7 +78,7 @@ public class GameController {
             }else if (CSource==pionfils1.getCouleur()&&CSource==pionfils2.getCouleur()) {
                 destination.replacePion(source);
                //System.out.println("Deplacement effectué mais avec pénalité");
-                this.DeplacementPenalite(source);
+                //this.DeplacementPenalite(source);
                 destination.setVideCase(false);
                 source.setVideCase(true);
                 return true;
