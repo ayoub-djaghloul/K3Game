@@ -293,19 +293,25 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         labelr = null;
                     }
                 }else{//construction du premiere pyramide sans ordre
-                    pionDestination.replacePion(pionSource[0]);
-                    pyramideLabel.setIcon(labelr.getIcon());
-                    pionCount[0]++;
-                    System.out.println(pionCount[0]);
-                    labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
-                    labelr = null;
-                    pionDestination.setVideCase(false);
-                    if(pionCount[0]==21){readyButton.setEnabled(true);}
-                    if(pionCount[0]<=0){undoButton.setEnabled(false);}
-                    else{undoButton.setEnabled(true);}
+                    if(pionDestination.estVide()==true) {
+                        pionDestination.replacePion(pionSource[0]);
+                        pyramideLabel.setIcon(labelr.getIcon());
+                        pionCount[0]++;
+                        System.out.println(pionCount[0]);
+                        labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                        labelr = null;
+                        pionDestination.setVideCase(false);
+                        if (pionCount[0] == 21) {
+                            readyButton.setEnabled(true);
+                        }
+                        if (pionCount[0] <= 0) {
+                            undoButton.setEnabled(false);
+                        } else {
+                            undoButton.setEnabled(true);
+                        }
+                    }
                 }
                 historyPyramid.push(pionDestination);
-
             }
             else{
                 if(feedbackLabelcenter!=null) {
@@ -366,7 +372,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
         {
             if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
                 if(new LesCoutsAccessibles().choisirUnPionAjouerSource1(pyramide, K3,penalitetable)==null){
-                    String message = "THE WINNER IS THE PLAYER " + tour;
+                    String message = "THE WINNER IS THE PLAYER " + changertour(tour);
                     addPanel(phase3(message), "phase3");
                     cardLayout.show(mainPanel, "phase3");
                 }
@@ -397,9 +403,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         feedbackLabelcenter.setText("It's not your turn");
                     }
                 }
-            }
-            else
-            {
+            } else {
                 System.out.println();
                 feedbackLabelcenter.setText("Choose a pion");
             }
