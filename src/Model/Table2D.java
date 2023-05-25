@@ -8,16 +8,16 @@ public class Table2D {
     // bag containes the number of colors of each pion
 
     // colors of pions
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
-    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+    ImageIcon BEIGE = new ImageIcon(getClass().getResource("/Images/BEIGE.png"));
+    ImageIcon BLANC = new ImageIcon(getClass().getResource("/Images/BLANC.png"));
+    ImageIcon BLEU = new ImageIcon(getClass().getResource("/Images/BLEU.png"));
+    ImageIcon JAUNE = new ImageIcon(getClass().getResource("/Images/JAUNE.png"));
+    ImageIcon NOIR = new ImageIcon(getClass().getResource("/Images/NOIR.png"));
+    ImageIcon ROUGE = new ImageIcon(getClass().getResource("/Images/ROUGE.png"));
+    ImageIcon VERT = new ImageIcon(getClass().getResource("/Images/VERT.png"));
+    ImageIcon VIDE = new ImageIcon(getClass().getResource("/Images/VIDE.png"));
 
-    ImageIcon EMPTY = new ImageIcon("sources/Images/EMPTY.png");
+    ImageIcon EMPTY = new ImageIcon(getClass().getResource("/Images/EMPTY.png"));
 
     public Table2D(int hight, int width, int[] bag) {
         if (hight >1){

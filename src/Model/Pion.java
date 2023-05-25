@@ -12,13 +12,13 @@ public class Pion {
 
     private int player;
 
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon(getClass().getResource("/Images/BEIGE.png"));
+    ImageIcon BLANC = new ImageIcon(getClass().getResource("/Images/BLANC.png"));
+    ImageIcon BLEU = new ImageIcon(getClass().getResource("/Images/BLEU.png"));
+    ImageIcon JAUNE = new ImageIcon(getClass().getResource("/Images/JAUNE.png"));
+    ImageIcon NOIR = new ImageIcon(getClass().getResource("/Images/NOIR.png"));
+    ImageIcon ROUGE = new ImageIcon(getClass().getResource("/Images/ROUGE.png"));
+    ImageIcon VERT = new ImageIcon(getClass().getResource("/Images/VERT.png"));
 
     public Pion(CouleurPion couleur, TypePion type, ImageIcon imageIcon, int x, int y, int player) {
         this.couleur = couleur;
@@ -74,7 +74,7 @@ public class Pion {
     public void resetPion() {
         this.couleur = null;
         this.type = TypePion.VIDE;
-        this.imageIcon = new ImageIcon("sources/Images/VIDE.png");
+        this.imageIcon = new ImageIcon(getClass().getResource("/Images/VIDE.png"));
         this.setVideCase(true);
     }
 

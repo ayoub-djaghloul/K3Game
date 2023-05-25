@@ -12,15 +12,15 @@ import java.util.ArrayList;
 public class RandomAI {
 
 
-    ImageIcon BEIGE = new ImageIcon("sources/Images/BEIGE.png");
-    ImageIcon BLANC = new ImageIcon("sources/Images/BLANC.png");
-    ImageIcon BLEU = new ImageIcon("sources/Images/BLEU.png");
-    ImageIcon JAUNE = new ImageIcon("sources/Images/JAUNE.png");
-    ImageIcon NOIR = new ImageIcon("sources/Images/NOIR.png");
-    ImageIcon ROUGE = new ImageIcon("sources/Images/ROUGE.png");
-    ImageIcon VERT = new ImageIcon("sources/Images/VERT.png");
+    ImageIcon BEIGE = new ImageIcon(getClass().getResource("/Images/BEIGE.png"));
+    ImageIcon BLANC = new ImageIcon(getClass().getResource("/Images/BLANC.png"));
+    ImageIcon BLEU = new ImageIcon(getClass().getResource("/Images/BLEU.png"));
+    ImageIcon JAUNE = new ImageIcon(getClass().getResource("/Images/JAUNE.png"));
+    ImageIcon NOIR = new ImageIcon(getClass().getResource("/Images/NOIR.png"));
+    ImageIcon ROUGE = new ImageIcon(getClass().getResource("/Images/ROUGE.png"));
+    ImageIcon VERT = new ImageIcon(getClass().getResource("/Images/VERT.png"));
 
-    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+    ImageIcon VIDE = new ImageIcon(getClass().getResource("/Images/VIDE.png"));
 
 
     public RandomAI(Pyramide p2Pyramide, Table2D table2D, Table2D baseK3) {

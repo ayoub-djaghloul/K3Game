@@ -23,16 +23,16 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     final int[] pionCount = {0};
     public int tour = 1;
 
-    ImageIcon startIMG1v1 = new ImageIcon("sources/Images/1v1.png");
-    ImageIcon startIMG1v1Hover = new ImageIcon("sources/Images/1v1hover.png");
-    ImageIcon startIMG1vAI = new ImageIcon("sources/Images/1vAI.png");
-    ImageIcon startIMG1vAIHover = new ImageIcon("sources/Images/1vAIhover.png");
-    ImageIcon EXITIMG = new ImageIcon("sources/Images/EXIT.png");
-    ImageIcon EXITIMGHover = new ImageIcon("sources/Images/EXIThover.png");
-    ImageIcon REPLAYIMG = new ImageIcon("sources/Images/REPLAY.png");
-    ImageIcon REPLAYIMGHover = new ImageIcon("sources/Images/REPLAYhover.png");
-    ImageIcon undoIMG = new ImageIcon("sources/Images/undo.png");
-    ImageIcon undohoverIMG = new ImageIcon("sources/Images/undohover.png");
+    ImageIcon startIMG1v1 = new ImageIcon(getClass().getResource("/Images/1v1.png"));
+    ImageIcon startIMG1v1Hover = new ImageIcon(getClass().getResource("/Images/1v1hover.png"));
+    ImageIcon startIMG1vAI = new ImageIcon(getClass().getResource("/Images/1vAI.png"));
+    ImageIcon startIMG1vAIHover = new ImageIcon(getClass().getResource("/Images/1vAIhover.png"));
+    ImageIcon EXITIMG = new ImageIcon(getClass().getResource("/Images/EXIT.png"));
+    ImageIcon EXITIMGHover = new ImageIcon(getClass().getResource("/Images/EXIThover.png"));
+    ImageIcon REPLAYIMG = new ImageIcon(getClass().getResource("/Images/REPLAY.png"));
+    ImageIcon REPLAYIMGHover = new ImageIcon(getClass().getResource("/Images/REPLAYhover.png"));
+    ImageIcon undoIMG = new ImageIcon(getClass().getResource("/Images/undo.png"));
+    ImageIcon undohoverIMG = new ImageIcon(getClass().getResource("/Images/undohover.png"));
     JLabel feedbackLabelcenter;
     JButton readyButton;
     private Stack<Pion> history2Dtable = new Stack<Pion>();
@@ -125,7 +125,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image backgroundImage = new ImageIcon("sources/Images/bg.png").getImage();
+                Image backgroundImage = new ImageIcon(getClass().getResource("/Images/bg.png")).getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -275,7 +275,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         //handle case when the move is possible
                         penalite=new GameController().getPenalite(pionSource[0], pionDestination, pyramide);
                         pyramideLabel.setIcon(labelr.getIcon());
-                        labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                        labelr.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
                         labelr = null;
                         if(!penalite){
                             tour=changertour(tour);
@@ -292,13 +292,22 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         //handle case when the move is not possible
                         labelr = null;
                     }
+                    if(labelr==null){
+                            if(feedbackLabelcenter!=null) {
+                                feedbackLabelcenter.setText("Pion is selected");
+                                feedbackLabelcenter.setForeground(Color.GREEN);
+                            }else{
+                                feedbackLabelcenter.setText("Select a pion");
+                                feedbackLabelcenter.setForeground(Color.RED);
+                            }
+                                         }
                 }else{//construction du premiere pyramide sans ordre
                     if(pionDestination.estVide()==true) {
                         pionDestination.replacePion(pionSource[0]);
                         pyramideLabel.setIcon(labelr.getIcon());
                         pionCount[0]++;
                         System.out.println(pionCount[0]);
-                        labelr.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                        labelr.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
                         labelr = null;
                         pionDestination.setVideCase(false);
                         if (pionCount[0] == 21) {
@@ -312,15 +321,6 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                     }
                 }
                 historyPyramid.push(pionDestination);
-            }
-            else{
-                if(feedbackLabelcenter!=null) {
-                    feedbackLabelcenter.setText("Pion is selected");
-                    feedbackLabelcenter.setForeground(Color.GREEN);
-                }else{
-                    feedbackLabelcenter.setText("Select a pion");
-                    feedbackLabelcenter.setForeground(Color.RED);
-                }
             }
         }
     }
@@ -370,7 +370,8 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
 
     private void handleCase2(int row, int col, Pyramide pyramide, JLabel pyramideLabel, Pyramide K3, JPanel pyramidPanel, Table2D penalitetable, JPanel penalitePanel) {
         {
-            if (!pyramideLabel.getIcon().toString().equals("sources/Images/EMPTY.png")&&labelr==null) {
+            pionSource[0] = pyramide.getPion(row, col);
+            if (!pyramideLabel.getIcon().toString().equals(getClass().getResource("/Images/EMPTY.png"))&&!pionSource[0].estVide()) {
                 if(new LesCoutsAccessibles().choisirUnPionAjouerSource1(pyramide, K3,penalitetable)==null){
                     String message = "THE WINNER IS THE PLAYER " + changertour(tour);
                     addPanel(phase3(message), "phase3");
@@ -388,7 +389,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             {
                                 if (pionSource[0].getCouleur() == CouleurPion.BLANC) {
                                     tour = changertour(tour);
-                                    pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                                    pyramideLabel.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
                                     pionSource[0].setVideCase(true);
                                     labelr = null;
                                 } else {
@@ -426,7 +427,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                         JLabel pyramideLabel = LabelSource(pionSource[0], pyramidPanel);
                         if(pionSource[0].getCouleur()==CouleurPion.BLANC){
                             tour = changertour(tour);
-                            pyramideLabel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                            pyramideLabel.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
                             pionSource[0].setVideCase(true);
                         }
                         else if (pionDestination != null) {
@@ -437,7 +438,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
                             pionDestination.replacePion(pionSource[0]);
                             pionDestination.setVideCase(false);
                             JLabel sourcePanel = LabelSource(pionSource[0], pyramidPanel);
-                            sourcePanel.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+                            sourcePanel.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
                             pionSource[0].setVideCase(true);
                             //System.out.println("pionSource {" + pionSource[0].getX() + " ; " + pionSource[0].getY() + " } + Couleur " + pionSource[0].getCouleur() + "--> pionDestination {" + pionDestination.getX() + " ; " + pionDestination.getY() + " } + Couleur " + pionDestination.getCouleur());
                             penalite = new GameController().getPenalite(pionDestination, pionDestination, K3);
@@ -486,7 +487,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             JLabel labelSource = LabelSource(pionSource[0],pyramidPanel);
             JLabel labelDestination = le_premier_libre_penalite_label(penalitePanel, piondestination.getY());
             labelDestination.setIcon(labelSource.getIcon());
-            labelSource.setIcon(new ImageIcon("sources/Images/EMPTY.png"));
+            labelSource.setIcon(new ImageIcon(getClass().getResource("/Images/EMPTY.png")));
             labelSource.setVisible(true);
             //enlever le pion de la pyramide
         }}
@@ -550,7 +551,7 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
             }
         }
 
-        ImageIcon img = new ImageIcon("sources/Images/K3baseFrame.png");
+        ImageIcon img = new ImageIcon(getClass().getResource("/Images/K3baseFrame.png"));
 
         // transparent background
         baseK3.setOpaque(false);
@@ -701,9 +702,9 @@ public class MainFrame extends JFrame { // this class is the main frame of the g
     public JButton readyButton(Pyramide p1Pyramide,Pyramide p2Pyramide, Pyramide K3, JPanel p1PyramidPanel, JPanel p2PyramidPanel, int PlayerNumber, Table2D penalitetable1, JPanel penalitePanel1, Table2D penalitetable2, JPanel penalitePanel2 ){
         readyButton = new JButton();
         readyButtonListener(p1Pyramide, p2Pyramide, K3, p1PyramidPanel, p2PyramidPanel, PlayerNumber, penalitetable1, penalitePanel1, penalitetable2, penalitePanel2);
-        ImageIcon img = new ImageIcon("sources/Images/READY.png");
+        ImageIcon img = new ImageIcon(getClass().getResource("/Images/READY.png"));
 
-        ImageIcon imghover = new ImageIcon("sources/Images/READYhover.png");
+        ImageIcon imghover = new ImageIcon(getClass().getResource("/Images/READYhover.png"));
         // styleButton(readyButton, img);
         hover(readyButton,img, imghover);
         styleButton(readyButton, img);

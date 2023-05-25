@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class GameController {
 
-    ImageIcon VIDE = new ImageIcon("sources/Images/VIDE.png");
+    ImageIcon VIDE = new ImageIcon(getClass().getResource("/Images/VIDE.png"));
 
 
     public boolean testDeplacementPionsanschangement1(Pion source, Pion destination, Pyramide K3) {
